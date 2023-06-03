@@ -2,7 +2,9 @@
 
 pragma solidity ^0.8.18;
 
-contract DaoSuiteCalendar {
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+contract DaoSuiteCalendar is Ownable {
     struct Calendar {
         address owner;
         string name;
@@ -22,6 +24,11 @@ contract DaoSuiteCalendar {
         uint calendarId;
     }
 
+    struct eventSubscriberReminder{
+        address subscriber;
+        uint eventId;
+    }
+
     type Year is uint;
     type Month is uint;
     type Day is uint;
@@ -31,7 +38,7 @@ contract DaoSuiteCalendar {
     mapping(uint => Calendar) s_calendars;
     mapping(uint => Event) s_event;
 
-    mapping(Year => mapping(Month => mapping(Day => mapping(Hour => mapping(Minute => uint))))) s_scheduledEventReminders;
+    mapping(Year => mapping(Month => mapping(Day => mapping(Hour => mapping(Minute => eventSubscriberReminder[]))))) s_scheduledEventReminders;
 
     constructor() {}
 
@@ -48,11 +55,11 @@ contract DaoSuiteCalendar {
         uint _eventId
     ) internal {}
 
-    function getscheduledEventReminder(
+    function getscheduledEventSubscriberReminders(
         Year _year,
         Month _month,
         Day _day,
         Hour _hour,
         Minute _minute
-    ) public returns (uint _eventId) {}
+    ) public returns (eventSubscriberReminder[] memory _eventSubscribersRemiders) {}
 }

@@ -3,8 +3,12 @@
 pragma solidity ^0.8.18;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
 
 contract DaoSuiteCalendar is Ownable {
+
+    using Counters for Counters.Counter;
+
     struct Calendar {
         address owner;
         string name;
@@ -35,14 +39,23 @@ contract DaoSuiteCalendar is Ownable {
     type Hour is uint;
     type Minute is uint;
 
+    Counters.Counter s_calendarCounter;
+
     mapping(uint => Calendar) s_calendars;
     mapping(uint => Event) s_event;
 
     mapping(Year => mapping(Month => mapping(Day => mapping(Hour => mapping(Minute => eventSubscriberReminder[]))))) s_scheduledEventReminders;
 
+    event CalendarCreated(uint id, string name, string[] tags);
+
     constructor() {}
 
-    function createCalendar() public {}
+    function createCalendar(string calldata _name, string[] calldata _tags) public returns (uint calendarId) {
+        calendarId = s_calendarCounter.current(); 
+        s_calendars[calendarId] = Calendar(msg.sender, _name, _tags, "Draft");
+
+        emit CalendarCreated(calendarId, _name, _tags);
+    }
 
     function createEvent() public {}
 

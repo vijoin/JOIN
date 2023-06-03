@@ -24,7 +24,20 @@ describe("DaoSuiteCalendar", function () {
   })
 
   describe("Events", function () {
-    it("Should create a calendar");
+    it.only("Should create a calendar", async function () {
+      const { calendar } = await loadFixture(deploymentFixture);
+
+      const name = "DAOSuite";
+      const tags = ["DAO", "Suite"]
+
+      const txResponse = await calendar.createCalendar(name, tags);
+      const txReceipt = await txResponse.wait(1);
+      const calendarId = txReceipt.events[0].args.id;
+      
+      expect(txResponse).to.emit(calendar, "CalendarCreated").withArgs(calendarId, name, tags)
+      expect(calendarId).to.equal(0)
+
+    });
     it("Should create an event");
   })
 

@@ -1,5 +1,5 @@
 import { Polybase } from "@polybase/client";
-import { ethPersonalSign } from '@polybase/eth'
+import { ethPersonalSign } from '@polybase/eth';
 import 'dotenv/config';
 
 const db = new Polybase({
@@ -81,15 +81,38 @@ collection Event {
   id: string;
   calendar: Calendar;
   name: string;
-  tags: Tag[];
+  description: string;
+  platform: string;
+  url: string;
+  start_date_timestamp: number;
+  end_date_timestamp: number;
+  state: string;
+  tags?: Tag[];
 
-  constructor (id: string,  calendar: Calendar, name: string) {
+  constructor (
+    id: string,
+    calendar: Calendar,
+    name: string,
+    description: string,
+    platform: string,
+    url: string,
+    start_date_timestamp: number,
+    end_date_timestamp: number,
+    state: string
+  ) {
     this.id = id;
     this.calendar = calendar;
     this.name = name;
+    this.description = description;
+    this.platform = platform;
+    this.url = url;
+    this.start_date_timestamp = start_date_timestamp;
+    this.end_date_timestamp = end_date_timestamp;
+    this.state = state;
+    this.tags = [];
   }
 
-  function addTag (tag: string) {
+  function addTag (tag: Tag) {
     this.tags.push(tag);
   }
 }

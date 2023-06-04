@@ -9,13 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@fullcalendar/core": "^6.1.8",
-    "@fullcalendar/daygrid": "^6.1.8",
-    "@fullcalendar/react": "^6.1.8",
     "@chakra-ui/next-js": "^2.1.4",
     "@chakra-ui/react": "^2.7.0",
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
+    "@fullcalendar/core": "^6.1.8",
+    "@fullcalendar/daygrid": "^6.1.8",
+    "@fullcalendar/interaction": "^6.1.8",
+    "@fullcalendar/react": "^6.1.8",
     "@rainbow-me/rainbowkit": "^1.0.1",
     "framer-motion": "^10.12.16",
     "next": "^13.4.3",

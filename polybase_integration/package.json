@@ -1,0 +1,18 @@
+{
+  "name": "polybase_integration",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "create-schema": "node scripts/create_schema.js",
+    "read-data": "node scripts/read_data.js",
+    "write-data": "node scripts/write_data.js"
+  },
+  "dependencies": {
+    "@polybase/client": "^0.6.1"
+  },
+  "devDependencies": {
+    "dotenv": "^16.1.3"
+  }
+}

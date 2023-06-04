@@ -1,9 +1,17 @@
 import { Polybase } from "@polybase/client";
+import { ethPersonalSign } from '@polybase/eth'
 import 'dotenv/config';
 
 const db = new Polybase({
   defaultNamespace: process.env.NAMESPACE,
 });
+
+db.signer((data) => {
+  return {
+    h: 'eth-personal-sign',
+    sig: ethPersonalSign(process.env.PRIVATEKEY, data)
+  }
+})
 
 await db.applySchema(`
 @public
@@ -84,6 +92,23 @@ collection Event {
   function addTag (tag: string) {
     this.tags.push(tag);
   }
-}`
-,
-)
+}
+
+@public
+collection ReminderEventSubscriber {
+    id: string;
+    subscriber: PublicKey;
+    event: Event;
+    timestamp: number;
+
+    constructor (id: string, subscriber: PublicKey, event: Event, timestamp: number) {
+        this.id = id;
+        this.subscriber = subscriber;
+        this.event = event;
+        this.timestamp = timestamp;
+    }
+
+}
+
+
+`,)

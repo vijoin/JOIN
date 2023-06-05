@@ -3,7 +3,7 @@ import FullCalendar from "@fullcalendar/react"; // must go before plugins
 import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
 import styled from "@emotion/styled";
-import EventModal from "../../components/modals/eventModal";
+import EventModal from "../../components/modals/EventModal";
 
 const index = () => {
   const [modalEvent, setModalEvent] = useState(false);

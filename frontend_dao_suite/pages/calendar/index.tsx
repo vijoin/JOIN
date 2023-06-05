@@ -35,16 +35,18 @@ const index = () => {
 
   return (
     <Container>
-      <FullCalendar
-        plugins={[dayGridPlugin, interactionPlugin]}
-        initialView="dayGridMonth"
-        events={[
-          { title: "event 1", date: "2023-06-04" },
-          { title: "event 2", date: "2023-06-06" },
-        ]}
-        dateClick={onDateClick}
-        height={"auto"}
-      />
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <FullCalendar
+          plugins={[dayGridPlugin, interactionPlugin]}
+          initialView="dayGridMonth"
+          events={[
+            { title: "event 1", date: "2023-06-04" },
+            { title: "event 2", date: "2023-06-06" },
+          ]}
+          dateClick={onDateClick}
+          height={"auto"}
+        />
+      </div>
       <EventModal isOpen={modalEvent} onClose={closeModal} />
     </Container>
   );
@@ -53,7 +55,7 @@ const index = () => {
 export default index;
 
 const Container = styled.div`
-  width: 80%;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;

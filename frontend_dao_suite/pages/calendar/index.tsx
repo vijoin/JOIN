@@ -9,16 +9,14 @@ import "dotenv/config";
 
 const index = () => {
   const db = new Polybase({
-    defaultNamespace: process.env.NAMESPACE,
+    defaultNamespace: process.env.NEXT_PUBLIC_NAMESPACE,
   });
-
   useEffect(() => {
     readData();
   }, []);
   const readData = async () => {
     try {
       const  {data}  = await db.collection("Tag").record("dao").get();
-      console.log(data);
       console.log("Tag id:", data.id);
       console.log("Tag name:", data.name);
     } catch (error) {

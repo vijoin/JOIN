@@ -9,7 +9,7 @@ import "dotenv/config";
 
 const index = () => {
   const db = new Polybase({
-    defaultNamespace: "pk/0xb5f85f82153b100b238a20c23297acc9d38f91b3aab0dcd5722b1b870433ef3b6baef2a0d70970bfe49e45d8e29e4ea8edb5638b6d06a49db9957ccc4775a7d5/DAOSuite",
+    defaultNamespace: process.env.NAMESPACE,
   });
 
   useEffect(() => {

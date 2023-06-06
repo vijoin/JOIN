@@ -23,7 +23,6 @@ await db.collection("Event").create([
   "https://twitch.com/daosuite", // url
   moment("2023-06-01T10:00:00Z").unix(), // start_date_timestamp
   moment("2023-06-01T12:00:00Z").unix(), // end_date_timestamp
-  "Draft", // state
 ]);
 
 await db

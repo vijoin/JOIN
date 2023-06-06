@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^2.0.19",
     "@chakra-ui/next-js": "^2.1.4",
     "@chakra-ui/react": "^2.7.0",
     "@emotion/react": "^11.11.0",
@@ -24,6 +25,7 @@
     "next": "^13.4.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.9.0",
     "viem": "~0.3.35",
     "wagmi": "~1.0.5"
   },

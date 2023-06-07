@@ -4,11 +4,6 @@
   "main": "index.js",
   "license": "MIT",
   "type": "module",
-  "scripts": {
-    "create-schema": "node scripts/create_schema.js",
-    "read-data": "node scripts/read_data.js",
-    "write-data": "node scripts/write_data.js"
-  },
   "dependencies": {
     "@polybase/client": "^0.6.1"
   },

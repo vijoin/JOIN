@@ -11,7 +11,7 @@ db.signer((data) => {
     h: 'eth-personal-sign',
     sig: ethPersonalSign(process.env.PRIVATEKEY, data)
   }
-})
+});
 
 await db.applySchema(`
 @public
@@ -97,8 +97,7 @@ collection Event {
     platform: string,
     url: string,
     start_date_timestamp: number,
-    end_date_timestamp: number,
-    state: string
+    end_date_timestamp: number
   ) {
     this.id = id;
     this.calendar = calendar;
@@ -108,7 +107,7 @@ collection Event {
     this.url = url;
     this.start_date_timestamp = start_date_timestamp;
     this.end_date_timestamp = end_date_timestamp;
-    this.state = state;
+    this.state = 'Draft';
     this.tags = [];
   }
 

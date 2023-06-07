@@ -4,23 +4,21 @@ import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
 import styled from "@emotion/styled";
 import EventModal from "../../components/modals/EventModal";
-import { Polybase } from "@polybase/client";
 import "dotenv/config";
 import PageLayout from "../../layouts/PageLayout";
 import CalendarHolder from "../../components/CalendarHolder";
+import { FetchCollection, FetchKeyCollection } from "../../helpers/PolybaseData";
 
 const index = () => {
-  const db = new Polybase({
-    defaultNamespace: process.env.NEXT_PUBLIC_NAMESPACE,
-  });
   useEffect(() => {
     readData();
   }, []);
   const readData = async () => {
     try {
-      const { data } = await db.collection("Tag").record("dao").get();
-      console.log("Tag id:", data.id);
-      console.log("Tag name:", data.name);
+      const tagInfo = await FetchKeyCollection("Tag", "dao");
+      console.log(tagInfo.data);
+      const collections = await FetchCollection("Event");
+      console.log(collections.data);
     } catch (error) {
       console.log(error);
     }

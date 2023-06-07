@@ -3,7 +3,7 @@ import {
   Flex,
   Text,
   IconButton,
-  Button,
+  Spacer,
   Stack,
   Collapse,
   Icon,
@@ -14,6 +14,7 @@ import {
   useColorModeValue,
   useBreakpointValue,
   useDisclosure,
+  HStack,
 } from "@chakra-ui/react";
 import {
   HamburgerIcon,
@@ -24,6 +25,8 @@ import {
 import Image from "next/image";
 import logo from "../assets/images/logo.png";
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import Toggle from './Toggle';
+
 
 export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
@@ -61,8 +64,11 @@ export default function WithSubnavigation() {
             <DesktopNav />
           </Flex>
         </Flex>
-
+        <HStack>
+        <Toggle/>
+        <Spacer/>
         <ConnectButton />
+        </HStack>
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>

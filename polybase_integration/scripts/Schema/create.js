@@ -132,5 +132,35 @@ collection ReminderEventSubscriber {
 
 }
 
+@public
+collection users {
+  id: string; 
+  name?: string;
+  bio?: string;
+  avatar?: string;
+  pvkey: string;
+  $publicKey: string;
+  
+  constructor (id: string, pvkey: string) {
+    this.id = id;
+    this.$publicKey = ctx.publicKey.toHex();
+    this.pvkey = pvkey;
+  }
+
+  setProfile(name?: string, bio?: string, avatar?: string) {
+    if (this.$publicKey != ctx.publicKey.toHex()) {
+      throw error ('invalid owner');
+    }
+    if (this.name) {
+      this.name = name;
+    }
+    if (this.bio) {
+      this.bio = bio;
+    }
+    if (this.avatar) {
+      this.avatar = avatar;
+    }
+  }
+}
 
 `,)

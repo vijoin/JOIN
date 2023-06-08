@@ -1,13 +1,21 @@
 import { Polybase } from "@polybase/client";
+import { getAccount } from "@wagmi/core";
+import { signMessage } from "@wagmi/core";
+import * as eth from "@polybase/eth";
+
 const db = new Polybase({
-    defaultNamespace: process.env.NEXT_PUBLIC_NAMESPACE,
+  defaultNamespace: process.env.NEXT_PUBLIC_NAMESPACE,
 });
 
-export const FetchKeyCollection = async (collection: string, record: string) => {
+
+export const FetchKeyCollection = async (
+  collection: string,
+  record: string
+) => {
   try {
     const { data } = await db.collection(collection).record(record).get();
     const response = {
-      data : data,
+      data: data,
       error: null,
     };
     return response;
@@ -18,12 +26,12 @@ export const FetchKeyCollection = async (collection: string, record: string) => 
     };
     return response;
   }
-}
+};
 export const FetchCollection = async (collection: string) => {
   try {
-    const {data} = await db.collection(collection).get();
+    const { data } = await db.collection(collection).get();
     const response = {
-      data : data,
+      data: data,
       error: null,
     };
     return response;
@@ -34,11 +42,8 @@ export const FetchCollection = async (collection: string) => {
     };
     return response;
   }
-}
-export const CreateTag = async(id: string, name: string) => {
+};
+export const CreateTag = async (id: string, name: string) => {
   try {
-    
-  } catch (error) {
-    
-  }
-}
+  } catch (error) {}
+};

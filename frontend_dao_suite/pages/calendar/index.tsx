@@ -23,7 +23,7 @@ const index = () => {
       console.log(error);
     }
   };
-
+  
   const [modalEvent, setModalEvent] = useState(false);
   const onDateClick = (arg: any) => {
     console.log(arg);

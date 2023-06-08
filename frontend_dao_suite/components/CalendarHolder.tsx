@@ -13,10 +13,12 @@ import FullCalendar from "@fullcalendar/react"; // must go before plugins
 import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
 import interactionPlugin from "@fullcalendar/interaction";
 import EventModal from "../components/modals/EventModal";
+import { Auth } from '@polybase/auth';
+
 
 export default function CalendarHolder() {
   const [modalEvent, setModalEvent] = useState(false);
-
+  const auth = typeof window !== "undefined" ? new Auth() : null;
   const onDateClick = (arg: any) => {
     console.log(arg);
     setModalEvent(true);
@@ -24,6 +26,14 @@ export default function CalendarHolder() {
   const closeModal = () => {
     setModalEvent(false);
   };
+  const test = async () => {
+    try {
+      const authState = await auth?.signIn({ force: true });
+      console.log(authState);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <Container maxW={'5xl'}>
       <Stack
@@ -37,7 +47,7 @@ export default function CalendarHolder() {
           lineHeight={'110%'}>
           Meeting scheduling{' '}
           <Text as={'span'} color={'orange.400'}>
-            eventDAO
+            JOIN
           </Text>
         </Heading>
         <FullCalendar
@@ -56,8 +66,10 @@ export default function CalendarHolder() {
             px={6}
             colorScheme={'orange'}
             bg={'orange.400'}
-            _hover={{ bg: 'orange.500' }}>
-            Export Calendar
+            _hover={{ bg: 'orange.500' }}
+            onClick={test}
+            >
+            Login
           </Button>
           <Button rounded={'full'} px={6}>
             Join as community

@@ -7,6 +7,7 @@ import { Grid, GridItem, SimpleGrid } from "@chakra-ui/react";
 import PageLayout from "../layouts/PageLayout";
 import { SidebarFilters } from "../components/Sidebar";
 import  Card from "../components/Card";
+import CardDetails from "../components/CardDetails";
 
 const Home: NextPage = () => {
   return (
@@ -23,6 +24,7 @@ const Home: NextPage = () => {
             <Card/>
             <Card/>
             <Card/>
+            <CardDetails/>
           </SimpleGrid>
           </GridItem>
         </Grid>

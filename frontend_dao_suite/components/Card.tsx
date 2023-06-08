@@ -7,7 +7,7 @@ import {
   } from '@chakra-ui/react';
   import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 
-  export default function Footer() {
+  export default function CardEvent() {
     return (
     <Card maxW='sm' borderRadius='2xl' mt="2">
            <Image

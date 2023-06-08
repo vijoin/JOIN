@@ -135,7 +135,7 @@ collection ReminderEventSubscriber {
 }
 
 @public
-collection users {
+collection User {
   id: string; 
   name?: string;
   bio?: string;

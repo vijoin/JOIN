@@ -1,12 +1,13 @@
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import type { NextPage } from "next";
-// import Head from 'next/head';
-import styles from "../styles/Home.module.css";
-import PageLayout from "../layouts/PageLayout";
 // import Hero from '../components/Hero';
+//styles
+import styles from "../styles/Home.module.css";
 import { Grid, GridItem, SimpleGrid } from "@chakra-ui/react";
+// components
+import PageLayout from "../layouts/PageLayout";
 import { SidebarFilters } from "../components/Sidebar";
 import  Card from "../components/Card";
+
 const Home: NextPage = () => {
   return (
     <div className={styles.container}>

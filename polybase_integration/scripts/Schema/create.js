@@ -125,9 +125,9 @@ collection ReminderEventSubscriber {
     event: Event;
     timestamp: number;
 
-    constructor (id: string, subscriber: PublicKey, event: Event, timestamp: number) {
+    constructor (id: string, event: Event, timestamp: number) {
         this.id = id;
-        this.subscriber = subscriber;
+        this.subscriber = ctx.publicKey;
         this.event = event;
         this.timestamp = timestamp;
     }

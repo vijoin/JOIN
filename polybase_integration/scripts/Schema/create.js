@@ -89,6 +89,8 @@ collection Event {
   state: string;
   tags?: Tag[];
 
+  @index(calendar);
+
   constructor (
     id: string,
     calendar: Calendar,

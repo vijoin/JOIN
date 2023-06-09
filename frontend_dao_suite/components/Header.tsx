@@ -23,11 +23,39 @@ import {
 } from "@chakra-ui/icons";
 import Image from "next/image";
 import logo from "../assets/images/logo.png";
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { Auth } from "@polybase/auth";
+import { useEffect, useState } from "react";
 
 export default function WithSubnavigation() {
-  const { isOpen, onToggle } = useDisclosure();
+  const [logged, setLogged] = useState(false);
+  useEffect(() => {
+    console.log(localStorage.getItem("address"));
+    if (localStorage.getItem("address")) setLogged(true);
+  }, [logged]);
 
+  const { isOpen, onToggle } = useDisclosure();
+  const auth = typeof window !== "undefined" ? new Auth() : null;
+  const login = async () => {
+    try {
+      const authState = await auth.signIn();
+      console.log(authState);
+      if (authState?.userId) setLogged(true);
+      localStorage.setItem("address", authState?.userId);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const logOut = async () => {
+    try {
+      const out = await auth.signOut();
+      console.log(out);
+      setLogged(false);
+      localStorage.clear();
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <Box>
       <Flex
@@ -62,7 +90,19 @@ export default function WithSubnavigation() {
           </Flex>
         </Flex>
 
-        <ConnectButton />
+        {/* <ConnectButton /> */}
+        {logged ? (
+          <div>
+            <text>{localStorage.getItem("address")}</text>
+            <Button colorScheme="blue" onClick={logOut}>
+              Logout
+            </Button>
+          </div>
+        ) : (
+          <Button colorScheme="blue" onClick={login}>
+            Login Polybase
+          </Button>
+        )}
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>

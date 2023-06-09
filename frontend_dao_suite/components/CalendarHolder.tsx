@@ -14,11 +14,21 @@ import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
 import interactionPlugin from "@fullcalendar/interaction";
 import EventModal from "../components/modals/EventModal";
 import { Auth } from '@polybase/auth';
-
+import { CreateUser } from '../helpers/PolybaseData';
+import { Polybase } from "@polybase/client";
 
 export default function CalendarHolder() {
   const [modalEvent, setModalEvent] = useState(false);
-  const auth = typeof window !== "undefined" ? new Auth() : null;
+  //const auth = typeof window !== "undefined" ? new Auth() : null;
+  // const db = new Polybase({
+  //   defaultNamespace: process.env.NEXT_PUBLIC_NAMESPACE,
+  // });
+  // db.signer(async (data) => {
+  //   return {
+  //     h: "eth-personal-sign",
+  //     sig: await auth.ethPersonalSign(data),
+  //   };
+  // });
   const onDateClick = (arg: any) => {
     console.log(arg);
     setModalEvent(true);
@@ -28,8 +38,12 @@ export default function CalendarHolder() {
   };
   const test = async () => {
     try {
-      const authState = await auth?.signIn({ force: true });
-      console.log(authState);
+      console.log(localStorage.getItem("address"));
+      const address = localStorage.getItem("address");
+      // const createUser = await db.collection("users").create([address, address]);
+      // console.log(createUser);
+      const createUser = await CreateUser(address, address);
+      console.log(createUser);
     } catch (error) {
       console.log(error);
     }

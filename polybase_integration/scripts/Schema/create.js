@@ -89,6 +89,8 @@ collection Event {
   state: string;
   tags?: Tag[];
 
+  @index(calendar);
+
   constructor (
     id: string,
     calendar: Calendar,
@@ -123,9 +125,9 @@ collection ReminderEventSubscriber {
     event: Event;
     timestamp: number;
 
-    constructor (id: string, subscriber: PublicKey, event: Event, timestamp: number) {
+    constructor (id: string, event: Event, timestamp: number) {
         this.id = id;
-        this.subscriber = subscriber;
+        this.subscriber = ctx.publicKey;
         this.event = event;
         this.timestamp = timestamp;
     }
@@ -133,7 +135,7 @@ collection ReminderEventSubscriber {
 }
 
 @public
-collection users {
+collection User {
   id: string; 
   name?: string;
   bio?: string;

@@ -3,7 +3,7 @@ import {
   Flex,
   Text,
   IconButton,
-  Button,
+  Spacer,
   Stack,
   Collapse,
   Icon,
@@ -14,6 +14,8 @@ import {
   useColorModeValue,
   useBreakpointValue,
   useDisclosure,
+  HStack,
+  Button,
 } from "@chakra-ui/react";
 import {
   HamburgerIcon,
@@ -26,6 +28,7 @@ import logo from "../assets/images/logo.png";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Auth } from "@polybase/auth";
 import { useEffect, useState } from "react";
+import Toggle from "./Toggle";
 
 export default function WithSubnavigation() {
   const [logged, setLogged] = useState(false);
@@ -55,7 +58,7 @@ export default function WithSubnavigation() {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
   return (
     <Box>
       <Flex
@@ -63,7 +66,7 @@ export default function WithSubnavigation() {
         color={useColorModeValue("gray.600", "white")}
         minH={"60px"}
         py={{ base: 2 }}
-        px={{ base: 4 }}
+        px={{ base: 2, md: 4, lg: 8, xl: 32 }}
         borderBottom={1}
         borderStyle={"solid"}
         borderColor={useColorModeValue("gray.200", "gray.900")}
@@ -89,6 +92,7 @@ export default function WithSubnavigation() {
             <DesktopNav />
           </Flex>
         </Flex>
+        <Toggle />
 
         {/* <ConnectButton /> */}
         {logged ? (
@@ -103,6 +107,9 @@ export default function WithSubnavigation() {
             Login Polybase
           </Button>
         )}
+        <HStack>
+          <Spacer />
+        </HStack>
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>

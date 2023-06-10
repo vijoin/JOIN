@@ -1,6 +1,6 @@
 import { Polybase } from "@polybase/client";
-import { ethPersonalSign } from '@polybase/eth';
-import 'dotenv/config';
+import { ethPersonalSign } from "@polybase/eth";
+import "dotenv/config";
 
 const db = new Polybase({
   defaultNamespace: process.env.NAMESPACE,
@@ -8,9 +8,9 @@ const db = new Polybase({
 
 db.signer((data) => {
   return {
-    h: 'eth-personal-sign',
-    sig: ethPersonalSign(process.env.PRIVATEKEY, data)
-  }
+    h: "eth-personal-sign",
+    sig: ethPersonalSign(process.env.PRIVATEKEY, data),
+  };
 });
 
 await db.applySchema(`
@@ -82,6 +82,7 @@ collection Event {
   calendar: Calendar;
   name: string;
   description: string;
+  image?: string;
   platform: string;
   url: string;
   start_date_timestamp: number;
@@ -96,6 +97,7 @@ collection Event {
     calendar: Calendar,
     name: string,
     description: string,
+    image: string,
     platform: string,
     url: string,
     start_date_timestamp: number,
@@ -105,6 +107,7 @@ collection Event {
     this.calendar = calendar;
     this.name = name;
     this.description = description;
+    this.image = image;
     this.platform = platform;
     this.url = url;
     this.start_date_timestamp = start_date_timestamp;
@@ -121,15 +124,19 @@ collection Event {
 @public
 collection ReminderEventSubscriber {
     id: string;
-    subscriber: PublicKey;
+    subscriberPublicKey: string;
     event: Event;
     timestamp: number;
 
     constructor (id: string, event: Event, timestamp: number) {
         this.id = id;
-        this.subscriber = ctx.publicKey;
+        this.subscriberPublicKey = ctx.publicKey.toHex();
         this.event = event;
         this.timestamp = timestamp;
+    }
+
+    del () {
+      selfdestruct();
     }
 
 }
@@ -165,4 +172,4 @@ collection User {
   }
 }
 
-`,)
+`);

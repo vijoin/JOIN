@@ -83,10 +83,12 @@ collection Event {
   name: string;
   description: string;
   image?: string;
+  location: string;
   platform: string;
   url: string;
   start_date_timestamp: number;
   end_date_timestamp: number;
+  is_online: boolean;
   state: string;
   tags?: Tag[];
 
@@ -98,8 +100,10 @@ collection Event {
     name: string,
     description: string,
     image: string,
+    location: string,
     platform: string,
     url: string,
+    is_online: boolean,
     start_date_timestamp: number,
     end_date_timestamp: number
   ) {
@@ -108,16 +112,22 @@ collection Event {
     this.name = name;
     this.description = description;
     this.image = image;
+    this.location = location;
     this.platform = platform;
     this.url = url;
     this.start_date_timestamp = start_date_timestamp;
     this.end_date_timestamp = end_date_timestamp;
+    this.is_online = is_online;
     this.state = 'Draft';
     this.tags = [];
   }
 
   function addTag (tag: Tag) {
     this.tags.push(tag);
+  }
+
+  function setState (state: string) {
+    this.state = state;
   }
 }
 

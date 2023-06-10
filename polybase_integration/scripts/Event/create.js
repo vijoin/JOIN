@@ -7,22 +7,26 @@ const db = new Polybase({
   defaultNamespace: process.env.NAMESPACE,
 });
 
-db.signer((data) => {
-    return {
-      h: 'eth-personal-sign',
-      sig: ethPersonalSign(process.env.PRIVATEKEY, data)
-    }
-  })
+// signer not required for Events
+// db.signer((data) => {
+//     return {
+//       h: 'eth-personal-sign',
+//       sig: ethPersonalSign(process.env.PRIVATEKEY, data)
+//     }
+//   })
 
 await db.collection("Event").create([
-  "event001", // event id
+  "event005", // event id
   db.collection("Calendar").record("calendar001"), // relation to record calendar DAO Suite Events
-  "Kick-off", // name
-  "Inaugural event for the platform DAO Suite", // description
-  "Twitch", // platform
-  "https://twitch.com/daosuite", // url
-  moment("2023-06-01T10:00:00Z").unix(), // start_date_timestamp
-  moment("2023-06-01T12:00:00Z").unix(), // end_date_timestamp
+  "Learn how to create an event in JOIN Calendar", // name
+  "Learn how to create an event in JOIN Calendar", // description
+  "QmR8h1s4cyNJELt1MBeyVJUgArDLNvseeiXAwtLicWDQvg", //ipfs_hash
+  "Bogotá", // Internet or City
+  "Youtube", // platform
+  "https://youtube.com/join", // url
+  true, // is_online
+  moment("2023-06-08T10:00:00Z").unix(), // start_date_timestamp
+  moment("2023-06-08T12:00:00Z").unix(), // end_date_timestamp
 ]);
 
 await db

@@ -91,6 +91,7 @@ collection Event {
   is_online: boolean;
   state: string;
   tags?: Tag[];
+  create_date_timestamp: number;
 
   @index(calendar);
 
@@ -105,7 +106,9 @@ collection Event {
     url: string,
     is_online: boolean,
     start_date_timestamp: number,
-    end_date_timestamp: number
+    end_date_timestamp: number,
+    tags?: Tag[],
+    create_date_timestamp: number
   ) {
     this.id = id;
     this.calendar = calendar;
@@ -119,7 +122,12 @@ collection Event {
     this.end_date_timestamp = end_date_timestamp;
     this.is_online = is_online;
     this.state = 'Draft';
-    this.tags = [];
+    this.create_date_timestamp = create_date_timestamp;
+
+    if (tags) {
+      this.tags = tags;
+    }
+    
   }
 
   function addTag (tag: Tag) {

@@ -16,7 +16,7 @@ const db = new Polybase({
 //   })
 
 await db.collection("Event").create([
-  "event005", // event id
+  "event006", // event id
   db.collection("Calendar").record("calendar001"), // relation to record calendar DAO Suite Events
   "Learn how to create an event in JOIN Calendar", // name
   "Learn how to create an event in JOIN Calendar", // description
@@ -27,9 +27,14 @@ await db.collection("Event").create([
   true, // is_online
   moment("2023-06-08T10:00:00Z").unix(), // start_date_timestamp
   moment("2023-06-08T12:00:00Z").unix(), // end_date_timestamp
+  [db.collection("Tag").record("dao"), db.collection("Tag").record("nft")], // Tags
+  // [], (empty array) also Tags
+  //, (empty value) also Tags
+  moment(Date.now()).unix(),
 ]);
 
-await db
-  .collection("Event")
-  .record("event001")
-  .call("addTag", [db.collection("Tag").record("dao")]);
+// Also Tags, one at a time
+// await db
+//   .collection("Event")
+//   .record("event001")
+//   .call("addTag", [db.collection("Tag").record("dao")]);

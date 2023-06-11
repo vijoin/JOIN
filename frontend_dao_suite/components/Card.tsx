@@ -24,7 +24,7 @@ import {
   FaPeopleArrows,
 } from "react-icons/fa";
 import CardDetails from "./CardDetails";
-import { ItemData } from "../helpers/PolybaseData";
+import { ItemData } from "../types/types";
 import standardImage from "../assets/images/standard/calendar.jpg";
 import { useEffect, useState } from "react";
 type Props = {

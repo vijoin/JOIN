@@ -1,35 +1,7 @@
 import { Polybase } from "@polybase/client";
 import { Auth } from "@polybase/auth";
-import { getAccount } from "@wagmi/core";
-import { signMessage } from "@wagmi/core";
-import * as eth from "@polybase/eth";
-export type ItemData = {
-  id: string;
-  calendar: CalendarData;
-  name: string;
-  description: string;
-  image: string;
-  location: string;
-  platform: string;
-  url: string;
-  is_online: boolean;
-  end_date_timestamp: number;
-  start_date_timestamp: number;
-  state: string;
-  tags: Tag[];
-};
-export type CalendarData = {
-  collectionId: string;
-  id: string;
-};
-export type Tag = {
-  id: string;
-  name: string;
-};
-export type EventResponse = {
-  data : any;
-  error : any;
-}
+import { Tag } from "../types/types";
+
 const auth = typeof window !== "undefined" ? new Auth() : null;
 const db = new Polybase({
   defaultNamespace: process.env.NEXT_PUBLIC_NAMESPACE,
@@ -48,15 +20,7 @@ db.signer(async (data) => {
     sig: await auth.ethPersonalSign(data),
   };
 });
-
-export const CreateUser = async (id: string, pvkey: string) => {
-  try {
-    const createUser = await db.collection("User").create([id, pvkey]);
-    return createUser;
-  } catch (error) {
-    console.log(error);
-  }
-};
+//Fetch Data
 export const FetchKeyCollection = async (
   collection: string,
   record: string
@@ -92,10 +56,16 @@ export const FetchCollection = async (collection: string) => {
     return response;
   }
 };
+//Filter Data
+export const FilterEventsByDate = async () => {
+
+}
+//Tags
 export const CreateTag = async (id: string, name: string) => {
   try {
   } catch (error) {}
 };
+//Events
 export const CreateEvent = async (
   id: string,
   calendar: string,
@@ -112,17 +82,17 @@ export const CreateEvent = async (
 ) => {
   try {
     const createEvent = await db.collection("Event").create([
-      id, // event id
-      db.collection("Calendar").record(calendar), // relation to record calendar DAO Suite Events
-      name, // name
-      desc, // description
+      id,
+      db.collection("Calendar").record(calendar),
+      name,
+      desc,
       image,
       location,
-      platform, // platform
-      url, // url
+      platform,
+      url,
       is_online,
-      dateStart, // start_date_timestamp
-      dateEnd, // end_date_timestamp
+      dateStart,
+      dateEnd,
     ]);
     const response = {
       data: createEvent,
@@ -150,5 +120,14 @@ export const AddTagOnEvent = async (record: string, tag: Tag) => {
   } catch (error) {
     console.log(error);
     return error;
+  }
+};
+//Users
+export const CreateUser = async (id: string, pvkey: string) => {
+  try {
+    const createUser = await db.collection("User").create([id, pvkey]);
+    return createUser;
+  } catch (error) {
+    console.log(error);
   }
 };

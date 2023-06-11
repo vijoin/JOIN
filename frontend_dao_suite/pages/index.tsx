@@ -11,11 +11,10 @@ import Card from "../components/Card";
 import {
   AddTagOnEvent,
   CreateEvent,
-  EventResponse,
   FetchCollection,
   Platform,
-  Tag,
 } from "../helpers/PolybaseData";
+import { Tag, EventResponse } from "../types/types";
 import moment from "moment";
 import { nanoid } from "nanoid";
 
@@ -73,7 +72,7 @@ const Home: NextPage = () => {
     } catch (error) {}
   };
   const filterToday = async () => {
-    
+
   }
   return (
     <div className={styles.container}>

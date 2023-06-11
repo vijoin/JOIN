@@ -11,6 +11,7 @@ import Card from "../components/Card";
 import {
   AddTagOnEvent,
   CreateEvent,
+  EventResponse,
   FetchCollection,
   Platform,
   Tag,
@@ -19,7 +20,7 @@ import moment from "moment";
 import { nanoid } from "nanoid";
 
 const Home: NextPage = () => {
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState<EventResponse["data"]>([]);
   useEffect(() => {
     readEvent();
   }, []);
@@ -71,18 +72,25 @@ const Home: NextPage = () => {
       console.log(ans);
     } catch (error) {}
   };
+  const filterToday = async () => {
+    
+  }
   return (
     <div className={styles.container}>
       <PageLayout title="Home" footer={true}>
         {/* <Hero /> */}
-        <button onClick={addTag}>Crear test</button>
+        <button onClick={addTag}>{'Crear test '}</button>
+        <button onClick={addTag}>{'Filter today '}</button>
+        <button onClick={addTag}>{'Filter this week '}</button>
+        <button onClick={addTag}>{'Filter this weekend '}</button>
+        <button onClick={addTag}>{'Filter Recently added '}</button>
         <Grid templateColumns="repeat(8, 1fr)">
           <GridItem colSpan={1} bg="tomato">
             <SidebarFilters />
           </GridItem>
           <GridItem colSpan={7} px={6} py={8}>
             <SimpleGrid minChildWidth="300px" spacing="20px">
-              {events.map((item, index) => {
+              {events.map((item : EventResponse["data"], index : number) => {
                 return <Card data={item.data} key={index}/>;
               })}
             </SimpleGrid>

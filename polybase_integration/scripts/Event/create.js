@@ -17,7 +17,7 @@ const db = new Polybase({
 
 await db.collection("Event").create([
   "event006", // event id
-  db.collection("Calendar").record("calendar001"), // relation to record calendar DAO Suite Events
+  db.collection("Calendar").record("calendar002"), // relation to record calendar DAO Suite Events
   "Learn how to create an event in JOIN Calendar", // name
   "Learn how to create an event in JOIN Calendar", // description
   "QmR8h1s4cyNJELt1MBeyVJUgArDLNvseeiXAwtLicWDQvg", //ipfs_hash

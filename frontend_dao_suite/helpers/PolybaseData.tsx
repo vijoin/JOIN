@@ -1,6 +1,7 @@
 import { Polybase } from "@polybase/client";
 import { Auth } from "@polybase/auth";
-import { Tag } from "../types/types";
+import { EventData, Tag } from "../types/types";
+import { useCollection } from "@polybase/react";
 
 const auth = typeof window !== "undefined" ? new Auth() : null;
 const db = new Polybase({
@@ -57,8 +58,18 @@ export const FetchCollection = async (collection: string) => {
   }
 };
 //Filter Data
-export const FilterEventsByDate = async () => {
-
+export async function fetchEventsByDate(maxDate: number, minDate: number) {
+  try {
+    const { data } = await db
+      .collection('Event')
+      .where('start_date_timestamp', '>', minDate)
+      .where('start_date_timestamp', '<', maxDate)
+      .sort('start_date_timestamp', 'desc')
+      .get();
+    return data;
+  } catch (error) {
+    throw new Error(`Error filtering events: ${error}`);
+  }
 }
 //Tags
 export const CreateTag = async (id: string, name: string) => {
@@ -78,7 +89,8 @@ export const CreateEvent = async (
   is_online: boolean,
   dateStart: number,
   dateEnd: number,
-  tags?: Tag[]
+  createDate: number,
+  tags: Tag[],
 ) => {
   try {
     const createEvent = await db.collection("Event").create([
@@ -93,6 +105,8 @@ export const CreateEvent = async (
       is_online,
       dateStart,
       dateEnd,
+      [db.collection("Tag").record("dao"), db.collection("Tag").record("defi")],
+      createDate
     ]);
     const response = {
       data: createEvent,

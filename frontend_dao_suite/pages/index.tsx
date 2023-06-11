@@ -12,6 +12,7 @@ import {
   AddTagOnEvent,
   CreateEvent,
   FetchCollection,
+  fetchEventsByDate,
   Platform,
 } from "../helpers/PolybaseData";
 import { Tag, EventResponse } from "../types/types";
@@ -29,19 +30,17 @@ const Home: NextPage = () => {
     setEvents(eventsRes.data);
   };
   const createEventManual = async () => {
+    const tags : Tag[] = [
+      {id: 'dao', name: 'DAO'},
+      {id: 'defi', name: 'DeFi'}
+    ];
     try {
       const startDate = new Date();
       const endDate = new Date();
       startDate.setMonth(startDate.getMonth() + 1);
       endDate.setMonth(endDate.getMonth() + 2);
-      console.log(moment(startDate).unix());
-      console.log(moment(endDate).unix());
-      const name = "event 003";
-      console.log(`${name}${moment(startDate).unix()}`);
-      const tags: Tag[] = [
-        { id: "dao", name: "DAO" },
-        { id: "defi", name: "DeFi" },
-      ];
+      endDate.setDate(endDate.getDate() + 3);
+      const name = "event 007";
       const newEvent = await CreateEvent(
         nanoid(),
         "calendar001",
@@ -53,8 +52,9 @@ const Home: NextPage = () => {
         "https://twitter.com/marketersweb3/status/1665810617704259584?s=20",
         true,
         moment(startDate).unix(),
-        moment(endDate).unix()
-        // tags,
+        moment(endDate).unix(),
+        moment().unix(),
+        tags,
       );
       console.log(newEvent);
     } catch (error) {
@@ -67,22 +67,25 @@ const Home: NextPage = () => {
         id: 'dao',
         name: 'DAO'
       }
-      const ans = await AddTagOnEvent('Dw0izRJ1hnqOhNDq1sASb', tag);
+      const ans = await AddTagOnEvent('gjYYD5IiM8zAjInMrchna', tag);
       console.log(ans);
     } catch (error) {}
   };
   const filterToday = async () => {
-
+    try {
+      const filtered = await fetchEventsByDate(1686700810, 1686700790);
+      console.log(filtered);
+      setEvents(filtered);
+    } catch (error) {
+      console.log(error);
+    }
   }
   return (
     <div className={styles.container}>
       <PageLayout title="Home" footer={true}>
         {/* <Hero /> */}
-        <button onClick={addTag}>{'Crear test '}</button>
-        <button onClick={addTag}>{'Filter today '}</button>
-        <button onClick={addTag}>{'Filter this week '}</button>
-        <button onClick={addTag}>{'Filter this weekend '}</button>
-        <button onClick={addTag}>{'Filter Recently added '}</button>
+        <button onClick={createEventManual}>{'Crear test '}</button>
+        <button onClick={filterToday}>{'Filter today '}</button>
         <Grid templateColumns="repeat(8, 1fr)">
           <GridItem colSpan={1} bg="tomato">
             <SidebarFilters />

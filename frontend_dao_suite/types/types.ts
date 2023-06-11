@@ -1,4 +1,4 @@
-export interface ItemData {
+export interface EventData {
   id: string;
   calendar: CalendarData;
   name: string;
@@ -12,6 +12,7 @@ export interface ItemData {
   start_date_timestamp: number;
   state: string;
   tags: Tag[];
+  createDate: number;
 };
 export interface CalendarData {
   collectionId: string;

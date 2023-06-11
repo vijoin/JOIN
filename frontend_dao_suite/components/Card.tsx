@@ -24,11 +24,11 @@ import {
   FaPeopleArrows,
 } from "react-icons/fa";
 import CardDetails from "./CardDetails";
-import { ItemData } from "../types/types";
+import { EventData } from "../types/types";
 import standardImage from "../assets/images/standard/calendar.jpg";
 import { useEffect, useState } from "react";
 type Props = {
-  data: ItemData;
+  data: EventData;
 };
 export default function CardEvent({ data }: Props) {
   const [cardImage, setCardImage] = useState("/standard/calendar.jpg");
@@ -36,7 +36,6 @@ export default function CardEvent({ data }: Props) {
   useEffect(() => {
     if (data.image && data.image !== "")
       setCardImage(`https://ipfs.io/ipfs/${data.image}`);
-    console.log(data.tags);
   }, [data]);
 
   const getData = (unix: number) => {

@@ -13,6 +13,7 @@ import {
   CreateEvent,
   FetchCollection,
   fetchEventsByDate,
+  FilterEventsBetweenDates,
   Platform,
 } from "../helpers/PolybaseData";
 import { Tag, EventResponse } from "../types/types";
@@ -73,7 +74,7 @@ const Home: NextPage = () => {
   };
   const filterToday = async () => {
     try {
-      const filtered = await fetchEventsByDate(1686700810, 1686700790);
+      const filtered = await FilterEventsBetweenDates(1686700790, 1686700810);
       console.log(filtered);
       setEvents(filtered);
     } catch (error) {

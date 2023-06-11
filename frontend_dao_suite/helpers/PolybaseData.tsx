@@ -57,16 +57,41 @@ export const FetchCollection = async (collection: string) => {
     return response;
   }
 };
-//Filter Data
-export async function fetchEventsByDate(maxDate: number, minDate: number) {
+export async function FilterEventsBetweenDates(
+  startDate: number,
+  endDate: number
+) {
   try {
-    const { data } = await db
-      .collection('Event')
-      .where('start_date_timestamp', '>', minDate)
-      .where('start_date_timestamp', '<', maxDate)
-      .sort('start_date_timestamp', 'desc')
+    const startQuery = db
+      .collection("Event")
+      .where("start_date_timestamp", ">", startDate)
       .get();
-    return data;
+
+    const endQuery = db
+      .collection("Event")
+      .where("start_date_timestamp", "<", endDate)
+      .get();
+
+    const [startSnapshot, endSnapshot] = await Promise.all([
+      startQuery,
+      endQuery,
+    ]);
+    console.log(startSnapshot.data);
+    console.log(endSnapshot.data);
+    
+    const startEvents = startSnapshot.data;
+    const endEvents = endSnapshot.data;
+    for (let i = 0; i < startEvents.length; i++) {
+      console.log(startEvents[i].data.id);
+    }
+    for (let i = 0; i < endEvents.length; i++) {
+      console.log(endEvents[i].data.id);
+    }
+    const filteredEvents = startEvents.filter((event) =>
+      endEvents.some((endEvent) => endEvent.data.id === event.data.id)
+    );
+    console.log(filteredEvents);
+    return filteredEvents;
   } catch (error) {
     throw new Error(`Error filtering events: ${error}`);
   }
@@ -90,24 +115,29 @@ export const CreateEvent = async (
   dateStart: number,
   dateEnd: number,
   createDate: number,
-  tags: Tag[],
+  tags: Tag[]
 ) => {
   try {
-    const createEvent = await db.collection("Event").create([
-      id,
-      db.collection("Calendar").record(calendar),
-      name,
-      desc,
-      image,
-      location,
-      platform,
-      url,
-      is_online,
-      dateStart,
-      dateEnd,
-      [db.collection("Tag").record("dao"), db.collection("Tag").record("defi")],
-      createDate
-    ]);
+    const createEvent = await db
+      .collection("Event")
+      .create([
+        id,
+        db.collection("Calendar").record(calendar),
+        name,
+        desc,
+        image,
+        location,
+        platform,
+        url,
+        is_online,
+        dateStart,
+        dateEnd,
+        [
+          db.collection("Tag").record("dao"),
+          db.collection("Tag").record("defi"),
+        ],
+        createDate,
+      ]);
     const response = {
       data: createEvent,
       error: null,

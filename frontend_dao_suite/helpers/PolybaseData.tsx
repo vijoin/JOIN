@@ -57,6 +57,7 @@ export const FetchCollection = async (collection: string) => {
     return response;
   }
 };
+//Filtering Data
 export async function FilterEventsBetweenDates(
   startDate: number,
   endDate: number
@@ -76,21 +77,11 @@ export async function FilterEventsBetweenDates(
       startQuery,
       endQuery,
     ]);
-    console.log(startSnapshot.data);
-    console.log(endSnapshot.data);
-    
     const startEvents = startSnapshot.data;
     const endEvents = endSnapshot.data;
-    for (let i = 0; i < startEvents.length; i++) {
-      console.log(startEvents[i].data.id);
-    }
-    for (let i = 0; i < endEvents.length; i++) {
-      console.log(endEvents[i].data.id);
-    }
     const filteredEvents = startEvents.filter((event) =>
       endEvents.some((endEvent) => endEvent.data.id === event.data.id)
     );
-    console.log(filteredEvents);
     return filteredEvents;
   } catch (error) {
     throw new Error(`Error filtering events: ${error}`);

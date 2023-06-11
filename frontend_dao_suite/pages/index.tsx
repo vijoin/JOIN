@@ -12,13 +12,13 @@ import {
   AddTagOnEvent,
   CreateEvent,
   FetchCollection,
-  fetchEventsByDate,
   FilterEventsBetweenDates,
   Platform,
 } from "../helpers/PolybaseData";
 import { Tag, EventResponse } from "../types/types";
 import moment from "moment";
 import { nanoid } from "nanoid";
+import { getUnixTimestampsForThisWeek, getUnixTimestampsForToday, getUnixTimestampsForWeekend } from "../helpers/DateData";
 
 const Home: NextPage = () => {
   const [events, setEvents] = useState<EventResponse["data"]>([]);
@@ -27,13 +27,12 @@ const Home: NextPage = () => {
   }, []);
   const readEvent = async () => {
     const eventsRes = await FetchCollection("Event");
-    console.log(eventsRes.data);
     setEvents(eventsRes.data);
   };
   const createEventManual = async () => {
-    const tags : Tag[] = [
-      {id: 'dao', name: 'DAO'},
-      {id: 'defi', name: 'DeFi'}
+    const tags: Tag[] = [
+      { id: "dao", name: "DAO" },
+      { id: "defi", name: "DeFi" },
     ];
     try {
       const startDate = new Date();
@@ -55,46 +54,61 @@ const Home: NextPage = () => {
         moment(startDate).unix(),
         moment(endDate).unix(),
         moment().unix(),
-        tags,
+        tags
       );
-      console.log(newEvent);
     } catch (error) {
       console.log(error);
     }
   };
   const addTag = async () => {
     try {
-      const tag:Tag = {
-        id: 'dao',
-        name: 'DAO'
-      }
-      const ans = await AddTagOnEvent('gjYYD5IiM8zAjInMrchna', tag);
-      console.log(ans);
+      const tag: Tag = {
+        id: "dao",
+        name: "DAO",
+      };
+      const ans = await AddTagOnEvent("gjYYD5IiM8zAjInMrchna", tag);
     } catch (error) {}
   };
-  const filterToday = async () => {
+  //Filtering
+  const filterTime = async (start: number, end: number) => {
     try {
-      const filtered = await FilterEventsBetweenDates(1686700790, 1686700810);
-      console.log(filtered);
+      const filtered = await FilterEventsBetweenDates(start, end);
       setEvents(filtered);
     } catch (error) {
       console.log(error);
     }
+  };
+  const filterToday = () => {
+    const [startOfDayUnix, endOfDayUnix] = getUnixTimestampsForToday();
+    filterTime(startOfDayUnix, endOfDayUnix);
+  };
+  const filterThisWeek = () => {
+    const [startOfWeekUnix, endOfWeekUnix] = getUnixTimestampsForThisWeek();
+    filterTime(startOfWeekUnix, endOfWeekUnix);
+  }
+  const filterThisWeekend = () => {
+    const [startOfWeekendUnix, endOfWeekendUnix] = getUnixTimestampsForWeekend();
+    filterTime(startOfWeekendUnix, endOfWeekendUnix);
   }
   return (
     <div className={styles.container}>
       <PageLayout title="Home" footer={true}>
         {/* <Hero /> */}
-        <button onClick={createEventManual}>{'Crear test '}</button>
-        <button onClick={filterToday}>{'Filter today '}</button>
+        <button onClick={createEventManual}>{"Crear test  "}</button>
+        <br />
+        <button onClick={filterToday}>{" Filter today "}</button>
+        <br />
+        <button onClick={filterThisWeek}>{" Filter This week "}</button>
+        <br />
+        <button onClick={filterThisWeekend}>{" Filter This weekend "}</button>
         <Grid templateColumns="repeat(8, 1fr)">
           <GridItem colSpan={1} bg="tomato">
             <SidebarFilters />
           </GridItem>
           <GridItem colSpan={7} px={6} py={8}>
             <SimpleGrid minChildWidth="300px" spacing="20px">
-              {events.map((item : EventResponse["data"], index : number) => {
-                return <Card data={item.data} key={index}/>;
+              {events.map((item: EventResponse["data"], index: number) => {
+                return <Card data={item.data} key={index} />;
               })}
             </SimpleGrid>
           </GridItem>

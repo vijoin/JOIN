@@ -6,6 +6,8 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 //styles
 import { SidebarFilters } from "../components/Sidebar";
+import { HighlightEvents } from "../components/HighlightEvents";
+
 import { Grid, GridItem, useColorModeValue } from "@chakra-ui/react";
 
 type Props = {
@@ -25,7 +27,7 @@ const PageLayout = ({ title, children, footer }: Props) => {
                   "nav main event"
                   "footer footer footer"`}
         gridTemplateRows={"50px 1fr 30px"}
-        gridTemplateColumns={"1fr 5fr 1fr"}
+        gridTemplateColumns={"1fr 5fr 1.5fr"}
         gap="12"
         color="blackAlpha.700"
         bg={useColorModeValue('neutrals.light.200', 'neutrals.gray.500')}
@@ -42,8 +44,8 @@ const PageLayout = ({ title, children, footer }: Props) => {
             <main>{children}</main>
           </div>
         </GridItem>
-        <GridItem area={"event"}>
-          <SidebarFilters />
+        <GridItem mr="4" area={"event"}>
+        <HighlightEvents/>
         </GridItem>
         <GridItem area={"footer"}>{footer && <Footer />}</GridItem>
       </Grid>

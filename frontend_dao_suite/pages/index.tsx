@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import type { NextPage } from "next";
-// import Hero from '../components/Hero';
 //styles
 import styles from "../styles/Home.module.css";
 import { Grid, GridItem, SimpleGrid } from "@chakra-ui/react";
@@ -18,7 +17,12 @@ import {
 import { Tag, EventResponse } from "../types/types";
 import moment from "moment";
 import { nanoid } from "nanoid";
-import { getUnixTimestampsForThisWeek, getUnixTimestampsForToday, getUnixTimestampsForWeekend } from "../helpers/DateData";
+import {
+  getUnixTimestampsForThisWeek,
+  getUnixTimestampsForToday,
+  getUnixTimestampsForWeekend,
+} from "../helpers/DateData";
+import { Carousel } from "../components/Carousel";
 
 const Home: NextPage = () => {
   const [events, setEvents] = useState<EventResponse["data"]>([]);
@@ -85,11 +89,12 @@ const Home: NextPage = () => {
   const filterThisWeek = () => {
     const [startOfWeekUnix, endOfWeekUnix] = getUnixTimestampsForThisWeek();
     filterTime(startOfWeekUnix, endOfWeekUnix);
-  }
+  };
   const filterThisWeekend = () => {
-    const [startOfWeekendUnix, endOfWeekendUnix] = getUnixTimestampsForWeekend();
+    const [startOfWeekendUnix, endOfWeekendUnix] =
+      getUnixTimestampsForWeekend();
     filterTime(startOfWeekendUnix, endOfWeekendUnix);
-  }
+  };
   return (
     <div className={styles.container}>
       <PageLayout title="Home" footer={true}>
@@ -101,18 +106,12 @@ const Home: NextPage = () => {
         <button onClick={filterThisWeek}>{" Filter This week "}</button>
         <br />
         <button onClick={filterThisWeekend}>{" Filter This weekend "}</button>
-        <Grid templateColumns="repeat(8, 1fr)">
-          <GridItem colSpan={1} bg="tomato">
-            <SidebarFilters />
-          </GridItem>
-          <GridItem colSpan={7} px={6} py={8}>
-            <SimpleGrid minChildWidth="300px" spacing="20px">
-              {events.map((item: EventResponse["data"], index: number) => {
-                return <Card data={item.data} key={index} />;
-              })}
-            </SimpleGrid>
-          </GridItem>
-        </Grid>
+        <Carousel />
+        <SimpleGrid minChildWidth="300px" spacing="20px">
+          {events.map((item: EventResponse["data"], index: number) => {
+            return <Card data={item.data} key={index} />;
+          })}
+        </SimpleGrid>
       </PageLayout>
     </div>
   );

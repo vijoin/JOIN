@@ -43,6 +43,73 @@ const theme = extendTheme({
       },
     },
   },
+  components: {
+    Button: {
+      variants: {
+        primary: {
+          bg: "brand.primary.default",
+          borderRadius: "3xl",
+          _hover: {
+            bg: "brand.primary.hover",
+            shadow: "md",
+            transitionDuration: "0.2s",
+            color: "neutrals.light.100",
+            transitionTimingFunction: "ease-in-out",
+            transform: "scale(1.05)",
+          },
+          _disabled: { bg: "brand.primary.disabled" },
+          color: "neutrals.light.200",
+          fontWeight:"normal"
+        },
+        secondary: {
+          bg: "white",
+          borderRadius: "3xl",
+          color: "brand.primary.primary",
+          fontWeight:"normal",
+          _hover: {
+            shadow: "md",
+            transitionDuration: "0.2s",
+            transitionTimingFunction: "ease-in-out",
+            transform: "scale(1.1)",
+          },
+          _disabled: { bg: "semantic.success.200" },
+        },
+        primaryOutline: {
+          bg: "transparent",
+          borderRadius: "3xl",
+          fontWeight:"normal",
+          borderColor:"brand.primary.default",
+          _hover: {
+            bg: "brand.primary.disabled",
+            shadow: "md",
+            transitionDuration: "0.2s",
+            color: "neutrals.light.100",
+            transitionTimingFunction: "ease-in-out",
+            transform: "scale(1.05)",
+          },
+          _disabled: { bg: "brand.primary.disabled" },
+          color: "neutrals.light.200",
+        },
+        secondaryOutline: {
+          bg: "transparent",
+          borderRadius: "3xl",
+          borderColor:"white",
+          fontWeight:"normal",
+          border:"1px",
+          _hover: {
+            bg: "white",
+            shadow: "md",
+            transitionDuration: "0.2s",
+            color: "brand.primary.default",
+            transitionTimingFunction: "ease-in-out",
+            transform: "scale(1.05)",
+          },
+          _disabled: { bg: "brand.primary.disabled" },
+          color: "neutrals.light.200",
+        },
+      },
+    },
+  },
  })
 
 export default theme

@@ -51,7 +51,7 @@ export default function CardEvent() {
             <Button variant="solid" colorScheme="blue" w="100%">
               Schedule
             </Button>
-            <Button variant="ghost" colorScheme="blue">
+            <Button  bg="brand.primary.default">
               Share
             </Button>
           </ButtonGroup>

@@ -25,8 +25,8 @@ const PageLayout = ({ title, children, footer }: Props) => {
                   "nav main event"
                   "footer footer footer"`}
         gridTemplateRows={"50px 1fr 30px"}
-        gridTemplateColumns={"250px 1fr 350px"}
-        gap="1"
+        gridTemplateColumns={"1fr 5fr 1fr"}
+        gap="12"
         color="blackAlpha.700"
         bg={useColorModeValue('neutrals.light.200', 'neutrals.gray.500')}
         fontWeight="bold"

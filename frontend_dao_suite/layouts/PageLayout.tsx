@@ -6,7 +6,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 //styles
 import { SidebarFilters } from "../components/Sidebar";
-import { Grid, GridItem } from "@chakra-ui/react";
+import { Grid, GridItem, useColorModeValue } from "@chakra-ui/react";
 
 type Props = {
   children: JSX.Element | JSX.Element[] | ReactNode;
@@ -28,6 +28,7 @@ const PageLayout = ({ title, children, footer }: Props) => {
         gridTemplateColumns={"250px 1fr 350px"}
         gap="1"
         color="blackAlpha.700"
+        bg={useColorModeValue('neutrals.light.200', 'neutrals.gray.500')}
         fontWeight="bold"
       >
         <GridItem pl="2" area={"header"}>

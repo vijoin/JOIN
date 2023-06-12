@@ -67,7 +67,7 @@ export const SidebarFilters = ({ }) => {
 </FormControl>
     </VStack>
     <VStack width="100%">
-    <Button bg="brand.primary.default" color={'white'} width={'100%'} borderRadius={'3xl'}>Filter</Button>
+    <Button variant="primary" width={'100%'}>Filter</Button>
     </VStack>
     </VStack>
     </Stack>

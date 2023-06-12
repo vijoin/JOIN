@@ -99,13 +99,6 @@ const Home: NextPage = () => {
     <div className={styles.container}>
       <PageLayout title="Home" footer={true}>
         {/* <Hero /> */}
-        <button onClick={createEventManual}>{"Crear test  "}</button>
-        <br />
-        <button onClick={filterToday}>{" Filter today "}</button>
-        <br />
-        <button onClick={filterThisWeek}>{" Filter This week "}</button>
-        <br />
-        <button onClick={filterThisWeekend}>{" Filter This weekend "}</button>
         <Carousel />
         <SimpleGrid minChildWidth="300px" spacing="20px">
           {events.map((item: EventResponse["data"], index: number) => {

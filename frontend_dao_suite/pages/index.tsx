@@ -1,20 +1,13 @@
 import { useEffect, useState } from "react";
 import type { NextPage } from "next";
-//styles
 import styles from "../styles/Home.module.css";
 import { SimpleGrid } from "@chakra-ui/react";
-// components
 import PageLayout from "../layouts/PageLayout";
 import Card from "../components/Card";
 import {
-  AddTagOnEvent,
-  CreateEvent,
   FetchCollection,
-  Platform,
 } from "../helpers/PolybaseData";
-import { Tag, EventResponse } from "../types/types";
-import moment from "moment";
-import { nanoid } from "nanoid";
+import { EventResponse } from "../types/types";
 import { Carousel } from "../components/Carousel";
 import { EventsContext } from "../context/EventsContext";
 
@@ -27,46 +20,7 @@ const Home: NextPage = () => {
     const eventsRes = await FetchCollection("Event");
     setEvents(eventsRes.data);
   };
-  const createEventManual = async () => {
-    const tags: Tag[] = [
-      { id: "dao", name: "DAO" },
-      { id: "defi", name: "DeFi" },
-    ];
-    try {
-      const startDate = new Date();
-      const endDate = new Date();
-      startDate.setMonth(startDate.getMonth() + 1);
-      endDate.setMonth(endDate.getMonth() + 2);
-      endDate.setDate(endDate.getDate() + 3);
-      const name = "event 007";
-      const newEvent = await CreateEvent(
-        nanoid(),
-        "calendar001",
-        name,
-        "this is a basic description of the event",
-        "QmR8h1s4cyNJELt1MBeyVJUgArDLNvseeiXAwtLicWDQvg",
-        "Dash House California",
-        Platform.Twitter,
-        "https://twitter.com/marketersweb3/status/1665810617704259584?s=20",
-        true,
-        moment(startDate).unix(),
-        moment(endDate).unix(),
-        moment().unix(),
-        tags
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const addTag = async () => {
-    try {
-      const tag: Tag = {
-        id: "dao",
-        name: "DAO",
-      };
-      const ans = await AddTagOnEvent("gjYYD5IiM8zAjInMrchna", tag);
-    } catch (error) {}
-  };
+  
   return (
     <EventsContext.Provider value={{events, setEvents}}>
       <div className={styles.container}>

@@ -23,7 +23,10 @@ import {
   getUnixTimestampsForToday,
   getUnixTimestampsForWeekend,
 } from "../helpers/DateData";
-import { FilterEventsBetweenDates } from "../helpers/PolybaseData";
+import { AddTagOnEvent, CreateEvent, FilterEventsBetweenDates, Platform } from "../helpers/PolybaseData";
+import { Tag } from "../types/types";
+import { nanoid } from "nanoid";
+import moment from "moment";
 export const SidebarFilters = ({}) => {
   const { setEvents } = useContext(EventsContext);
   const [dateFilter, setDateFilter] = useState<string>("0");
@@ -48,6 +51,46 @@ export const SidebarFilters = ({}) => {
     const [startOfWeekendUnix, endOfWeekendUnix] =
       getUnixTimestampsForWeekend();
     filterTime(startOfWeekendUnix, endOfWeekendUnix);
+  };
+  const createEventManual = async () => {
+    const tags: Tag[] = [
+      { id: "dao", name: "DAO" },
+      { id: "defi", name: "DeFi" },
+    ];
+    try {
+      const startDate = new Date();
+      const endDate = new Date();
+      startDate.setMonth(startDate.getMonth() + 1);
+      endDate.setMonth(endDate.getMonth() + 2);
+      endDate.setDate(endDate.getDate() + 3);
+      const name = "event 007";
+      const newEvent = await CreateEvent(
+        nanoid(),
+        "calendar001",
+        name,
+        "this is a basic description of the event",
+        "QmR8h1s4cyNJELt1MBeyVJUgArDLNvseeiXAwtLicWDQvg",
+        "Dash House California",
+        Platform.Twitter,
+        "https://twitter.com/marketersweb3/status/1665810617704259584?s=20",
+        true,
+        moment(startDate).unix(),
+        moment(endDate).unix(),
+        moment().unix(),
+        tags
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const addTag = async () => {
+    try {
+      const tag: Tag = {
+        id: "dao",
+        name: "DAO",
+      };
+      const ans = await AddTagOnEvent("gjYYD5IiM8zAjInMrchna", tag);
+    } catch (error) {}
   };
   //Buttons
   const onFilter = () => {

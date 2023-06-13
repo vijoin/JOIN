@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import type { NextPage } from "next";
 //styles
 import styles from "../styles/Home.module.css";
-import { Grid, GridItem, SimpleGrid } from "@chakra-ui/react";
+import { Text, HStack, SimpleGrid, Flex } from "@chakra-ui/react";
 // components
 import PageLayout from "../layouts/PageLayout";
 import { SidebarFilters } from "../components/Sidebar";
@@ -26,6 +26,7 @@ import { Carousel } from "../components/Carousel";
 
 const Home: NextPage = () => {
   const [events, setEvents] = useState<EventResponse["data"]>([]);
+  const [buttonClicked, setButtonClicked] = useState(false);
   useEffect(() => {
     readEvent();
   }, []);
@@ -89,6 +90,7 @@ const Home: NextPage = () => {
   const filterThisWeek = () => {
     const [startOfWeekUnix, endOfWeekUnix] = getUnixTimestampsForThisWeek();
     filterTime(startOfWeekUnix, endOfWeekUnix);
+    setButtonClicked(!buttonClicked);
   };
   const filterThisWeekend = () => {
     const [startOfWeekendUnix, endOfWeekendUnix] =
@@ -98,15 +100,18 @@ const Home: NextPage = () => {
   return (
     <div className={styles.container}>
       <PageLayout title="Home" footer={true}>
-        {/* <Hero /> */}
-        <button onClick={createEventManual}>{"Crear test  "}</button>
-        <br />
-        <button onClick={filterToday}>{" Filter today "}</button>
-        <br />
-        <button onClick={filterThisWeek}>{" Filter This week "}</button>
-        <br />
-        <button onClick={filterThisWeekend}>{" Filter This weekend "}</button>
         <Carousel />
+        <HStack align="center">
+        {/* <button onClick={createEventManual}>{"Crear test  "}</button>
+        <br /> */}
+        <Text fontSize={'2xl'} fontWeight='medium' my={4}>Trending events</Text>
+        <Flex color="brand.primary.default" gap={4}>
+        <button>{"All"}</button>
+        <button onClick={filterToday}>{"Today "}</button>
+        <button onClick={filterThisWeek} style={{ fontWeight: buttonClicked ? "bold" : "normal" }}>{"This week"}</button>
+        <button onClick={filterThisWeekend}>{"This weekend"}</button>
+        </Flex>
+        </HStack>
         <SimpleGrid minChildWidth="280px" spacing="20px">
           {events.map((item: EventResponse["data"], index: number) => {
             return <Card data={item.data} key={index} />;

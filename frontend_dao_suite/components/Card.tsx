@@ -11,7 +11,6 @@ import {
   CardBody,
   CardFooter,
   useDisclosure,
-  IconButton,
   Box,
   Wrap,
   WrapItem,
@@ -21,8 +20,8 @@ import {
   FaTwitter,
   FaYoutube,
   FaTwitch,
-  FaShareAlt,
-  FaMapMarkerAlt,
+  FaMeetup,
+  FaPeopleArrows,
 } from "react-icons/fa";
 import CardDetails from "./CardDetails";
 import { EventData } from "../types/types";
@@ -65,7 +64,8 @@ export default function CardEvent({ data }: Props) {
     <>
       <Card
         maxW="sm"
-        borderRadius="3xl"
+        borderRadius="2xl"
+        mt="2"
         onClick={onOpen}
         css={{
           cursor: "pointer",
@@ -74,26 +74,20 @@ export default function CardEvent({ data }: Props) {
         <Image
           src={cardImage}
           alt="Event Image"
-          borderTopRadius="3xl"
+          borderTopRadius="2xl"
           maxH="200px"
           maxW="100%"
           objectFit="cover"
           onError={handleImageError}
-      
         />
-<Box pos="absolute" top="3" right="3">
-<IconButton aria-label='Search database' borderRadius={"3xl"}  color="brand.primary.default" icon={<FaShareAlt/>} />
-</Box>
-
-        <CardBody py={3} px={5}>
-          <Stack spacing="1">
-            <Text color="neutrals.gray.100" fontWeight="semibold" fontSize="sm">{getData(data.start_date_timestamp)}</Text>
+        <CardBody>
+          <Stack mt="2" spacing="1">
+            <Text>{getData(data.start_date_timestamp)}</Text>
             <Heading
+              height="2.5em"
               size="md"
               as="h2"
-              color="brand.primary.default"
-              textTransform="capitalize"
-
+              maxH="3em"
               overflow="hidden"
               textOverflow="ellipsis"
               css={{
@@ -105,15 +99,6 @@ export default function CardEvent({ data }: Props) {
               {data.name}
             </Heading>
             <Stack direction="row" align="center">
-            {data.platform.toLowerCase() === "twitter" ? (
-                <Icon as={FaTwitter} color="neutrals.gray.200" />
-              ) : data.platform.toLowerCase() === "twitch" ? (
-                <Icon as={FaTwitch} color="neutrals.gray.200" />
-              ) : data.platform.toLowerCase() === "youtube" ? (
-                <Icon as={FaYoutube} color="neutrals.gray.200" />
-              ) : (
-                <Icon as={FaMapMarkerAlt} color="neutrals.gray.200" />
-              )}
               {data.is_online ? (
                 <Link
                   href={data.url}
@@ -121,29 +106,41 @@ export default function CardEvent({ data }: Props) {
                   rel="noopener noreferrer"
                   onClick={(ev) => ev.stopPropagation()}
                 >
-                  <Text fontWeight="normal" color="neutrals.gray.200">{data.platform}</Text>
+                  <Text style={{ color: "gray" }}>{data.platform}</Text>
                 </Link>
               ) : (
-                <Text fontWeight="normal" color="neutrals.gray.200">{data.location}</Text>
+                <Text>{data.location}</Text>
               )}
-              
+              {data.platform.toLowerCase() === "twitter" ? (
+                <Icon as={FaTwitter} />
+              ) : data.platform.toLowerCase() === "twitch" ? (
+                <Icon as={FaTwitch} />
+              ) : data.platform.toLowerCase() === "youtube" ? (
+                <Icon as={FaYoutube} />
+              ) : (
+                <Icon as={FaPeopleArrows} />
+              )}
             </Stack>
-            <Wrap mt={2}>
+            <Wrap>
               {data.tags.map((tag, index) => {
                 return (
-                  // eslint-disable-next-line react/jsx-key
                   <WrapItem>
-                    <Badge px={2} bg="transparent" border="1px" color="neutrals.gray.200" borderColor="neutrals.light.300" borderRadius={"xl"} fontWeight="medium" >{tag.id}</Badge>
+                    <Badge variant="outline">{tag.id}</Badge>
                   </WrapItem>
                 );
               })}
             </Wrap>
           </Stack>
         </CardBody>
-        <CardFooter pt={1}>
-            <Button variant="primary" colorScheme="blue" w="100%">
+        <CardFooter>
+          <ButtonGroup spacing="2" width="100%">
+            <Button variant="solid" colorScheme="blue" w="100%">
               Schedule
             </Button>
+            <Button variant="ghost" colorScheme="blue">
+              Share
+            </Button>
+          </ButtonGroup>
         </CardFooter>
       </Card>
       {isOpen && (

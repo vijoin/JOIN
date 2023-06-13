@@ -14,6 +14,7 @@ import {
   IconButton,
   Box,
   Wrap,
+  useColorModeValue,
   WrapItem,
   Link,
 } from "@chakra-ui/react";
@@ -67,6 +68,7 @@ export default function CardEvent({ data }: Props) {
         maxW="sm"
         borderRadius="3xl"
         onClick={onOpen}
+        bg={useColorModeValue("white", "neutrals.gray.400")}
         css={{
           cursor: "pointer",
         }}

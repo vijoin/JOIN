@@ -1,0 +1,58 @@
+[
+  {
+    "id": "twitter",
+    "name": "Twitter"
+  },
+  {
+    "id": "twitch",
+    "name": "Twitch"
+  },
+  {
+    "id": "youtube",
+    "name": "Youtube"
+  },
+  {
+    "id": "conference",
+    "name": "Conference"
+  },
+  {
+    "id": "hackathon",
+    "name": "Hackathon"
+  },
+  {
+    "id": "meetup",
+    "name": "Meetup"
+  },
+  {
+    "id": "asia",
+    "name": "Asia"
+  },
+  {
+    "id": "latam",
+    "name": "Latam"
+  },
+  {
+    "id": "europe",
+    "name": "Europe"
+  },
+  {
+    "id": "ethereum",
+    "name": "Ethereum"
+  },
+  {
+    "id": "polygon",
+    "name": "Polygon"
+  },
+  {
+    "id": "bitcoin",
+    "name": "Bitcoin"
+  },
+  {
+    "id": "english",
+    "name": "English"
+  },
+  {
+    "id": "spanish",
+    "name": "Spanish"
+  }
+]

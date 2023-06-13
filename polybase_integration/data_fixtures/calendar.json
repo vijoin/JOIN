@@ -3,9 +3,9 @@
         "id": "calendar_1",
         "name": "Diffie",
         "tags": [
-            "Meetup",
-            "Latam",
-            "Bitcoin"
+            "meetup",
+            "latam",
+            "bitcoin"
         ],
         "state": "Draft"
     },
@@ -13,9 +13,9 @@
         "id": "calendar_2",
         "name": "ETH Global",
         "tags": [
-            "Hackathon",
-            "Global",
-            "Ethereum"
+            "hackathon",
+            "global",
+            "ethereum"
         ],
         "state": "Draft"
     }

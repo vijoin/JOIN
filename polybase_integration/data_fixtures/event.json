@@ -12,10 +12,10 @@
         "start_date_timestamp": 1674076800,
         "end_date_timestamp": 1674084000,
         "tags": [
-            "Youtube",
-            "Conference",
-            "Today",
-            "Spanish"
+            "youtube",
+            "conference",
+            "today",
+            "spanish"
         ],
         "created_timestamp": 1673967600
     },
@@ -32,10 +32,9 @@
         "start_date_timestamp": 1674076800,
         "end_date_timestamp": 1674084000,
         "tags": [
-            "Twitch",
-            "Meetup",
-            "Next Week",
-            "Spanish"
+            "twitch",
+            "meetup",
+            "spanish"
         ],
         "created_timestamp": 1673967600
     },
@@ -52,10 +51,9 @@
         "start_date_timestamp": 1674076800,
         "end_date_timestamp": 1674084000,
         "tags": [
-            "Twitter",
-            "Hackathon",
-            "Next Month",
-            "English"
+            "twitter",
+            "hackathon",
+            "english"
         ],
         "created_timestamp": 1673967600
     },
@@ -72,10 +70,9 @@
         "start_date_timestamp": 1674076800,
         "end_date_timestamp": 1674084000,
         "tags": [
-            "Twitter",
-            "Hackathon",
-            "Next Month",
-            "English"
+            "twitter",
+            "hackathon",
+            "english"
         ],
         "created_timestamp": 1673967600
     },
@@ -92,10 +89,9 @@
         "start_date_timestamp": 1674076800,
         "end_date_timestamp": 1674084000,
         "tags": [
-            "Twitter",
-            "Hackathon",
-            "Next Month",
-            "English"
+            "twitter",
+            "hackathon",
+            "english"
         ],
         "created_timestamp": 1673967600
     },
@@ -112,10 +108,9 @@
         "start_date_timestamp": 1674076800,
         "end_date_timestamp": 1674084000,
         "tags": [
-            "Polygon",
-            "Meetup",
-            "Next Week",
-            "Spanish"
+            "polygon",
+            "meetup",
+            "spanish"
         ],
         "created_timestamp": 1673967600
     },
@@ -132,9 +127,8 @@
         "start_date_timestamp": 1674076800,
         "end_date_timestamp": 1674084000,
         "tags": [
-            "Hackathon",
-            "Today",
-            "English"
+            "hackathon",
+            "english"
         ],
         "created_timestamp": 1673967600
     },
@@ -151,10 +145,9 @@
         "start_date_timestamp": 1674076800,
         "end_date_timestamp": 1674084000,
         "tags": [
-            "Hackathon",
-            "Next Week",
-            "English",
-            "Twitter"
+            "hackathon",
+            "english",
+            "twitter"
         ],
         "created_timestamp": 1673967600
     },
@@ -171,10 +164,9 @@
         "start_date_timestamp": 1674076800,
         "end_date_timestamp": 1674084000,
         "tags": [
-            "Youtube",
-            "Meetup",
-            "Next Motnh",
-            "Spanish"
+            "youtube",
+            "meetup",
+            "spanish"
         ],
         "created_timestamp": 1673967600
     },
@@ -191,10 +183,9 @@
         "start_date_timestamp": 1674076800,
         "end_date_timestamp": 1674084000,
         "tags": [
-            "Youtube",
-            "Meetup",
-            "Next Week",
-            "Spanish"
+            "youtube",
+            "meetup",
+            "spanish"
         ],
         "created_timestamp": 1673967600
     }

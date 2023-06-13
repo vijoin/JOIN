@@ -146,9 +146,8 @@ export default function CardEvent({ data }: Props) {
             </Button>
         </CardFooter>
       </Card>
-      {isOpen && (
-        <CardDetails onClose={onClose} onOpen={onOpen} isOpen={isOpen} />
-      )}{" "}
+      {isOpen && <CardDetails onClose={onClose} onOpen={onOpen} isOpen={isOpen} />}
+
     </>
   );
 }

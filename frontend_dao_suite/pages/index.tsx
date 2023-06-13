@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import type { NextPage } from "next";
 //styles
 import styles from "../styles/Home.module.css";
-import { Text, HStack, SimpleGrid, Flex } from "@chakra-ui/react";
+import { Text, HStack, SimpleGrid, Flex, useColorModeValue } from "@chakra-ui/react";
 // components
 import PageLayout from "../layouts/PageLayout";
 import { SidebarFilters } from "../components/Sidebar";
@@ -104,7 +104,7 @@ const Home: NextPage = () => {
         <HStack align="center">
         {/* <button onClick={createEventManual}>{"Crear test  "}</button>
         <br /> */}
-        <Text fontSize={'2xl'} fontWeight='medium' my={4}>Trending events</Text>
+        <Text fontSize={'2xl'} fontWeight='medium' my={4} color={useColorModeValue("neutrals.gray.300", "neutrals.gray.100")}>Trending events</Text>
         <Flex color="brand.primary.default" gap={4}>
         <button>{"All"}</button>
         <button onClick={filterToday}>{"Today "}</button>

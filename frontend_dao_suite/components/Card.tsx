@@ -131,14 +131,14 @@ export default function CardEvent({ data }: Props) {
               
             </Stack>
             <Wrap mt={2}>
-              {data.tags.map((tag, index) => {
+              {/* {data.tags.map((tag, index) => {
                 return (
                   // eslint-disable-next-line react/jsx-key
                   <WrapItem>
                     <Badge px={2} bg="transparent" border="1px" color="neutrals.gray.200" borderColor="neutrals.light.300" borderRadius={"xl"} fontWeight="medium" >{tag.id}</Badge>
                   </WrapItem>
                 );
-              })}
+              })} */}
             </Wrap>
           </Stack>
         </CardBody>

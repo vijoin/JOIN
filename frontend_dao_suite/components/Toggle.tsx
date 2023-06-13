@@ -16,7 +16,7 @@ import {
       <VStack>
         <IconButton
           aria-label="Switch to dark mode"
-          bg={useColorModeValue("white", "gray.800")} 
+          bg={useColorModeValue("white", "neutrals.gray.400")} 
           color="neutrals.gray.100"
           size="md"
           mr={2}

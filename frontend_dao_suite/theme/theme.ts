@@ -1,4 +1,8 @@
-import { extendTheme, type ThemeConfig } from '@chakra-ui/react'
+import { extendTheme, type ThemeConfig } from '@chakra-ui/react';
+
+import {
+  useColorModeValue,
+} from "@chakra-ui/react";
 
 const config: ThemeConfig = {
   initialColorMode: 'dark',
@@ -115,7 +119,6 @@ const theme = extendTheme({
           fontWeight:"normal",
           border:"1px",
           _hover: {
-            bg: "white",
             shadow: "md",
             transitionDuration: "0.2s",
             color: "brand.primary.default",

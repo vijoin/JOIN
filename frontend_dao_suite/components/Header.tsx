@@ -9,11 +9,7 @@ import {
   Icon,
   Link,
   Input,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
   useColorModeValue,
-  useBreakpointValue,
   useDisclosure,
   HStack,
   Button,
@@ -99,7 +95,7 @@ export default function WithSubnavigation() {
           </Button>
         <IconButton
         aria-label="Your notifications"
-        bg={useColorModeValue("white", "gray.800")} 
+        bg={useColorModeValue("white", "neutrals.gray.400")} 
         color="neutrals.gray.100"
         size="md"
         mr={2}
@@ -110,7 +106,7 @@ export default function WithSubnavigation() {
         {logged ? (
           <HStack>
           <Flex>
-           <Text color="neutrals.gray.200" fontWeight={"normal"}>{trimAddress(localStorage.getItem("address"))}</Text>
+           <Text color={useColorModeValue("neutrals.gray.200", "neutrals.gray.200")} fontWeight={"normal"}>{trimAddress(localStorage.getItem("address"))}</Text>
            </Flex>
             <Button variant="primaryOutline" onClick={logOut} mr={6}>
               Logout
@@ -156,8 +152,8 @@ const DesktopNav = () => {
             rounded={'full'}
             border={0}
             _focus={{
-              bg: useColorModeValue('gray.200', 'gray.800'),
-              outline: 'none',
+           
+              outline: 'brand.primary.default',
             }}
           />
         </Stack>

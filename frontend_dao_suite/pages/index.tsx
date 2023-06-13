@@ -107,7 +107,7 @@ const Home: NextPage = () => {
         <br />
         <button onClick={filterThisWeekend}>{" Filter This weekend "}</button>
         <Carousel />
-        <SimpleGrid minChildWidth="300px" spacing="20px">
+        <SimpleGrid minChildWidth="280px" spacing="20px">
           {events.map((item: EventResponse["data"], index: number) => {
             return <Card data={item.data} key={index} />;
           })}

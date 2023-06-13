@@ -23,13 +23,14 @@ import {
   getUnixTimestampsForWeekend,
 } from "../helpers/DateData";
 import { Carousel } from "../components/Carousel";
+import { EventsContext } from "../context/EventsContext";
 
 const Home: NextPage = () => {
   const [events, setEvents] = useState<EventResponse["data"]>([]);
   useEffect(() => {
-    readEvent();
+    readEvents();
   }, []);
-  const readEvent = async () => {
+  const readEvents = async () => {
     const eventsRes = await FetchCollection("Event");
     setEvents(eventsRes.data);
   };
@@ -73,40 +74,19 @@ const Home: NextPage = () => {
       const ans = await AddTagOnEvent("gjYYD5IiM8zAjInMrchna", tag);
     } catch (error) {}
   };
-  //Filtering
-  const filterTime = async (start: number, end: number) => {
-    try {
-      const filtered = await FilterEventsBetweenDates(start, end);
-      setEvents(filtered);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const filterToday = () => {
-    const [startOfDayUnix, endOfDayUnix] = getUnixTimestampsForToday();
-    filterTime(startOfDayUnix, endOfDayUnix);
-  };
-  const filterThisWeek = () => {
-    const [startOfWeekUnix, endOfWeekUnix] = getUnixTimestampsForThisWeek();
-    filterTime(startOfWeekUnix, endOfWeekUnix);
-  };
-  const filterThisWeekend = () => {
-    const [startOfWeekendUnix, endOfWeekendUnix] =
-      getUnixTimestampsForWeekend();
-    filterTime(startOfWeekendUnix, endOfWeekendUnix);
-  };
   return (
-    <div className={styles.container}>
-      <PageLayout title="Home" footer={true}>
-        {/* <Hero /> */}
-        <Carousel />
-        <SimpleGrid minChildWidth="300px" spacing="20px">
-          {events.map((item: EventResponse["data"], index: number) => {
-            return <Card data={item.data} key={index} />;
-          })}
-        </SimpleGrid>
-      </PageLayout>
-    </div>
+    <EventsContext.Provider value={{events, setEvents}}>
+      <div className={styles.container}>
+        <PageLayout title="Home" footer={true}>
+          <Carousel />
+          <SimpleGrid minChildWidth="300px" spacing="20px">
+            {events.map((item: EventResponse["data"], index: number) => {
+              return <Card data={item.data} key={index} />;
+            })}
+          </SimpleGrid>
+        </PageLayout>
+      </div>
+    </EventsContext.Provider>
   );
 };
 

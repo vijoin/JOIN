@@ -2,26 +2,19 @@ import { useEffect, useState } from "react";
 import type { NextPage } from "next";
 //styles
 import styles from "../styles/Home.module.css";
-import { Grid, GridItem, SimpleGrid } from "@chakra-ui/react";
+import { SimpleGrid } from "@chakra-ui/react";
 // components
 import PageLayout from "../layouts/PageLayout";
-import { SidebarFilters } from "../components/Sidebar";
 import Card from "../components/Card";
 import {
   AddTagOnEvent,
   CreateEvent,
   FetchCollection,
-  FilterEventsBetweenDates,
   Platform,
 } from "../helpers/PolybaseData";
 import { Tag, EventResponse } from "../types/types";
 import moment from "moment";
 import { nanoid } from "nanoid";
-import {
-  getUnixTimestampsForThisWeek,
-  getUnixTimestampsForToday,
-  getUnixTimestampsForWeekend,
-} from "../helpers/DateData";
 import { Carousel } from "../components/Carousel";
 import { EventsContext } from "../context/EventsContext";
 

@@ -8,6 +8,7 @@ import {
   Collapse,
   Icon,
   Link,
+  Input,
   Popover,
   PopoverTrigger,
   PopoverContent,
@@ -29,6 +30,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Auth } from "@polybase/auth";
 import { useEffect, useState } from "react";
 import Toggle from "./Toggle";
+import { BsBell, BsSearch } from "react-icons/bs";
 
 export default function WithSubnavigation() {
   const [logged, setLogged] = useState(false);
@@ -59,17 +61,18 @@ export default function WithSubnavigation() {
       console.log(error);
     }
   };
+  function trimAddress(address) {
+    if (!address) return "";
+  
+    const trimmedAddress = address.substring(0, 6) + "..." + address.substring(address.length - 4);
+    return trimmedAddress;
+  }
+  
   return (
     <Box>
       <Flex
-        bg={useColorModeValue("white", "gray.800")}
         color={useColorModeValue("gray.600", "white")}
         minH={"60px"}
-        py={{ base: 2 }}
-        px={{ base: 2, md: 4, lg: 8, xl: 32 }}
-        borderBottom={1}
-        borderStyle={"solid"}
-        borderColor={useColorModeValue("gray.200", "gray.900")}
         align={"center"}
       >
         <Flex
@@ -86,25 +89,36 @@ export default function WithSubnavigation() {
             aria-label={"Toggle Navigation"}
           />
         </Flex>
-        <Image alt="StratEx" src={logo} width={48} height={48} />
         <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
-          <Flex display={{ base: "none", md: "flex" }} ml={10}>
+          <Flex display={{ base: "none", md: "flex" }} align="center">
             <DesktopNav />
           </Flex>
         </Flex>
+        <Button variant="primary" onClick={login} mr={6}>
+            Create Event
+          </Button>
+        <IconButton
+        aria-label="Your notifications"
+        bg={useColorModeValue("white", "gray.800")} 
+        color="neutrals.gray.100"
+        size="md"
+        mr={2}
+        borderRadius={"full"}
+        icon={<BsBell />}/>
         <Toggle />
-
         {/* <ConnectButton /> */}
         {logged ? (
-          <div>
-            <text>{localStorage.getItem("address")}</text>
-            <Button colorScheme="blue" onClick={logOut}>
+          <HStack>
+          <Flex>
+           <Text color="neutrals.gray.200" fontWeight={"normal"}>{trimAddress(localStorage.getItem("address"))}</Text>
+           </Flex>
+            <Button variant="primaryOutline" onClick={logOut} mr={6}>
               Logout
             </Button>
-          </div>
+          </HStack>
         ) : (
-          <Button colorScheme="blue" onClick={login}>
-            Login Polybase
+          <Button variant="primaryOutline" onClick={login} mr={6}>
+            Login
           </Button>
         )}
         <HStack>
@@ -120,20 +134,39 @@ export default function WithSubnavigation() {
 }
 
 const DesktopNav = () => {
-  const linkColor = useColorModeValue("gray.600", "gray.200");
-  const linkHoverColor = useColorModeValue("gray.800", "white");
-  const popoverContentBgColor = useColorModeValue("white", "gray.800");
+  const linkColor = useColorModeValue("brand.primary.default", "brand.primary.disabled");
+  const linkHoverColor = useColorModeValue("brand.primary.hover", "brand.primary.default");
 
   return (
     <Stack direction={"row"} spacing={4}>
+      <Stack spacing={4} direction={{ base: 'column', md: 'row' }} w={'full'} align={"center"}  bg={useColorModeValue("white", "neutrals.gray.400")} pl={4} pr={2} borderRadius={"3xl"} py={1}>
+          <Icon
+          aria-label="Search"
+          bg="transparent"
+          size="lg"
+          color="neutrals.gray.100"
+          borderRadius={"full"}
+          as={BsSearch}/>
+          <Input
+            type={'text'}
+            placeholder={'Search your next event'}
+            _placeholder={{ color: 'gray.500',  }}
+            color='gray.800'
+            bg={useColorModeValue("neutrals.light.300", "neutrals.gray.400")}
+            rounded={'full'}
+            border={0}
+            _focus={{
+              bg: useColorModeValue('gray.200', 'gray.800'),
+              outline: 'none',
+            }}
+          />
+        </Stack>
       {NAV_ITEMS.map((navItem) => (
-        <Box key={navItem.label}>
-          <Popover trigger={"hover"} placement={"bottom-start"}>
-            <PopoverTrigger>
+        <Flex key={navItem.label} w="130px" align={"center"}>
               <Link
                 p={2}
                 href={navItem.href ?? "#"}
-                fontSize={"sm"}
+                fontSize={"md"}
                 fontWeight={500}
                 color={linkColor}
                 _hover={{
@@ -143,65 +176,9 @@ const DesktopNav = () => {
               >
                 {navItem.label}
               </Link>
-            </PopoverTrigger>
-
-            {navItem.children && (
-              <PopoverContent
-                border={0}
-                boxShadow={"xl"}
-                bg={popoverContentBgColor}
-                p={4}
-                rounded={"xl"}
-                minW={"sm"}
-              >
-                <Stack>
-                  {navItem.children.map((child) => (
-                    <DesktopSubNav key={child.label} {...child} />
-                  ))}
-                </Stack>
-              </PopoverContent>
-            )}
-          </Popover>
-        </Box>
+        </Flex>
       ))}
     </Stack>
-  );
-};
-
-const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
-  return (
-    <Link
-      href={href}
-      role={"group"}
-      display={"block"}
-      p={2}
-      rounded={"md"}
-      _hover={{ bg: useColorModeValue("pink.50", "gray.900") }}
-    >
-      <Stack direction={"row"} align={"center"}>
-        <Box>
-          <Text
-            transition={"all .3s ease"}
-            _groupHover={{ color: "pink.400" }}
-            fontWeight={500}
-          >
-            {label}
-          </Text>
-          <Text fontSize={"sm"}>{subLabel}</Text>
-        </Box>
-        <Flex
-          transition={"all .3s ease"}
-          transform={"translateX(-10px)"}
-          opacity={0}
-          _groupHover={{ opacity: "100%", transform: "translateX(0)" }}
-          justify={"flex-end"}
-          align={"center"}
-          flex={1}
-        >
-          <Icon color={"pink.400"} w={5} h={5} as={ChevronRightIcon} />
-        </Flex>
-      </Stack>
-    </Link>
   );
 };
 
@@ -250,24 +227,6 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
           />
         )}
       </Flex>
-
-      <Collapse in={isOpen} animateOpacity style={{ marginTop: "0!important" }}>
-        <Stack
-          mt={2}
-          pl={4}
-          borderLeft={1}
-          borderStyle={"solid"}
-          borderColor={useColorModeValue("gray.200", "gray.700")}
-          align={"start"}
-        >
-          {children &&
-            children.map((child) => (
-              <Link key={child.label} py={2} href={child.href}>
-                {child.label}
-              </Link>
-            ))}
-        </Stack>
-      </Collapse>
     </Stack>
   );
 };
@@ -281,7 +240,7 @@ interface NavItem {
 
 const NAV_ITEMS: Array<NavItem> = [
   {
-    label: "Home",
+    label: "My Events",
     href: "/",
     children: [
       {
@@ -295,27 +254,5 @@ const NAV_ITEMS: Array<NavItem> = [
         href: "#",
       },
     ],
-  },
-  {
-    label: "Find Comunities",
-    children: [
-      {
-        label: "Near your location",
-        href: "#",
-      },
-      {
-        label: "Create A Community",
-        subLabel: "Want to start a new community?",
-        href: "#",
-      },
-    ],
-  },
-  {
-    label: "Your Calendar",
-    href: "/calendar",
-  },
-  {
-    label: "Create Events",
-    href: "#",
-  },
+  }
 ];

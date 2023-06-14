@@ -181,7 +181,7 @@ collection Tag {
 }
 
 @public
-collection   {
+collection EventTagRel {
   id: string;
   event: Event;
   tag: Tag;
@@ -196,7 +196,7 @@ collection   {
 }
 
 @public
-collection   {
+collection Community {
   id: string;
   name: string;
   url?: string;
@@ -212,7 +212,7 @@ collection   {
 }
 
 @public
-collection   {
+collection EventCommunityRel {
   id: string;
   event: Event;
   community: Community;
@@ -225,7 +225,7 @@ collection   {
 }
 
 @public
-collection   {
+collection Language {
   id: string;
   name: string;
 
@@ -236,7 +236,7 @@ collection   {
 }
 
 @public
-collection   {
+collection EventLanguageRel {
   id: string;
   event: Event;
   language: Language;

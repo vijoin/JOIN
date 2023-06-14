@@ -11,8 +11,7 @@ const { definePartsStyle, defineMultiStyleConfig } =
 const baseStyle = definePartsStyle({
   label: {},
   control: {
-    padding: 3,
-    borderRadius: 0,
+
   }
 });
 

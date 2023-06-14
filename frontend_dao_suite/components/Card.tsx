@@ -36,6 +36,9 @@ export default function CardEvent({ data }: Props) {
   useEffect(() => {
     if (data.image && data.image !== "")
       setCardImage(`https://ipfs.io/ipfs/${data.image}`);
+
+    console.log(data.platform);
+    
   }, [data]);
 
   const getData = (unix: number) => {

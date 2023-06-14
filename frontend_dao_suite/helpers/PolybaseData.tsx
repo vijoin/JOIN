@@ -43,7 +43,8 @@ export const FetchKeyCollection = async (
 };
 export const FetchCollection = async (collection: string) => {
   try {
-    const { data } = await db.collection(collection).get();
+    const { data } = await 
+      db.collection(collection).sort('start_date_timestamp', 'asc').get();
     const response = {
       data: data,
       error: null,
@@ -82,6 +83,13 @@ export async function FilterEventsBetweenDates(
     const filteredEvents = startEvents.filter((event) =>
       endEvents.some((endEvent) => endEvent.data.id === event.data.id)
     );
+    // const {data} = await db
+    //   .collection("Event")
+    //   .where("start_date_timestamp", ">", startDate)
+    //   .where("start_date_timestamp", "<", endDate)
+    //   .sort('start_date_timestamp', 'asc')
+    //   .get();
+    // return data;
     return filteredEvents;
   } catch (error) {
     throw new Error(`Error filtering events: ${error}`);

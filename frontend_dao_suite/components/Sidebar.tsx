@@ -94,19 +94,23 @@ export const SidebarFilters = ({}) => {
   };
   //Buttons
   const onFilter = () => {
-    switch (dateFilter) {
-      case "1":
-        filterToday();
-        break;
-      case "2":
-        filterThisWeek();
-        break;
-      case "3":
-        filterThisWeekend();
-        break;
-      default:
-        break;
-    }
+    // if(dateFilter !== '0'){
+      switch (dateFilter) {
+        case "1":
+          filterToday();
+          break;
+        case "2":
+          filterThisWeek();
+          break;
+        case "3":
+          filterThisWeekend();
+          break;
+        default:
+          break;
+      }
+    // } else if () {
+
+    // }
   };
   const handleRadioChange = (value: string) => {
     setDateFilter(value);

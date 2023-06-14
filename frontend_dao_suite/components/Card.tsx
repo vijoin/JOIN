@@ -26,6 +26,7 @@ import {
   FaMapMarkerAlt,
 } from "react-icons/fa";
 import CardDetails from "./CardDetails";
+import SheduleModal from "./modals/ScheduleModal";
 import { EventData } from "../types/types";
 import standardImage from "../assets/images/standard/calendar.jpg";
 import { useEffect, useState } from "react";
@@ -148,7 +149,7 @@ export default function CardEvent({ data }: Props) {
             </Button>
         </CardFooter>
       </Card>
-      {isOpen && <CardDetails onClose={onClose} onOpen={onOpen} isOpen={isOpen} />}
+      {isOpen && <SheduleModal onClose={onClose} onOpen={onOpen} isOpen={isOpen} />}
 
     </>
   );

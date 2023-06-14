@@ -1,0 +1,22 @@
+[
+    {
+        "id": "calendar_1",
+        "name": "Diffie",
+        "tags": [
+            "meetup",
+            "latam",
+            "bitcoin"
+        ],
+        "state": "Draft"
+    },
+    {
+        "id": "calendar_2",
+        "name": "ETH Global",
+        "tags": [
+            "hackathon",
+            "global",
+            "ethereum"
+        ],
+        "state": "Draft"
+    }
+]

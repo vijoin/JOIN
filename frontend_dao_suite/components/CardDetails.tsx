@@ -6,6 +6,8 @@ import {
   ModalBody,
   ModalCloseButton,
   useDisclosure,
+  useColorModeValue,
+  VStack,
   Box,
   Stack,
   Text,
@@ -29,10 +31,10 @@ type CardDetailsProps = {
 
 export default function CardDetails({onClose, onOpen, isOpen} : PropsWithChildren<CardDetailsProps>) {
   return (
-    <Box position="relative" h="100vh" p={12}>
+    <Box position="absolute" h="100vh" p={12}>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent bg={useColorModeValue("white", "neutrals.gray.400")}>
           <Image
             src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
             alt="Green double couch with wooden legs"
@@ -41,35 +43,43 @@ export default function CardDetails({onClose, onOpen, isOpen} : PropsWithChildre
           <ModalCloseButton />
           <ModalBody>
             <Stack mt="2" spacing="1">
-              <HStack justifyContent={"space-between"}>
-                <Text>19-23 May</Text>
-                <HStack>
+              <HStack justifyContent={'space-between'}>
+              <VStack align={"start"}>
+                <Text  color="neutrals.gray.100" fontWeight="semibold" fontSize="sm">19-23 May</Text>
+                <Heading   size="md"
+              as="h2"
+           
+              color="brand.primary.default"
+              textTransform="capitalize"
+              overflow="hidden"
+              textOverflow="ellipsis"
+              css={{
+                display: "-webkit-box",
+                WebkitBoxOrient: "vertical",
+                WebkitLineClamp: 2,
+              }}>EDCON 2023</Heading>
+              </VStack>
+              <VStack align={"end"}>
+       
+               <HStack>
                   <Avatar
                     name="Dan Abrahmov"
                     size="xs"
                     src="https://bit.ly/dan-abramov"
                   />
-                  <Text>Anais Svelty</Text>
+                  <Text color="neutrals.gray.100" fontWeight="normal" fontSize="md">Anais Svelty</Text>
                 </HStack>
+              <Button variant="primary" size='sm'>
+              Schedule
+            </Button>
+              </VStack>
               </HStack>
-
-              <Heading size="md">EDCON 2023</Heading>
               <Stack direction="row" align="center">
-                <Icon as={FaInstagram} />
-                <Text>Podgorica, Montenegro</Text>
+                <Icon as={FaInstagram} color="neutrals.gray.200" />
+                <Text fontWeight="normal" color="neutrals.gray.200">Podgorica, Montenegro</Text>
               </Stack>
-              <Stack direction="row">
-                <Badge variant="outline" colorScheme="green">
-                  Conference
-                </Badge>
-                <Badge variant="solid" colorScheme="green">
-                  Europe{" "}
-                </Badge>
-                <Badge variant="subtle" colorScheme="green">
-                  Ethereum
-                </Badge>
-              </Stack>
-              <Text>
+
+              <Text my={2} color="neutrals.gray.200">
                 {" "}
                 Lorem ipsum dolor sit amet. Et corporis quisquam eum adipisci
                 impedit quo eius nisi est aspernatur vel veniam velit qui
@@ -78,24 +88,21 @@ export default function CardDetails({onClose, onOpen, isOpen} : PropsWithChildre
                 possimus. Eum natus voluptates hic galisum architecto et nobis
                 incidunt ut odio ipsum qui repudiandae voluptatem.
               </Text>
+
+
+              <Stack direction="row" py={2}>
+                <Badge px={2} bg="transparent" border="1px" color="neutrals.gray.200" borderColor="neutrals.light.300" borderRadius={"xl"} fontWeight="medium" >
+                  Conference
+                </Badge>
+                <Badge px={2} bg="transparent" border="1px" color="neutrals.gray.200" borderColor="neutrals.light.300" borderRadius={"xl"} fontWeight="medium" >
+                  Europe{" "}
+                </Badge>
+                <Badge px={2} bg="transparent" border="1px" color="neutrals.gray.200" borderColor="neutrals.light.300" borderRadius={"xl"} fontWeight="medium" >
+                  Ethereum
+                </Badge>
+              </Stack>
             </Stack>
           </ModalBody>
-
-          <ModalFooter>
-            <ButtonGroup spacing="2" width="100%">
-              <Button
-                variant="solid"
-                onClick={onClose}
-                colorScheme="blue"
-                w="100%"
-              >
-                Schedule
-              </Button>
-              <Button variant="ghost" colorScheme="blue">
-                Share
-              </Button>
-            </ButtonGroup>
-          </ModalFooter>
         </ModalContent>
       </Modal>
     </Box>

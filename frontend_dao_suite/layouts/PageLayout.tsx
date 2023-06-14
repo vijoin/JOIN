@@ -46,6 +46,7 @@ const PageLayout = ({ title, children, footer }: Props) => {
         </GridItem>
         <GridItem mr="4" area={"event"}>
         <HighlightEvents/>
+        <HighlightEvents/>
         </GridItem>
         <GridItem area={"footer"}>{footer && <Footer />}</GridItem>
       </Grid>

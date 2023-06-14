@@ -11,8 +11,10 @@ import {
   CardBody,
   CardFooter,
   useDisclosure,
+  IconButton,
   Box,
   Wrap,
+  useColorModeValue,
   WrapItem,
   Link,
 } from "@chakra-ui/react";
@@ -20,10 +22,11 @@ import {
   FaTwitter,
   FaYoutube,
   FaTwitch,
-  FaMeetup,
-  FaPeopleArrows,
+  FaShareAlt,
+  FaMapMarkerAlt,
 } from "react-icons/fa";
 import CardDetails from "./CardDetails";
+import SheduleModal from "./modals/ScheduleModal";
 import { EventData } from "../types/types";
 import standardImage from "../assets/images/standard/calendar.jpg";
 import { useEffect, useState } from "react";
@@ -67,9 +70,9 @@ export default function CardEvent({ data }: Props) {
     <>
       <Card
         maxW="sm"
-        borderRadius="2xl"
-        mt="2"
+        borderRadius="3xl"
         onClick={onOpen}
+        bg={useColorModeValue("white", "neutrals.gray.400")}
         css={{
           cursor: "pointer",
         }}
@@ -77,20 +80,26 @@ export default function CardEvent({ data }: Props) {
         <Image
           src={cardImage}
           alt="Event Image"
-          borderTopRadius="2xl"
+          borderTopRadius="3xl"
           maxH="200px"
           maxW="100%"
           objectFit="cover"
           onError={handleImageError}
+      
         />
-        <CardBody>
-          <Stack mt="2" spacing="1">
-            <Text>{getData(data.start_date_timestamp)}</Text>
+<Box pos="absolute" top="3" right="3">
+<IconButton aria-label='Search database' borderRadius={"3xl"}  color="brand.primary.default" icon={<FaShareAlt/>} />
+</Box>
+
+        <CardBody py={3} px={5}>
+          <Stack spacing="1">
+            <Text color="neutrals.gray.100" fontWeight="semibold" fontSize="sm">{getData(data.start_date_timestamp)}</Text>
             <Heading
-              height="2.5em"
               size="md"
               as="h2"
-              maxH="3em"
+              color="brand.primary.default"
+              textTransform="capitalize"
+
               overflow="hidden"
               textOverflow="ellipsis"
               css={{
@@ -102,6 +111,15 @@ export default function CardEvent({ data }: Props) {
               {data.name}
             </Heading>
             <Stack direction="row" align="center">
+            {data.platform.toLowerCase() === "twitter" ? (
+                <Icon as={FaTwitter} color="neutrals.gray.200" />
+              ) : data.platform.toLowerCase() === "twitch" ? (
+                <Icon as={FaTwitch} color="neutrals.gray.200" />
+              ) : data.platform.toLowerCase() === "youtube" ? (
+                <Icon as={FaYoutube} color="neutrals.gray.200" />
+              ) : (
+                <Icon as={FaMapMarkerAlt} color="neutrals.gray.200" />
+              )}
               {data.is_online ? (
                 <Link
                   href={data.url}
@@ -109,46 +127,33 @@ export default function CardEvent({ data }: Props) {
                   rel="noopener noreferrer"
                   onClick={(ev) => ev.stopPropagation()}
                 >
-                  <Text style={{ color: "gray" }}>{data.platform}</Text>
+                  <Text fontWeight="normal" color="neutrals.gray.200">{data.platform}</Text>
                 </Link>
               ) : (
-                <Text>{data.location}</Text>
+                <Text fontWeight="normal" color="neutrals.gray.200">{data.location}</Text>
               )}
-              {data.platform.toLowerCase() === "twitter" ? (
-                <Icon as={FaTwitter} />
-              ) : data.platform.toLowerCase() === "twitch" ? (
-                <Icon as={FaTwitch} />
-              ) : data.platform.toLowerCase() === "youtube" ? (
-                <Icon as={FaYoutube} />
-              ) : (
-                <Icon as={FaPeopleArrows} />
-              )}
+              
             </Stack>
-            <Wrap>
-              {data.tags.map((tag, index) => {
+            <Wrap mt={2}>
+              {/* {data.tags.map((tag, index) => {
                 return (
+                  // eslint-disable-next-line react/jsx-key
                   <WrapItem>
-                    <Badge variant="outline">{tag.id}</Badge>
+                    <Badge px={2} bg="transparent" border="1px" color="neutrals.gray.200" borderColor="neutrals.light.300" borderRadius={"xl"} fontWeight="medium" >{tag.id}</Badge>
                   </WrapItem>
                 );
-              })}
+              })} */}
             </Wrap>
           </Stack>
         </CardBody>
-        <CardFooter>
-          <ButtonGroup spacing="2" width="100%">
-            <Button variant="solid" colorScheme="blue" w="100%">
+        <CardFooter pt={1}>
+            <Button variant="primary" colorScheme="blue" w="100%">
               Schedule
             </Button>
-            <Button variant="ghost" colorScheme="blue">
-              Share
-            </Button>
-          </ButtonGroup>
         </CardFooter>
       </Card>
-      {isOpen && (
-        <CardDetails onClose={onClose} onOpen={onOpen} isOpen={isOpen} />
-      )}{" "}
+      {isOpen && <SheduleModal onClose={onClose} onOpen={onOpen} isOpen={isOpen} />}
+
     </>
   );
 }

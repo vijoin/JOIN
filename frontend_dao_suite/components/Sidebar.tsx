@@ -13,7 +13,7 @@ export const SidebarFilters = ({ }) => {
     const logoSrc = colorMode === "dark" ? logoDark : logoLight;
 
   return (
-    <Box width={'100%'} minH="100vh" p={4} bg={useColorModeValue('neutrals.light.100', 'neutrals.gray.400')} mx={6} my={2} borderRadius={'3xl'}>
+    <Box width={'100%'} p={4} bg={useColorModeValue('neutrals.light.100', 'neutrals.gray.400')} mx={6} my={4} borderRadius={'3xl'}>
     <Stack spacing={4}>
     <Flex justify={'start'}>
     <Image alt="StratEx"
@@ -47,7 +47,7 @@ export const SidebarFilters = ({ }) => {
       <Checkbox fontWeight={'normal'} color={useColorModeValue("neutrals.gray.200", "neutrals.gray.200")}>Polygon</Checkbox>
       <Checkbox fontWeight={'normal'} color={useColorModeValue("neutrals.gray.200", "neutrals.gray.200")}>Bitcoin</Checkbox>
     </VStack>
-    <VStack align={'start'}>
+    {/* <VStack align={'start'}>
     <Heading size="sm" color={useColorModeValue("neutrals.gray.300", "neutrals.gray.300")}>Date</Heading>
     <RadioGroup>
     <Stack direction='column' color={useColorModeValue("neutrals.gray.200", "neutrals.gray.200")} fontWeight={'normal'}>
@@ -56,7 +56,7 @@ export const SidebarFilters = ({ }) => {
       <Radio value='3'>This weekend</Radio>
       </Stack>
       </RadioGroup>
-    </VStack>
+    </VStack> */}
     <VStack align={'start'}>
     <Heading size="sm" color={useColorModeValue("neutrals.gray.300", "neutrals.gray.300")}>Language</Heading>
     <RadioGroup color={useColorModeValue("neutrals.gray.200", "neutrals.gray.200")} fontWeight={'normal'}>

@@ -65,7 +65,7 @@ export default function WithSubnavigation() {
   }
   
   return (
-    <Box>
+    <Box my={3}>
       <Flex
         color={useColorModeValue("gray.600", "white")}
         minH={"60px"}

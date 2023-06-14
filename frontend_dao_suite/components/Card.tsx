@@ -41,7 +41,6 @@ export default function CardEvent({ data }: Props) {
       setCardImage(`https://ipfs.io/ipfs/${data.image}`);
 
     console.log(data.platform);
-    
   }, [data]);
 
   const getData = (unix: number) => {
@@ -85,21 +84,25 @@ export default function CardEvent({ data }: Props) {
           maxW="100%"
           objectFit="cover"
           onError={handleImageError}
-      
         />
-<Box pos="absolute" top="3" right="3">
-<IconButton aria-label='Search database' borderRadius={"3xl"}  color="brand.primary.default" icon={<FaShareAlt/>} />
-</Box>
-
+        <Box pos="absolute" top="3" right="3">
+          <IconButton
+            aria-label="Search database"
+            borderRadius={"3xl"}
+            color="brand.primary.default"
+            icon={<FaShareAlt />}
+          />
+        </Box>
         <CardBody py={3} px={5}>
           <Stack spacing="1">
-            <Text color="neutrals.gray.100" fontWeight="semibold" fontSize="sm">{getData(data.start_date_timestamp)}</Text>
+            <Text color="neutrals.gray.100" fontWeight="semibold" fontSize="sm">
+              {getData(data.start_date_timestamp)}
+            </Text>
             <Heading
               size="md"
               as="h2"
               color="brand.primary.default"
               textTransform="capitalize"
-
               overflow="hidden"
               textOverflow="ellipsis"
               css={{
@@ -111,7 +114,7 @@ export default function CardEvent({ data }: Props) {
               {data.name}
             </Heading>
             <Stack direction="row" align="center">
-            {data.platform.toLowerCase() === "twitter" ? (
+              {data.platform.toLowerCase() === "twitter" ? (
                 <Icon as={FaTwitter} color="neutrals.gray.200" />
               ) : data.platform.toLowerCase() === "twitch" ? (
                 <Icon as={FaTwitch} color="neutrals.gray.200" />
@@ -127,12 +130,15 @@ export default function CardEvent({ data }: Props) {
                   rel="noopener noreferrer"
                   onClick={(ev) => ev.stopPropagation()}
                 >
-                  <Text fontWeight="normal" color="neutrals.gray.200">{data.platform}</Text>
+                  <Text fontWeight="normal" color="neutrals.gray.200">
+                    {data.platform}
+                  </Text>
                 </Link>
               ) : (
-                <Text fontWeight="normal" color="neutrals.gray.200">{data.location}</Text>
+                <Text fontWeight="normal" color="neutrals.gray.200">
+                  {data.location}
+                </Text>
               )}
-              
             </Stack>
             <Wrap mt={2}>
               {/* {data.tags.map((tag, index) => {
@@ -147,13 +153,14 @@ export default function CardEvent({ data }: Props) {
           </Stack>
         </CardBody>
         <CardFooter pt={1}>
-            <Button variant="primary" colorScheme="blue" w="100%">
-              Schedule
-            </Button>
+          <Button variant="primary" colorScheme="blue" w="100%">
+            Schedule
+          </Button>
         </CardFooter>
       </Card>
-      {isOpen && <SheduleModal onClose={onClose} onOpen={onOpen} isOpen={isOpen} />}
-
+      {isOpen && (
+        <SheduleModal onClose={onClose} onOpen={onOpen} isOpen={isOpen} />
+      )}
     </>
   );
 }

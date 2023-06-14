@@ -1,6 +1,6 @@
 import { Polybase } from "@polybase/client";
 import moment from "moment";
-import { ethPersonalSign } from '@polybase/eth';
+import { ethPersonalSign } from "@polybase/eth";
 import "dotenv/config";
 
 const db = new Polybase({
@@ -15,26 +15,28 @@ const db = new Polybase({
 //     }
 //   })
 
+const eventId = "event008";
+
 await db.collection("Event").create([
-  "event006", // event id
+  eventId, // event id
   db.collection("Calendar").record("calendar002"), // relation to record calendar DAO Suite Events
   "Learn how to create an event in JOIN Calendar", // name
   "Learn how to create an event in JOIN Calendar", // description
   "QmR8h1s4cyNJELt1MBeyVJUgArDLNvseeiXAwtLicWDQvg", //ipfs_hash
-  "Bogotá", // Internet or City
+  "Bogotá", // location: Internet or City
   "Youtube", // platform
   "https://youtube.com/join", // url
   true, // is_online
   moment("2023-06-08T10:00:00Z").unix(), // start_date_timestamp
   moment("2023-06-08T12:00:00Z").unix(), // end_date_timestamp
-  [db.collection("Tag").record("dao"), db.collection("Tag").record("nft")], // Tags
-  // [], (empty array) also Tags
-  //, (empty value) also Tags
   moment(Date.now()).unix(),
 ]);
 
-// Also Tags, one at a time
-// await db
-//   .collection("Event")
-//   .record("event001")
-//   .call("addTag", [db.collection("Tag").record("dao")]);
+// Tags are added independently
+await db
+  .collection("EventTagRel")
+  .create([
+    "eventtag002",
+    db.collection("Event").record(eventId),
+    db.collection("Tag").record("dao"),
+  ]);

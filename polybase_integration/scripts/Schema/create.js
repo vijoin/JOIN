@@ -15,15 +15,36 @@ db.signer((data) => {
 
 await db.applySchema(`
 @public
-collection Tag {
-  id: string;
-  name: string;
-
-  constructor (id: string, name:string) {
+collection User {
+  id: string; 
+  name?: string;
+  bio?: string;
+  avatar?: string;
+  pvkey: string;
+  $publicKey: string;
+  
+  constructor (id: string, pvkey: string) {
     this.id = id;
-    this.name = name;
+    this.$publicKey = ctx.publicKey.toHex();
+    this.pvkey = pvkey;
+  }
+
+  setProfile(name?: string, bio?: string, avatar?: string) {
+    if (this.$publicKey != ctx.publicKey.toHex()) {
+      throw error ('invalid owner');
+    }
+    if (this.name) {
+      this.name = name;
+    }
+    if (this.bio) {
+      this.bio = bio;
+    }
+    if (this.avatar) {
+      this.avatar = avatar;
+    }
   }
 }
+
 
 @public
 collection Calendar {
@@ -90,7 +111,6 @@ collection Event {
   end_date_timestamp: number;
   is_online: boolean;
   state: string;
-  tags?: Tag[];
   create_date_timestamp: number;
 
   @index(calendar);
@@ -107,7 +127,6 @@ collection Event {
     is_online: boolean,
     start_date_timestamp: number,
     end_date_timestamp: number,
-    tags?: Tag[],
     create_date_timestamp: number
   ) {
     this.id = id;
@@ -122,16 +141,7 @@ collection Event {
     this.end_date_timestamp = end_date_timestamp;
     this.is_online = is_online;
     this.state = 'Draft';
-    this.create_date_timestamp = create_date_timestamp;
-
-    if (tags) {
-      this.tags = tags;
-    }
-    
-  }
-
-  function addTag (tag: Tag) {
-    this.tags.push(tag);
+    this.create_date_timestamp = create_date_timestamp;    
   }
 
   function setState (state: string) {
@@ -160,33 +170,81 @@ collection ReminderEventSubscriber {
 }
 
 @public
-collection User {
-  id: string; 
-  name?: string;
-  bio?: string;
-  avatar?: string;
-  pvkey: string;
-  $publicKey: string;
-  
-  constructor (id: string, pvkey: string) {
-    this.id = id;
-    this.$publicKey = ctx.publicKey.toHex();
-    this.pvkey = pvkey;
-  }
+collection Tag {
+  id: string;
+  name: string;
 
-  setProfile(name?: string, bio?: string, avatar?: string) {
-    if (this.$publicKey != ctx.publicKey.toHex()) {
-      throw error ('invalid owner');
+  constructor (id: string, name:string) {
+    this.id = id;
+    this.name = name;
+  }
+}
+
+@public
+collection   {
+  id: string;
+  event: Event;
+  tag: Tag;
+
+  @index(event, tag);
+
+  constructor (id: string, event: Event, tag: Tag) {
+    this.id = id;
+    this.event = event;
+    this.tag = tag;
+  }
+}
+
+@public
+collection   {
+  id: string;
+  name: string;
+  url?: string;
+
+  constructor (id: string, name: string, url?: string) {
+    this.id = id;
+    this.name = name;
+
+    if (url) {
+      this.url = url;
     }
-    if (this.name) {
-      this.name = name;
-    }
-    if (this.bio) {
-      this.bio = bio;
-    }
-    if (this.avatar) {
-      this.avatar = avatar;
-    }
+  }
+}
+
+@public
+collection   {
+  id: string;
+  event: Event;
+  community: Community;
+
+  constructor (id: string, event: Event, community: Community) {
+    this.id = id;
+    this.event = event;
+    this.community = community;
+  }
+}
+
+@public
+collection   {
+  id: string;
+  name: string;
+
+  constructor (id: string, name: string) {
+    this.id = id;
+    this.name = name;
+  }
+}
+
+@public
+collection   {
+  id: string;
+  event: Event;
+  language: Language;
+
+  constructor (id: string, event: Event, language: Language) {
+    this.id = id;
+    this.event = event;
+    this.language = language;
   }
 }
 

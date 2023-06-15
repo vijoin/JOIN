@@ -16,6 +16,7 @@ import Card from "../components/Card";
 import {
   FetchCollection,
   FilterEventsBetweenDates,
+  ShowAllEventsFromToday,
 } from "../helpers/PolybaseData";
 import { EventResponse } from "../types/types";
 import { Carousel } from "../components/Carousel";
@@ -40,13 +41,10 @@ const Home: NextPage = () => {
     weekend: false,
   });
   useEffect(() => {
-    filterThisWeek();
+    //filterThisWeek();
+    readallEvents();
   }, []);
-  const readallEvents = async () => {
-    const eventsRes = await FetchCollection("Event");
-    setEvents(eventsRes.data);
-    setButtonWeight(0);
-  };
+  
   //Filtering
   const filterTime = async (start: number, end: number) => {
     try {
@@ -58,6 +56,12 @@ const Home: NextPage = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+  const readallEvents = async () => {
+    const [startOfDayUnix] = getUnixTimestampsForToday();
+    const eventsRes = await ShowAllEventsFromToday(startOfDayUnix);
+    setEvents(eventsRes);
+    setButtonWeight(0);
   };
   const filterToday = () => {
     const [startOfDayUnix, endOfDayUnix] = getUnixTimestampsForToday();

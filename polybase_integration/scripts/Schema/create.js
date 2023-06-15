@@ -58,8 +58,6 @@ collection Calendar {
   name: string; 
 
   // An optional property denoted with ?
-  tags?: Tag[]; 
-
   state: string;
 
   // "constructor" is called when a new record is
@@ -70,7 +68,6 @@ collection Calendar {
     this.id = id;
     this.name = name;
     this.state = 'Draft';
-    this.tags = [];
     
     // You can assign the publicKey of the user who is
     // creating the record, this can then be used to
@@ -106,6 +103,7 @@ collection Event {
   image?: string;
   location: string;
   platform: string;
+  language: string;
   url: string;
   start_date_timestamp: number;
   end_date_timestamp: number;
@@ -123,6 +121,7 @@ collection Event {
     image: string,
     location: string,
     platform: string,
+    language: string,
     url: string,
     is_online: boolean,
     start_date_timestamp: number,
@@ -136,6 +135,7 @@ collection Event {
     this.image = image;
     this.location = location;
     this.platform = platform;
+    this.language = language;
     this.url = url;
     this.start_date_timestamp = start_date_timestamp;
     this.end_date_timestamp = end_date_timestamp;
@@ -152,13 +152,13 @@ collection Event {
 @public
 collection ReminderEventSubscriber {
     id: string;
-    subscriberPublicKey: string;
+    subscriber: string;
     event: Event;
     timestamp: number;
 
-    constructor (id: string, event: Event, timestamp: number) {
+    constructor (id: string, subscriber: string,  event: Event, timestamp: number) {
         this.id = id;
-        this.subscriberPublicKey = ctx.publicKey.toHex();
+        this.subscriber = subscriber;
         this.event = event;
         this.timestamp = timestamp;
     }
@@ -221,30 +221,6 @@ collection EventCommunityRel {
     this.id = id;
     this.event = event;
     this.community = community;
-  }
-}
-
-@public
-collection Language {
-  id: string;
-  name: string;
-
-  constructor (id: string, name: string) {
-    this.id = id;
-    this.name = name;
-  }
-}
-
-@public
-collection EventLanguageRel {
-  id: string;
-  event: Event;
-  language: Language;
-
-  constructor (id: string, event: Event, language: Language) {
-    this.id = id;
-    this.event = event;
-    this.language = language;
   }
 }
 

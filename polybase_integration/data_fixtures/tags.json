@@ -1,15 +1,15 @@
 [
   {
-    "id": "twitter",
-    "name": "Twitter"
+    "id": "dao",
+    "name": "DAO"
   },
   {
-    "id": "twitch",
-    "name": "Twitch"
+    "id": "tool",
+    "name": "Tool"
   },
   {
-    "id": "youtube",
-    "name": "Youtube"
+    "id": "workshop",
+    "name": "Workshop"
   },
   {
     "id": "conference",
@@ -20,8 +20,8 @@
     "name": "Hackathon"
   },
   {
-    "id": "meetup",
-    "name": "Meetup"
+    "id": "ux-ui",
+    "name": "UX/UI"
   },
   {
     "id": "asia",
@@ -36,23 +36,11 @@
     "name": "Europe"
   },
   {
-    "id": "ethereum",
-    "name": "Ethereum"
+    "id": "beginner",
+    "name": "Beginner"
   },
   {
-    "id": "polygon",
-    "name": "Polygon"
-  },
-  {
-    "id": "bitcoin",
-    "name": "Bitcoin"
-  },
-  {
-    "id": "english",
-    "name": "English"
-  },
-  {
-    "id": "spanish",
-    "name": "Spanish"
+    "id": "advanced",
+    "name": "Advanced"
   }
 ]

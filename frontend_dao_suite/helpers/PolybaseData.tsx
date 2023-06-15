@@ -2,6 +2,7 @@ import { Polybase } from "@polybase/client";
 import { Auth } from "@polybase/auth";
 import { EventData, Tag } from "../types/types";
 import { useCollection } from "@polybase/react";
+import { CollectionRecordResponse } from "@polybase/client/dist/Record";
 
 const auth = typeof window !== "undefined" ? new Auth() : null;
 const db = new Polybase({
@@ -64,33 +65,13 @@ export async function FilterEventsBetweenDates(
   endDate: number
 ) {
   try {
-    const startQuery = db
+    const {data} = await db
       .collection("Event")
       .where("start_date_timestamp", ">", startDate)
-      .get();
-
-    const endQuery = db
-      .collection("Event")
       .where("start_date_timestamp", "<", endDate)
+      .sort('start_date_timestamp', 'asc')
       .get();
-
-    const [startSnapshot, endSnapshot] = await Promise.all([
-      startQuery,
-      endQuery,
-    ]);
-    const startEvents = startSnapshot.data;
-    const endEvents = endSnapshot.data;
-    const filteredEvents = startEvents.filter((event) =>
-      endEvents.some((endEvent) => endEvent.data.id === event.data.id)
-    );
-    // const {data} = await db
-    //   .collection("Event")
-    //   .where("start_date_timestamp", ">", startDate)
-    //   .where("start_date_timestamp", "<", endDate)
-    //   .sort('start_date_timestamp', 'asc')
-    //   .get();
-    // return data;
-    return filteredEvents;
+    return data;
   } catch (error) {
     throw new Error(`Error filtering events: ${error}`);
   }
@@ -100,6 +81,25 @@ export const CreateTag = async (id: string, name: string) => {
   try {
   } catch (error) {}
 };
+export const ReadTagsFromEvent = async (eventId : string) => {
+  try {
+    const response =  db
+      .collection("EventTagRel")
+      .where("event", '==', db.collection("Event").record(eventId))
+      .get()
+    return response;
+  } catch (error) {
+    throw new Error(`Error reading tags: ${error}`);
+  }
+}
+export const FetchTagData = async (tagId : string) => {
+  try {
+    const { data } = await db.collection("Tag").record(tagId).get();
+    return data.name;
+  } catch (error) {
+    throw new Error(`Error reading specific tag info: ${error}`);
+  }
+}
 //Events
 export const CreateEvent = async (
   id: string,

@@ -7,7 +7,7 @@ import Footer from "../components/Footer";
 //styles
 import { SidebarFilters } from "../components/Sidebar";
 import { HighlightEvents } from "../components/HighlightEvents";
-import Sticky from 'react-stickynode';
+import Sticky from "react-stickynode";
 import { Grid, GridItem, useColorModeValue } from "@chakra-ui/react";
 
 type Props = {
@@ -30,15 +30,15 @@ const PageLayout = ({ title, children, footer }: Props) => {
         gridTemplateColumns={"1fr 5fr 1.5fr"}
         gap="12"
         color="blackAlpha.700"
-        bg={useColorModeValue('neutrals.light.200', 'neutrals.gray.500')}
+        bg={useColorModeValue("neutrals.light.200", "neutrals.gray.500")}
         fontWeight="bold"
       >
         <GridItem pl="2" area={"header"}>
           <Header />
         </GridItem>
         <GridItem area={"nav"}>
-        <Sticky>
-          <SidebarFilters />
+          <Sticky>
+            <SidebarFilters />
           </Sticky>
         </GridItem>
         <GridItem area={"main"}>
@@ -47,10 +47,10 @@ const PageLayout = ({ title, children, footer }: Props) => {
           </div>
         </GridItem>
         <GridItem mr="4" area={"event"}>
-        <Sticky>
-        <HighlightEvents/>
-        <HighlightEvents/>
-        </Sticky>
+          <Sticky>
+            <HighlightEvents />
+            <HighlightEvents />
+          </Sticky>
         </GridItem>
         <GridItem area={"footer"}>{footer && <Footer />}</GridItem>
       </Grid>

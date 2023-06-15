@@ -17,6 +17,7 @@ import {
   useColorModeValue,
   WrapItem,
   Link,
+  Skeleton,
 } from "@chakra-ui/react";
 import {
   FaTwitter,
@@ -30,19 +31,31 @@ import SheduleModal from "./modals/ScheduleModal";
 import { EventData } from "../types/types";
 import standardImage from "../assets/images/standard/calendar.jpg";
 import { useEffect, useState } from "react";
+import { ReadTagsFromEvent } from "../helpers/PolybaseData";
+import { CollectionRecordResponse } from "@polybase/client/dist/Record";
+import { returnTagNames } from "../helpers/FetchData";
 type Props = {
-  data: EventData;
+  event: CollectionRecordResponse<any, any>;
 };
-export default function CardEvent({ data }: Props) {
+export default function CardEvent({ event }: Props) {
   const [cardImage, setCardImage] = useState("/standard/calendar.jpg");
+  const [isLoadingImg, setIsLoadImg] = useState(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [tags, setTags] = useState<string[]>([]);
   useEffect(() => {
-    if (data.image && data.image !== "")
-      setCardImage(`https://ipfs.io/ipfs/${data.image}`);
-
-    console.log(data.platform);
-  }, [data]);
-
+    if (event?.data.image && event?.data.image !== "")
+      setCardImage(`https://ipfs.io/ipfs/${event?.data.image}`);
+    readTags();
+  }, []);
+  const readTags = async () => {
+    try {
+      const tags = await ReadTagsFromEvent(event.data.id);
+      const tagsNames = await returnTagNames(tags.data);
+      setTags(tagsNames);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const getData = (unix: number) => {
     const timestampInMilliseconds = unix * 1000;
     const date = new Date(timestampInMilliseconds);
@@ -65,6 +78,10 @@ export default function CardEvent({ data }: Props) {
   const handleImageError = () => {
     setCardImage("/standard/calendar.jpg");
   };
+  const onImageLoad = () => {
+    console.log("image loaded");
+  };
+
   return (
     <>
       <Card
@@ -84,6 +101,7 @@ export default function CardEvent({ data }: Props) {
           maxW="100%"
           objectFit="cover"
           onError={handleImageError}
+          onLoad={onImageLoad}
         />
         <Box pos="absolute" top="3" right="3">
           <IconButton
@@ -96,7 +114,7 @@ export default function CardEvent({ data }: Props) {
         <CardBody py={3} px={5}>
           <Stack spacing="1">
             <Text color="neutrals.gray.100" fontWeight="semibold" fontSize="sm">
-              {getData(data.start_date_timestamp)}
+              {getData(event?.data.start_date_timestamp)}
             </Text>
             <Heading
               size="md"
@@ -111,49 +129,64 @@ export default function CardEvent({ data }: Props) {
                 WebkitLineClamp: 2,
               }}
             >
-              {data.name}
+              {event?.data.name}
             </Heading>
             <Stack direction="row" align="center">
-              {data.platform.toLowerCase() === "twitter" ? (
+              {event?.data.platform.toLowerCase() === "twitter" ? (
                 <Icon as={FaTwitter} color="neutrals.gray.200" />
-              ) : data.platform.toLowerCase() === "twitch" ? (
+              ) : event?.data.platform.toLowerCase() === "twitch" ? (
                 <Icon as={FaTwitch} color="neutrals.gray.200" />
-              ) : data.platform.toLowerCase() === "youtube" ? (
+              ) : event?.data.platform.toLowerCase() === "youtube" ? (
                 <Icon as={FaYoutube} color="neutrals.gray.200" />
               ) : (
                 <Icon as={FaMapMarkerAlt} color="neutrals.gray.200" />
               )}
-              {data.is_online ? (
+              {event?.data.is_online ? (
                 <Link
-                  href={data.url}
+                  href={event?.data.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={(ev) => ev.stopPropagation()}
                 >
                   <Text fontWeight="normal" color="neutrals.gray.200">
-                    {data.platform}
+                    {event?.data.platform}
                   </Text>
                 </Link>
               ) : (
                 <Text fontWeight="normal" color="neutrals.gray.200">
-                  {data.location}
+                  {event?.data.location}
                 </Text>
               )}
             </Stack>
             <Wrap mt={2}>
-              {/* {data.tags.map((tag, index) => {
+              {tags.map((tag, index) => {
                 return (
                   // eslint-disable-next-line react/jsx-key
                   <WrapItem>
-                    <Badge px={2} bg="transparent" border="1px" color="neutrals.gray.200" borderColor="neutrals.light.300" borderRadius={"xl"} fontWeight="medium" >{tag.id}</Badge>
+                    <Badge
+                      px={2}
+                      bg="transparent"
+                      border="1px"
+                      color="neutrals.gray.200"
+                      borderColor="neutrals.light.300"
+                      borderRadius={"xl"}
+                      fontWeight="medium"
+                    >
+                      {tag}
+                    </Badge>
                   </WrapItem>
                 );
-              })} */}
+              })}
             </Wrap>
           </Stack>
         </CardBody>
         <CardFooter pt={1}>
-          <Button variant="primary" colorScheme="blue" w="100%">
+          <Button
+            variant="primary"
+            colorScheme="blue"
+            w="100%"
+            onClick={readTags}
+          >
             Schedule
           </Button>
         </CardFooter>

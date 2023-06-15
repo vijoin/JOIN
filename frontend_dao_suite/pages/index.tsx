@@ -11,7 +11,6 @@ import {
   SkeletonText,
   SkeletonCircle,
 } from "@chakra-ui/react";
-// components
 import PageLayout from "../layouts/PageLayout";
 import Card from "../components/Card";
 import {
@@ -21,13 +20,15 @@ import {
 import { EventResponse } from "../types/types";
 import { Carousel } from "../components/Carousel";
 import { EventsContext } from "../context/EventsContext";
+import { CollectionRecordResponse } from "@polybase/client/dist/Record";
+import { startOfDay } from "@fullcalendar/core/internal";
+import gasper from "../assets/images/gasper.png";
 import {
   getUnixTimestampsForThisWeek,
   getUnixTimestampsForToday,
   getUnixTimestampsForWeekend,
 } from "../helpers/DateData";
-import { CollectionRecordResponse } from "@polybase/client/dist/Record";
-import { startOfDay } from "@fullcalendar/core/internal";
+import Image from "next/image";
 
 const Home: NextPage = () => {
   const [events, setEvents] = useState<EventResponse["data"]>([]);
@@ -165,7 +166,7 @@ const Home: NextPage = () => {
           <SimpleGrid minChildWidth="280px" spacing="20px">
             {Array.from({ length: 12 }).map((_, index) => (
               <Box key={index} padding="6" boxShadow="lg" bg="white">
-                <SkeletonCircle size='10' />
+                <SkeletonCircle size="10" />
                 <SkeletonText
                   mt="4"
                   noOfLines={10}
@@ -177,10 +178,28 @@ const Home: NextPage = () => {
           </SimpleGrid>
         ) : (
           <SimpleGrid minChildWidth="280px" spacing="20px">
-            {events.map(
-              (item: CollectionRecordResponse<any, any>, index: number) => {
-                return <Card event={item} key={index} />;
-              }
+            {events.length > 0 ? (
+              events.map((item: CollectionRecordResponse<any, any>, index: number) => (
+                <Card event={item} key={index} />
+              ))
+            ) : (
+              <Flex
+                textAlign="center"
+                w="100%"
+                alignItems={"center"}
+                direction={"column"}
+                mt={32}
+              >
+                <Image src={gasper} alt="No events" width={120} />
+                <Text
+                  fontSize={"2xl"}
+                  mt={2}
+                  color="neutrals.gray.100"
+                  fontWeight={"normal"}
+                >
+                  Oops! Only Gasper is left here.
+                </Text>
+              </Flex>
             )}
           </SimpleGrid>
         )}

@@ -29,11 +29,11 @@ import {
 import CardDetails from "./CardDetails";
 import SheduleModal from "./modals/ScheduleModal";
 import { EventData } from "../types/types";
-import standardImage from "../assets/images/standard/calendar.jpg";
 import { useEffect, useState } from "react";
 import { ReadTagsFromEvent } from "../helpers/PolybaseData";
 import { CollectionRecordResponse } from "@polybase/client/dist/Record";
 import { returnTagNames } from "../helpers/FetchData";
+
 type Props = {
   event: CollectionRecordResponse<any, any>;
 };
@@ -76,7 +76,7 @@ export default function CardEvent({ event }: Props) {
     return _data < 10 ? `0${_data}` : `${_data}`;
   };
   const handleImageError = () => {
-    setCardImage("/standard/calendar.jpg");
+    setCardImage("/nocover.png");
   };
   const onImageLoad = () => {
     console.log("image loaded");

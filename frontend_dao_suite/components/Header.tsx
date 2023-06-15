@@ -237,7 +237,7 @@ interface NavItem {
 const NAV_ITEMS: Array<NavItem> = [
   {
     label: "My Events",
-    href: "/",
+    href: "/calendar",
     children: [
       {
         label: "Explore Upcoming Events",

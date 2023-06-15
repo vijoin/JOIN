@@ -5,6 +5,7 @@ import {
   Heading,
   Stack,
   Checkbox,
+  Link,
   useColorModeValue,
   Flex,
   VStack,
@@ -122,10 +123,12 @@ export const SidebarFilters = ({}) => {
     <Box width={'100%'} p={4} bg={useColorModeValue('neutrals.light.100', 'neutrals.gray.400')} mx={6} my={4} borderRadius={'3xl'}>
     <Stack spacing={4}>
     <Flex justify={'start'}>
+      <Link  href="/">
     <Image alt="StratEx"
       src={logoSrc}
       width={80}
       height={80} />
+      </Link>
     </Flex>
     <Text color={useColorModeValue("neutrals.gray.200", "neutrals.gray.200")}  fontWeight={'normal'}> Welcome, Sebas 👋</Text>
     <VStack justifyContent={'space-between'} align={'start'} gap={6} >

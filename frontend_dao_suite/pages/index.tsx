@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { NextPage } from "next";
 import styles from "../styles/Home.module.css";
-import { Text, HStack, SimpleGrid, Flex, useColorModeValue } from "@chakra-ui/react";
+import { Text, HStack, SimpleGrid, Flex, useColorModeValue, Box } from "@chakra-ui/react";
 // components
 import PageLayout from "../layouts/PageLayout";
 import Card from "../components/Card";
@@ -11,7 +11,9 @@ import {
 import { EventResponse } from "../types/types";
 import { Carousel } from "../components/Carousel";
 import { EventsContext } from "../context/EventsContext";
+import gasper from "../assets/images/gasper.png";
 import { getUnixTimestampsForThisWeek, getUnixTimestampsForToday, getUnixTimestampsForWeekend } from "../helpers/DateData";
+import Image from "next/image";
 
 const Home: NextPage = () => {
   const [events, setEvents] = useState<EventResponse["data"]>([]);
@@ -60,9 +62,20 @@ const Home: NextPage = () => {
         </Flex>
         </HStack>
         <SimpleGrid minChildWidth="280px" spacing="20px">
-          {events.map((item: EventResponse["data"], index: number) => {
-            return <Card data={item.data} key={index} />;
-          })}
+        {events.length > 0 ? (
+    events.map((item: EventResponse["data"], index: number) => (
+      <Card data={item.data} key={index} />
+    ))
+  ) : (
+    <Flex textAlign="center" w="100%" alignItems={'center'} direction={"column"} mt={32}>
+         <Image
+          src={gasper}
+          alt="No events"
+          width={120}
+        />
+      <Text fontSize={"2xl"} mt={2} color="neutrals.gray.100" fontWeight={'normal'}>Oops! Only Gasper is left here.</Text>
+    </Flex>
+  )}
         </SimpleGrid>
       </PageLayout>
     </div>

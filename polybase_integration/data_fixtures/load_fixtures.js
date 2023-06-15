@@ -27,7 +27,10 @@ const loadFixtureData = (records, collectionName, valuesCallback) => {
   return true;
 };
 
-// TAGS
+// RECOMMENDATION
+// UNCOMMENT ONE SECTION AT A TIME. POLYBASE THROWS FALSE ERRORS
+
+// SECTION: TAGS
 // const tags = getFixtureData(
 //   "/home/vijoin/Documents/Learning_Web3/DAOSuite/polybase_integration/data_fixtures/tags.json"
 // );
@@ -38,7 +41,7 @@ const loadFixtureData = (records, collectionName, valuesCallback) => {
 
 // loadFixtureData(tags, "Tag", tagsCallback);
 
-// // COMMUNITIES
+// SECTION: COMMUNITIES
 // const communities = getFixtureData(
 //   "/home/vijoin/Documents/Learning_Web3/DAOSuite/polybase_integration/data_fixtures/community.json"
 // );
@@ -49,7 +52,7 @@ const loadFixtureData = (records, collectionName, valuesCallback) => {
 
 // loadFixtureData(communities, "Community", communitiesCallback);
 
-// // CALENDARS
+// SECTION: CALENDARS
 // const calendars = getFixtureData(
 //   "/home/vijoin/Documents/Learning_Web3/DAOSuite/polybase_integration/data_fixtures/calendar.json"
 // );
@@ -60,7 +63,7 @@ const loadFixtureData = (records, collectionName, valuesCallback) => {
 
 // loadFixtureData(calendars, "Calendar", calendarCallback);
 
-// // EVENTS
+// SECTION: EVENTS
 // const events = getFixtureData(
 //   "/home/vijoin/Documents/Learning_Web3/DAOSuite/polybase_integration/data_fixtures/event.json"
 // );
@@ -99,7 +102,7 @@ const loadFixtureData = (records, collectionName, valuesCallback) => {
 
 // loadFixtureData(events, "Event", eventCallback);
 
-// // EVENT TAGS
+// SECTION: EVENT TAGS
 // const eventTags = getFixtureData(
 //   "/home/vijoin/Documents/Learning_Web3/DAOSuite/polybase_integration/data_fixtures/event_tag_rel.json"
 // );
@@ -114,21 +117,21 @@ const loadFixtureData = (records, collectionName, valuesCallback) => {
 
 // loadFixtureData(eventTags, "EventTagRel", eventTagsCallback);
 
-// // EVENT COMMUNITIES
-const eventCommunities = getFixtureData(
-  "/home/vijoin/Documents/Learning_Web3/DAOSuite/polybase_integration/data_fixtures/event_community_rel.json"
-);
+// SECTION: EVENT COMMUNITIES
+// const eventCommunities = getFixtureData(
+//   "/home/vijoin/Documents/Learning_Web3/DAOSuite/polybase_integration/data_fixtures/event_community_rel.json"
+// );
 
-const eventCommunitiesCallback = ({ id, event, community }) => {
-  return [
-    id,
-    db.collection("Event").record(event),
-    db.collection("Community").record(community),
-  ];
-};
+// const eventCommunitiesCallback = ({ id, event, community }) => {
+//   return [
+//     id,
+//     db.collection("Event").record(event),
+//     db.collection("Community").record(community),
+//   ];
+// };
 
-loadFixtureData(
-  eventCommunities,
-  "EventCommunityRel",
-  eventCommunitiesCallback
-);
+// loadFixtureData(
+//   eventCommunities,
+//   "EventCommunityRel",
+//   eventCommunitiesCallback
+// );

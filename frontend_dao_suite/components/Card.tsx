@@ -28,8 +28,8 @@ import {
 import CardDetails from "./CardDetails";
 import SheduleModal from "./modals/ScheduleModal";
 import { EventData } from "../types/types";
-import standardImage from "../assets/images/standard/calendar.jpg";
 import { useEffect, useState } from "react";
+
 type Props = {
   data: EventData;
 };
@@ -63,7 +63,7 @@ export default function CardEvent({ data }: Props) {
     return _data < 10 ? `0${_data}` : `${_data}`;
   };
   const handleImageError = () => {
-    setCardImage("/standard/calendar.jpg");
+    setCardImage("/nocover.png");
   };
   return (
     <>

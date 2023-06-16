@@ -8,13 +8,6 @@ const db = new Polybase({
   defaultNamespace: process.env.NAMESPACE,
 });
 
-db.signer((data) => {
-  return {
-    h: "eth-personal-sign",
-    sig: ethPersonalSign(process.env.PRIVATEKEY, data),
-  };
-});
-
 const getFixtureData = (collectionPath) => {
   let collectionData = readFileSync(collectionPath, "utf-8");
   return JSON.parse(collectionData);
@@ -29,6 +22,37 @@ const loadFixtureData = (records, collectionName, valuesCallback) => {
 
 // RECOMMENDATION
 // UNCOMMENT ONE SECTION AT A TIME. POLYBASE THROWS FALSE ERRORS
+
+// SECTION: USERS
+// db.signer((data) => {
+//   return {
+//     h: "eth-personal-sign",
+//     sig: ethPersonalSign(process.env.USER1_PRIVATEKEY, data),
+//   };
+// });
+
+// const users = [
+//   {
+//     id: "0x0fe3AbBef139D56025C6d44A3F8A70461b9E3B60",
+//     pvkey: "0x00IDEA00",
+//   },
+// ];
+
+// const userCallback = (record) => {
+//   return Object.values(record);
+// };
+
+// loadFixtureData(users, "User", userCallback);
+
+// DO NOT COMMENT THIS
+// THIS IS NORMALLY THE SIGNER
+// COMMENT IT ONLY IF YOUR GOING TO CREATE USERS
+db.signer((data) => {
+  return {
+    h: "eth-personal-sign",
+    sig: ethPersonalSign(process.env.PRIVATEKEY, data),
+  };
+});
 
 // SECTION: TAGS
 // const tags = getFixtureData(
@@ -57,8 +81,13 @@ const loadFixtureData = (records, collectionName, valuesCallback) => {
 //   "/home/vijoin/Documents/Learning_Web3/DAOSuite/polybase_integration/data_fixtures/calendar.json"
 // );
 
-// const calendarCallback = (record) => {
-//   return Object.values(record);
+// const calendarCallback = ({ id, name, owner, is_private }) => {
+//   return [
+//     id,
+//     db.collection("User").record(owner),
+//     name,
+//     is_private
+//   ];
 // };
 
 // loadFixtureData(calendars, "Calendar", calendarCallback);
@@ -134,4 +163,23 @@ const loadFixtureData = (records, collectionName, valuesCallback) => {
 //   eventCommunities,
 //   "EventCommunityRel",
 //   eventCommunitiesCallback
+// );
+
+// SECTION: SCHEDULED MY CALENDAR EVENTS
+// const scheduledCalendarEvents = getFixtureData(
+//   "/home/vijoin/Documents/Learning_Web3/DAOSuite/polybase_integration/data_fixtures/scheduled_calendar_event.json"
+// );
+
+// const scheduledCalendarEventCallback = ({ id, user, event }) => {
+//   return [
+//     id,
+//     db.collection("User").record(user),
+//     db.collection("Event").record(event),
+//   ];
+// };
+
+// loadFixtureData(
+//   scheduledCalendarEvents,
+//   "ScheduledCalendarEvent",
+//   scheduledCalendarEventCallback
 // );

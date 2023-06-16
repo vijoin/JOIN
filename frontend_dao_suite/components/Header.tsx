@@ -27,6 +27,7 @@ import { Auth } from "@polybase/auth";
 import { useEffect, useState } from "react";
 import Toggle from "./Toggle";
 import { BsBell, BsSearch } from "react-icons/bs";
+import { CalendarExists, CreateCalendar } from "../helpers/PolybaseData";
 
 export default function WithSubnavigation() {
   const [logged, setLogged] = useState(false);
@@ -43,6 +44,14 @@ export default function WithSubnavigation() {
       console.log(authState);
       if (authState?.userId) setLogged(true);
       localStorage.setItem("address", authState?.userId);
+
+      const cal = await CalendarExists(authState?.userId);
+      console.log(cal);
+      if(cal && cal.data.length <= 0) {
+        //crear calendario
+        const create = await CreateCalendar(authState?.userId, authState?.userId);
+        console.log(create);
+      }
     } catch (error) {
       console.log(error);
     }

@@ -29,10 +29,11 @@ import {
 import CardDetails from "./CardDetails";
 import SheduleModal from "./modals/ScheduleModal";
 import { EventData } from "../types/types";
-import { useEffect, useState } from "react";
-import { ReadTagsFromEvent } from "../helpers/PolybaseData";
+import { useContext, useEffect, useState } from "react";
+import { EditEvent, ReadTagsFromEvent } from "../helpers/PolybaseData";
 import { CollectionRecordResponse } from "@polybase/client/dist/Record";
 import { returnTagNames } from "../helpers/FetchData";
+import { EventsContext } from "../context/EventsContext";
 
 type Props = {
   event: CollectionRecordResponse<any, any>;
@@ -41,7 +42,9 @@ export default function CardEvent({ event }: Props) {
   const [cardImage, setCardImage] = useState("/standard/calendar.jpg");
   const [isLoadingImg, setIsLoadImg] = useState(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { tagFilters } = useContext(EventsContext);
   const [tags, setTags] = useState<string[]>([]);
+  const [norender, setNorender] = useState(false);
   useEffect(() => {
     if (event?.data.image && event?.data.image !== "")
       setCardImage(`https://ipfs.io/ipfs/${event?.data.image}`);
@@ -51,11 +54,21 @@ export default function CardEvent({ event }: Props) {
     try {
       const tags = await ReadTagsFromEvent(event.data.id);
       const tagsNames = await returnTagNames(tags.data);
+      console.log(tags.data);
       setTags(tagsNames);
+      if(tagFilters.isFiltered){
+        checkFilterTags(tags.data);
+      }
     } catch (error) {
       console.log(error);
     }
   };
+  const checkFilterTags = (data: any) => {
+    const filteredTags = data.filter((tag) => {
+      return tagFilters[tag.data.tag.id];
+    });
+    console.log(filteredTags);
+  }
   const getData = (unix: number) => {
     const timestampInMilliseconds = unix * 1000;
     const date = new Date(timestampInMilliseconds);
@@ -81,7 +94,14 @@ export default function CardEvent({ event }: Props) {
   const onImageLoad = () => {
     console.log("image loaded");
   };
-
+  const test = async () => {
+    try {
+      const testVar = await EditEvent('ssss');
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  if(norender) return;
   return (
     <>
       <Card
@@ -162,7 +182,7 @@ export default function CardEvent({ event }: Props) {
               {tags.map((tag, index) => {
                 return (
                   // eslint-disable-next-line react/jsx-key
-                  <WrapItem>
+                  <WrapItem key={index}>
                     <Badge
                       px={2}
                       bg="transparent"

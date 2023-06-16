@@ -46,7 +46,7 @@ export const FetchCollection = async (collection: string) => {
   try {
     const { data } = await db
       .collection(collection)
-      .sort('start_date_timestamp', 'asc')
+      .sort("start_date_timestamp", "asc")
       .get();
     const response = {
       data: data,
@@ -62,14 +62,12 @@ export const FetchCollection = async (collection: string) => {
   }
 };
 //Filtering Data
-export async function ShowAllEventsFromToday(
-  startDate: number,
-) {
+export async function ShowAllEventsFromToday(startDate: number) {
   try {
-    const {data} = await db
+    const { data } = await db
       .collection("Event")
       .where("start_date_timestamp", ">", startDate)
-      .sort('start_date_timestamp', 'asc')
+      .sort("start_date_timestamp", "asc")
       .get();
     console.log(data);
     return data;
@@ -82,41 +80,42 @@ export async function FilterEventsBetweenDates(
   endDate: number
 ) {
   try {
-    const {data} = await db
+    const { data } = await db
       .collection("Event")
       .where("start_date_timestamp", ">", startDate)
       .where("start_date_timestamp", "<", endDate)
-      .sort('start_date_timestamp', 'asc')
+      .sort("start_date_timestamp", "asc")
       .get();
     return data;
   } catch (error) {
     throw new Error(`Error filtering events: ${error}`);
   }
 }
+
 //Tags
 export const CreateTag = async (id: string, name: string) => {
   try {
   } catch (error) {}
 };
-export const ReadTagsFromEvent = async (eventId : string) => {
+export const ReadTagsFromEvent = async (eventId: string) => {
   try {
-    const response =  db
+    const response = db
       .collection("EventTagRel")
-      .where("event", '==', db.collection("Event").record(eventId))
-      .get()
+      .where("event", "==", db.collection("Event").record(eventId))
+      .get();
     return response;
   } catch (error) {
     throw new Error(`Error reading tags: ${error}`);
   }
-}
-export const FetchTagData = async (tagId : string) => {
+};
+export const FetchTagData = async (tagId: string) => {
   try {
     const { data } = await db.collection("Tag").record(tagId).get();
     return data.name;
   } catch (error) {
     throw new Error(`Error reading specific tag info: ${error}`);
   }
-}
+};
 //Events
 export const CreateEvent = async (
   id: string,
@@ -189,5 +188,37 @@ export const CreateUser = async (id: string, pvkey: string) => {
     return createUser;
   } catch (error) {
     console.log(error);
+  }
+};
+
+//Modify Event
+export const EditEvent = async (eventId: string) => {
+  try {
+    const editEvent = await db
+      .collection("Event")
+      .record(eventId)
+      .call("addTag", [db.collection("Tag").record("dao")]);
+    return editEvent;
+  } catch (error) {
+    throw new Error(`Error editing event: ${error}`);
+  }
+};
+//Calendar
+export const CalendarExists = async (id: string) => {
+  try {
+    const response = db.collection("Calendar").where("id", "==", id).get();
+    return response;
+  } catch (error) {
+    throw new Error(`Error reading tags: ${error}`);
+  }
+};
+export const CreateCalendar = (id: string, name: string) => {
+  try {
+    const response = db
+      .collection("Calendar")
+      .create([id, name]);
+    return response;
+  } catch (error) {
+    throw new Error(`Error reading tags: ${error}`);
   }
 };

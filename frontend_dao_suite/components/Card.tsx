@@ -49,7 +49,6 @@ export default function CardEvent({ event }: Props) {
     try {
       const tags = await ReadTagsFromEvent(event.data.id);
       const tagsNames = await returnTagNames(tags.data);
-      console.log(tags.data);
       setTags(tagsNames);
       if (tagFilters.isFiltered) {
         checkFilterTags(tags.data);
@@ -85,7 +84,7 @@ export default function CardEvent({ event }: Props) {
   const handleImageError = () => {
     setCardImage("/nocover.png");
   };
-  
+  //
   if (norender) return;
   return (
     <>

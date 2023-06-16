@@ -33,7 +33,6 @@ import { CollectionList } from "@polybase/client";
 export default function WithSubnavigation() {
   const [logged, setLogged] = useState(false);
   useEffect(() => {
-    console.log(localStorage.getItem("address"));
     if (localStorage.getItem("address")) setLogged(true);
   }, [logged]);
 
@@ -52,7 +51,6 @@ export default function WithSubnavigation() {
       if(cal && cal.data.length <= 0) {
         const create = await CreateCalendar(authState?.userId, authState?.userId);
         //const user = await CreateUser(authState?.userId, authState?.publicKey);
-        console.log(create);
       }
 
     } catch (error) {

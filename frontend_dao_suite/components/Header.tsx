@@ -23,11 +23,12 @@ import {
 import Image from "next/image";
 import logo from "../assets/images/logo.png";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { Auth } from "@polybase/auth";
+import { Auth, AuthState } from "@polybase/auth";
 import { useEffect, useState } from "react";
 import Toggle from "./Toggle";
 import { BsBell, BsSearch } from "react-icons/bs";
-import { CalendarExists, CreateCalendar } from "../helpers/PolybaseData";
+import { CalendarExists, CreateCalendar, CreateUser } from "../helpers/PolybaseData";
+import { CollectionList } from "@polybase/client";
 
 export default function WithSubnavigation() {
   const [logged, setLogged] = useState(false);
@@ -40,35 +41,35 @@ export default function WithSubnavigation() {
   const auth = typeof window !== "undefined" ? new Auth() : null;
   const login = async () => {
     try {
-      const authState = await auth.signIn();
-      console.log(authState);
-      if (authState?.userId) setLogged(true);
-      localStorage.setItem("address", authState?.userId);
+      const authState:AuthState|undefined|null = await auth?.signIn();
+      if (authState?.userId) {
+        setLogged(true);
+      } 
+      const address : string | null | undefined = authState ?  authState.userId : null;
+      localStorage.setItem("address", address ? address : 'null');
+      const cal : CollectionList<any> = await CalendarExists(authState?.userId);
 
-      const cal = await CalendarExists(authState?.userId);
-      console.log(cal);
       if(cal && cal.data.length <= 0) {
-        //crear calendario
         const create = await CreateCalendar(authState?.userId, authState?.userId);
+        //const user = await CreateUser(authState?.userId, authState?.publicKey);
         console.log(create);
       }
+
     } catch (error) {
       console.log(error);
     }
   };
   const logOut = async () => {
     try {
-      const out = await auth.signOut();
-      console.log(out);
+      const out = await auth?.signOut();
       setLogged(false);
       localStorage.clear();
     } catch (error) {
       console.log(error);
     }
   };
-  function trimAddress(address) {
+  function trimAddress(address : string | null) {
     if (!address) return "";
-  
     const trimmedAddress = address.substring(0, 6) + "..." + address.substring(address.length - 4);
     return trimmedAddress;
   }

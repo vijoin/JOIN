@@ -64,7 +64,7 @@ export default function CardEvent({ event }: Props) {
     }
   };
   const checkFilterTags = (data: any) => {
-    const filteredTags = data.filter((tag) => {
+    const filteredTags = data.filter((tag : any) => {
       return tagFilters[tag.data.tag.id];
     });
     console.log(filteredTags);

@@ -1,8 +1,6 @@
 import { Polybase } from "@polybase/client";
 import { Auth } from "@polybase/auth";
-import { EventData, Tag } from "../types/types";
-import { useCollection } from "@polybase/react";
-import { CollectionRecordResponse } from "@polybase/client/dist/Record";
+import { Tag } from "../types/types";
 
 const auth = typeof window !== "undefined" ? new Auth() : null;
 const db = new Polybase({
@@ -69,7 +67,6 @@ export async function ShowAllEventsFromToday(startDate: number) {
       .where("start_date_timestamp", ">", startDate)
       .sort("start_date_timestamp", "asc")
       .get();
-    console.log(data);
     return data;
   } catch (error) {
     throw new Error(`Error filtering events: ${error}`);
@@ -182,6 +179,14 @@ export const AddTagOnEvent = async (record: string, tag: Tag) => {
   }
 };
 //Users
+export const UserExists = async (address: string) => {
+  try {
+    const response = db.collection("User").where("id", "==", address).get();
+    return response;
+  } catch (error) {
+    throw new Error(`Error reading tags: ${error}`);
+  }
+};
 export const CreateUser = async (id: string, pvkey: string) => {
   try {
     const createUser = await db.collection("User").create([id, pvkey]);
@@ -204,35 +209,47 @@ export const EditEvent = async (eventId: string) => {
   }
 };
 //Calendar
-export const CalendarExists = async (id: string) => {
+export const CalendarExists = async (id: string | undefined | null ) => {
   try {
-    const response = db.collection("Calendar").where("id", "==", id).get();
-    return response;
+    if (id){
+      const response = db.collection("Calendar").where("id", "==", id).get();
+      return response;
+    } else {
+      throw new Error(`Error, Not valid id`);
+    }
   } catch (error) {
     throw new Error(`Error reading tags: ${error}`);
   }
 };
-export const CreateCalendar = (id: string, name: string) => {
+export const CreateCalendar = (id: string | null | undefined, name: string | null | undefined) => {
   try {
-    const response = db
-      .collection("Calendar")
-      .create([id, name]);
-    return response;
+    if(id && name){
+      const response = db
+        .collection("Calendar")
+        .create([id, name]);
+      return response;
+    } else {
+      throw new Error(`Error, Not valid id or name`);
+    }
   } catch (error) {
     throw new Error(`Error reading tags: ${error}`);
   }
 };
-export const AddReminder = async (id:string, eventId: string, dateReminder: number) => {
+export const AddReminder = async (id:string | null | undefined, eventId: string, dateReminder: number) => {
   try {
-    const response = db
-      .collection("ReminderEventSubscriber")
-      .create([
-        id, // Reminder id
-        'subscriberId', // Reminder subscriber
-        db.collection("Event").record(eventId), // Event
-        dateReminder, //timestamp reminder
-    ]);
-    return response;
+    if(id){
+      const response = db
+        .collection("ReminderEventSubscriber")
+        .create([
+          id, // Reminder id
+          'subscriberId', // Reminder subscriber
+          db.collection("Event").record(eventId), // Event
+          dateReminder, //timestamp reminder
+      ]);
+      return response;
+    } else {
+      throw new Error(`Error, Not valid id`);
+    }
   } catch (error) {
     throw new Error(`Error creating reminder: ${error}`);
   }

@@ -30,7 +30,6 @@ import { ReadTagsFromEvent } from "../helpers/PolybaseData";
 import { CollectionRecordResponse } from "@polybase/client/dist/Record";
 import { returnTagNames } from "../helpers/FetchData";
 import { EventsContext } from "../context/EventsContext";
-
 type Props = {
   event: CollectionRecordResponse<any, any>;
 };
@@ -47,12 +46,14 @@ export default function CardEvent({ event }: Props) {
   }, []);
   const readTags = async () => {
     try {
-      const tags = await ReadTagsFromEvent(event.data.id);
-      const tagsNames = await returnTagNames(tags.data);
-      setTags(tagsNames);
-      if (tagFilters.isFiltered) {
-        checkFilterTags(tags.data);
-      }
+      console.log('test');
+      
+      // const tags = await ReadTagsFromEvent(event.data.id);
+      // const tagsNames = await returnTagNames(tags.data);
+      // setTags(tagsNames);
+      // if (tagFilters.isFiltered) {
+      //   checkFilterTags(tags.data);
+      // }
     } catch (error) {
       console.log(error);
     }
@@ -188,7 +189,10 @@ export default function CardEvent({ event }: Props) {
             variant="primary"
             colorScheme="blue"
             w="100%"
-            onClick={readTags}
+            onClick={(event : any) => {
+              event.stopPropagation(); 
+              readTags(); 
+            }}
           >
             Schedule
           </Button>

@@ -56,7 +56,7 @@ export default function CardEvent({ event }: Props) {
       const tagsNames = await returnTagNames(tags.data);
       console.log(tags.data);
       setTags(tagsNames);
-      if(tagFilters.isFiltered){
+      if (tagFilters.isFiltered) {
         checkFilterTags(tags.data);
       }
     } catch (error) {
@@ -68,7 +68,7 @@ export default function CardEvent({ event }: Props) {
       return tagFilters[tag.data.tag.id];
     });
     console.log(filteredTags);
-  }
+  };
   const getData = (unix: number) => {
     const timestampInMilliseconds = unix * 1000;
     const date = new Date(timestampInMilliseconds);
@@ -81,7 +81,7 @@ export default function CardEvent({ event }: Props) {
     const fullYear = _date.getFullYear();
     const hours = _date.getHours();
     const minutes = _date.getMinutes();
-    return `${formatter(date)}/${formatter(month)}/${formatter(
+    return `${formatter(month)}/${formatter(date)}/${formatter(
       fullYear
     )} ${formatter(hours)}:${formatter(minutes)}`;
   };
@@ -96,12 +96,12 @@ export default function CardEvent({ event }: Props) {
   };
   const test = async () => {
     try {
-      const testVar = await EditEvent('ssss');
+      const testVar = await EditEvent("ssss");
     } catch (error) {
       console.log(error);
     }
-  }
-  if(norender) return;
+  };
+  if (norender) return;
   return (
     <>
       <Card
@@ -212,7 +212,12 @@ export default function CardEvent({ event }: Props) {
         </CardFooter>
       </Card>
       {isOpen && (
-        <SheduleModal onClose={onClose} onOpen={onOpen} isOpen={isOpen} />
+        <SheduleModal
+          onClose={onClose}
+          onOpen={onOpen}
+          isOpen={isOpen}
+          event={event}
+        />
       )}
     </>
   );

@@ -222,3 +222,18 @@ export const CreateCalendar = (id: string, name: string) => {
     throw new Error(`Error reading tags: ${error}`);
   }
 };
+export const AddReminder = async (id:string, eventId: string, dateReminder: number) => {
+  try {
+    const response = db
+      .collection("ReminderEventSubscriber")
+      .create([
+        id, // Reminder id
+        'subscriberId', // Reminder subscriber
+        db.collection("Event").record(eventId), // Event
+        dateReminder, //timestamp reminder
+    ]);
+    return response;
+  } catch (error) {
+    throw new Error(`Error creating reminder: ${error}`);
+  }
+}

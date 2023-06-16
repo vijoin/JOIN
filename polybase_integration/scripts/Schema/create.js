@@ -90,7 +90,6 @@ collection Event {
     description: string,
     image: string,
     location: string,
-    location: string,
     platform: string,
     language: string,
     url: string,

@@ -3,7 +3,6 @@ import {
   Text,
   Image,
   Heading,
-  ButtonGroup,
   Button,
   Badge,
   Icon,
@@ -17,7 +16,6 @@ import {
   useColorModeValue,
   WrapItem,
   Link,
-  Skeleton,
 } from "@chakra-ui/react";
 import {
   FaTwitter,
@@ -26,11 +24,9 @@ import {
   FaShareAlt,
   FaMapMarkerAlt,
 } from "react-icons/fa";
-import CardDetails from "./CardDetails";
 import SheduleModal from "./modals/ScheduleModal";
-import { EventData } from "../types/types";
 import { useContext, useEffect, useState } from "react";
-import { EditEvent, ReadTagsFromEvent } from "../helpers/PolybaseData";
+import { ReadTagsFromEvent } from "../helpers/PolybaseData";
 import { CollectionRecordResponse } from "@polybase/client/dist/Record";
 import { returnTagNames } from "../helpers/FetchData";
 import { EventsContext } from "../context/EventsContext";
@@ -40,7 +36,6 @@ type Props = {
 };
 export default function CardEvent({ event }: Props) {
   const [cardImage, setCardImage] = useState("/standard/calendar.jpg");
-  const [isLoadingImg, setIsLoadImg] = useState(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { tagFilters } = useContext(EventsContext);
   const [tags, setTags] = useState<string[]>([]);
@@ -67,7 +62,6 @@ export default function CardEvent({ event }: Props) {
     const filteredTags = data.filter((tag : any) => {
       return tagFilters[tag.data.tag.id];
     });
-    console.log(filteredTags);
   };
   const getData = (unix: number) => {
     const timestampInMilliseconds = unix * 1000;
@@ -91,16 +85,7 @@ export default function CardEvent({ event }: Props) {
   const handleImageError = () => {
     setCardImage("/nocover.png");
   };
-  const onImageLoad = () => {
-    console.log("image loaded");
-  };
-  const test = async () => {
-    try {
-      const testVar = await EditEvent("ssss");
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  
   if (norender) return;
   return (
     <>
@@ -121,7 +106,6 @@ export default function CardEvent({ event }: Props) {
           maxW="100%"
           objectFit="cover"
           onError={handleImageError}
-          onLoad={onImageLoad}
         />
         <Box pos="absolute" top="3" right="3">
           <IconButton

@@ -33,6 +33,7 @@ import Image from "next/image";
 
 const Home: NextPage = () => {
   const [events, setEvents] = useState<EventResponse["data"]>([]);
+  const [isLogged, setIsLogged] = useState(false);
   const [tagFilters, setTagFilters] = useState({
     conference: false,
     hackaton: false,
@@ -57,7 +58,7 @@ const Home: NextPage = () => {
     //filterThisWeek();
     readallEvents();
   }, []);
-  
+
   //Filtering
   const filterTime = async (start: number, end: number) => {
     try {
@@ -141,7 +142,16 @@ const Home: NextPage = () => {
   };
   return (
     <div className={styles.container}>
-      <EventsContext.Provider value={{events, setEvents, tagFilters, setTagFilters}} >
+      <EventsContext.Provider
+        value={{
+          events,
+          setEvents,
+          tagFilters,
+          setTagFilters,
+          isLogged,
+          setIsLogged,
+        }}
+      >
         <PageLayout title="Home" footer={true}>
           <Carousel />
           <HStack align="center">
@@ -149,7 +159,10 @@ const Home: NextPage = () => {
               fontSize={"2xl"}
               fontWeight="medium"
               my={4}
-              color={useColorModeValue("neutrals.gray.300", "neutrals.gray.100")}
+              color={useColorModeValue(
+                "neutrals.gray.300",
+                "neutrals.gray.100"
+              )}
             >
               Trending events
             </Text>
@@ -168,13 +181,17 @@ const Home: NextPage = () => {
               </button>
               <button
                 onClick={filterThisWeek}
-                style={{ fontWeight: buttonClicked.thisWeek ? "bold" : "normal" }}
+                style={{
+                  fontWeight: buttonClicked.thisWeek ? "bold" : "normal",
+                }}
               >
                 {"This week"}
               </button>
               <button
                 onClick={filterThisWeekend}
-                style={{ fontWeight: buttonClicked.weekend ? "bold" : "normal" }}
+                style={{
+                  fontWeight: buttonClicked.weekend ? "bold" : "normal",
+                }}
               >
                 {"This weekend"}
               </button>
@@ -197,9 +214,11 @@ const Home: NextPage = () => {
           ) : (
             <SimpleGrid minChildWidth="280px" spacing="20px">
               {events.length > 0 ? (
-                events.map((item: CollectionRecordResponse<any, any>, index: number) => (
-                  <Card event={item} key={index} />
-                ))
+                events.map(
+                  (item: CollectionRecordResponse<any, any>, index: number) => (
+                    <Card event={item} key={index} />
+                  )
+                )
               ) : (
                 <Flex
                   textAlign="center"

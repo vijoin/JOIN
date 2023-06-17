@@ -169,7 +169,7 @@ export const SidebarFilters = ({}) => {
           fontWeight={"normal"}
         >
           {" "}
-          Welcome, Sebas 👋
+          Welcome 👋
         </Text>
         <VStack justifyContent={"space-between"} align={"start"} gap={6}>
           <VStack align={"start"}>

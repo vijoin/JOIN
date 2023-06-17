@@ -25,9 +25,7 @@ const getReminders = async (currentTimestamp) => {
     .get();
   return data;
 };
-
 // const tmpData = await getReminders(moment(Date.now()).unix());
-
 const sendNotification = async (reminder) => {
   // const sendNotification = async (reminder) => {
   console.log("Sending notification...");

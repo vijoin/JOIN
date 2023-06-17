@@ -162,6 +162,7 @@ const Home: NextPage = () => {
                 "neutrals.gray.300",
                 "neutrals.gray.100"
               )}
+              style={{marginRight: 50}}
             >
               Trending events
             </Text>

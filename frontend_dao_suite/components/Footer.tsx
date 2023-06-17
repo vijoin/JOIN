@@ -64,7 +64,7 @@ export default function Footer() {
       src={logoSrc}
       width={80}
       height={80} />
-        <Text color={useColorModeValue("neutrals.gray.200", "neutrals.gray.200")}>© 2022 Chakra Templates. All rights reserved</Text>
+        <Text color={useColorModeValue("neutrals.gray.200", "neutrals.gray.200")}>© 2023 Made By Angela, Gitmel, Victor, Piña & Sebas with 💙</Text>
         <Stack direction={'row'} spacing={6}>
           <SocialButton label={'Twitter'} href={'#'}>
             <FaTwitter />

@@ -14,3 +14,14 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.fc .fc-button-primary{
+  background-color: #695eff !important;
+  border-radius: 50px;
+  border: none;
+  text-transform: capitalize;
+}
+
+.fc .fc-daygrid-day.fc-day-today {
+  background-color: #F4F7FE;
+}

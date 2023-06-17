@@ -6,10 +6,12 @@ import {
   Text,
   useColorModeValue,
   VisuallyHidden,
+  useColorMode
 } from '@chakra-ui/react';
 import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 import { ReactNode } from 'react';
-import logo from "../assets/images/logo.png";
+import logoLight from "../assets/images/logo.png";
+import logoDark from "../assets/images/logo_dark.png";
 import Image from "next/image";
 
 const SocialButton = ({
@@ -44,9 +46,11 @@ const SocialButton = ({
 };
 
 export default function Footer() {
+  const { colorMode } = useColorMode();
+  const logoSrc = colorMode === "dark" ? logoDark : logoLight;
   return (
     <Box
-      bg={useColorModeValue('gray.50', 'gray.900')}
+      bg={useColorModeValue('white', 'neutrals.gray.400')}
       color={useColorModeValue('gray.700', 'gray.200')}>
       <Container
         as={Stack}
@@ -56,8 +60,11 @@ export default function Footer() {
         spacing={4}
         justify={{ base: 'center', md: 'space-between' }}
         align={{ base: 'center', md: 'center' }}>
-        <Image alt="StratEx" src={logo} width={48} height={48} />
-        <Text>© 2022 Chakra Templates. All rights reserved</Text>
+       <Image alt="StratEx"
+      src={logoSrc}
+      width={80}
+      height={80} />
+        <Text color={useColorModeValue("neutrals.gray.200", "neutrals.gray.200")}>© 2022 Chakra Templates. All rights reserved</Text>
         <Stack direction={'row'} spacing={6}>
           <SocialButton label={'Twitter'} href={'#'}>
             <FaTwitter />

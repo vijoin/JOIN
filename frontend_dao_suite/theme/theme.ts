@@ -1,4 +1,10 @@
-import { extendTheme, type ThemeConfig } from '@chakra-ui/react'
+import { extendTheme, type ThemeConfig } from '@chakra-ui/react';
+import { checkboxTheme } from "../components/Checkbox";
+
+
+import {
+  useColorModeValue,
+} from "@chakra-ui/react";
 
 const config: ThemeConfig = {
   initialColorMode: 'dark',
@@ -115,7 +121,6 @@ const theme = extendTheme({
           fontWeight:"normal",
           border:"1px",
           _hover: {
-            bg: "white",
             shadow: "md",
             transitionDuration: "0.2s",
             color: "brand.primary.default",
@@ -127,6 +132,8 @@ const theme = extendTheme({
         },
       },
     },
+    Checkbox: checkboxTheme,
+
   },
  })
 

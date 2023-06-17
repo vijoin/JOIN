@@ -3,7 +3,6 @@ import {
   Text,
   Image,
   Heading,
-  ButtonGroup,
   Button,
   Badge,
   Icon,
@@ -11,8 +10,10 @@ import {
   CardBody,
   CardFooter,
   useDisclosure,
+  IconButton,
   Box,
   Wrap,
+  useColorModeValue,
   WrapItem,
   Link,
 } from "@chakra-ui/react";
@@ -20,24 +21,52 @@ import {
   FaTwitter,
   FaYoutube,
   FaTwitch,
-  FaMeetup,
-  FaPeopleArrows,
+  FaShareAlt,
+  FaMapMarkerAlt,
 } from "react-icons/fa";
-import CardDetails from "./CardDetails";
-import { EventData } from "../types/types";
-import standardImage from "../assets/images/standard/calendar.jpg";
-import { useEffect, useState } from "react";
+import SheduleModal from "./modals/ScheduleModal";
+import { useContext, useEffect, useState } from "react";
+import { ReadTagsFromEvent } from "../helpers/PolybaseData";
+import { CollectionRecordResponse } from "@polybase/client/dist/Record";
+import { returnTagNames } from "../helpers/FetchData";
+import { EventsContext } from "../context/EventsContext";
+import CardDetails from "./modals/CardDetails";
+import ScheduleModal from "./modals/ScheduleModal";
 type Props = {
-  data: EventData;
+  event: CollectionRecordResponse<any, any>;
 };
-export default function CardEvent({ data }: Props) {
+export default function CardEvent({ event }: Props) {
   const [cardImage, setCardImage] = useState("/standard/calendar.jpg");
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { tagFilters } = useContext(EventsContext);
+  const [tags, setTags] = useState<string[]>([]);
+  const [norender, setNorender] = useState(false);
+  const [details, setDetails] = useState(false);
+  let bg = useColorModeValue("white", "neutrals.gray.400");
   useEffect(() => {
-    if (data.image && data.image !== "")
-      setCardImage(`https://ipfs.io/ipfs/${data.image}`);
-  }, [data]);
+    if (event?.data.image && event?.data.image !== "")
+      setCardImage(`https://ipfs.io/ipfs/${event?.data.image}`);
+    readTags();
+  }, []);
+  const readTags = async () => {
+    try {
+      console.log("test");
 
+      // const tags = await ReadTagsFromEvent(event.data.id);
+      // const tagsNames = await returnTagNames(tags.data);
+      // setTags(tagsNames);
+      // if (tagFilters.isFiltered) {
+      //   checkFilterTags(tags.data);
+      // }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const checkFilterTags = (data: any) => {
+    const filteredTags = data.filter((tag: any) => {
+      return tagFilters[tag.data.tag.id];
+    });
+  };
   const getData = (unix: number) => {
     const timestampInMilliseconds = unix * 1000;
     const date = new Date(timestampInMilliseconds);
@@ -50,7 +79,7 @@ export default function CardEvent({ data }: Props) {
     const fullYear = _date.getFullYear();
     const hours = _date.getHours();
     const minutes = _date.getMinutes();
-    return `${formatter(date)}/${formatter(month)}/${formatter(
+    return `${formatter(month)}/${formatter(date)}/${formatter(
       fullYear
     )} ${formatter(hours)}:${formatter(minutes)}`;
   };
@@ -58,15 +87,20 @@ export default function CardEvent({ data }: Props) {
     return _data < 10 ? `0${_data}` : `${_data}`;
   };
   const handleImageError = () => {
-    setCardImage("/standard/calendar.jpg");
+    setCardImage("/nocover.png");
   };
+  const onSchedule = () => {
+    setDetails(false);
+    onOpen();
+  };
+  if (norender) return;
   return (
     <>
       <Card
         maxW="sm"
-        borderRadius="2xl"
-        mt="2"
-        onClick={onOpen}
+        borderRadius="3xl"
+        onClick={() => setDetails(true)}
+        bg={bg}
         css={{
           cursor: "pointer",
         }}
@@ -74,20 +108,30 @@ export default function CardEvent({ data }: Props) {
         <Image
           src={cardImage}
           alt="Event Image"
-          borderTopRadius="2xl"
+          borderTopRadius="3xl"
           maxH="200px"
           maxW="100%"
           objectFit="cover"
           onError={handleImageError}
         />
-        <CardBody>
-          <Stack mt="2" spacing="1">
-            <Text>{getData(data.start_date_timestamp)}</Text>
+        <Box pos="absolute" top="3" right="3">
+          <IconButton
+            aria-label="Search database"
+            borderRadius={"3xl"}
+            color="brand.primary.default"
+            icon={<FaShareAlt />}
+          />
+        </Box>
+        <CardBody py={3} px={5}>
+          <Stack spacing="1">
+            <Text color="neutrals.gray.100" fontWeight="semibold" fontSize="sm">
+              {getData(event?.data.start_date_timestamp)}
+            </Text>
             <Heading
-              height="2.5em"
               size="md"
               as="h2"
-              maxH="3em"
+              color="brand.primary.default"
+              textTransform="capitalize"
               overflow="hidden"
               textOverflow="ellipsis"
               css={{
@@ -96,56 +140,84 @@ export default function CardEvent({ data }: Props) {
                 WebkitLineClamp: 2,
               }}
             >
-              {data.name}
+              {event?.data.name}
             </Heading>
             <Stack direction="row" align="center">
-              {data.is_online ? (
+              {event?.data.platform.toLowerCase() === "twitter" ? (
+                <Icon as={FaTwitter} color="neutrals.gray.200" />
+              ) : event?.data.platform.toLowerCase() === "twitch" ? (
+                <Icon as={FaTwitch} color="neutrals.gray.200" />
+              ) : event?.data.platform.toLowerCase() === "youtube" ? (
+                <Icon as={FaYoutube} color="neutrals.gray.200" />
+              ) : (
+                <Icon as={FaMapMarkerAlt} color="neutrals.gray.200" />
+              )}
+              {event?.data.is_online ? (
                 <Link
-                  href={data.url}
+                  href={event?.data.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={(ev) => ev.stopPropagation()}
                 >
-                  <Text style={{ color: "gray" }}>{data.platform}</Text>
+                  <Text fontWeight="normal" color="neutrals.gray.200">
+                    {event?.data.platform}
+                  </Text>
                 </Link>
               ) : (
-                <Text>{data.location}</Text>
-              )}
-              {data.platform.toLowerCase() === "twitter" ? (
-                <Icon as={FaTwitter} />
-              ) : data.platform.toLowerCase() === "twitch" ? (
-                <Icon as={FaTwitch} />
-              ) : data.platform.toLowerCase() === "youtube" ? (
-                <Icon as={FaYoutube} />
-              ) : (
-                <Icon as={FaPeopleArrows} />
+                <Text fontWeight="normal" color="neutrals.gray.200">
+                  {event?.data.location}
+                </Text>
               )}
             </Stack>
-            <Wrap>
-              {data.tags.map((tag, index) => {
+            <Wrap mt={2}>
+              {tags.map((tag, index) => {
                 return (
-                  <WrapItem>
-                    <Badge variant="outline">{tag.id}</Badge>
+                  // eslint-disable-next-line react/jsx-key
+                  <WrapItem key={index}>
+                    <Badge
+                      px={2}
+                      bg="transparent"
+                      border="1px"
+                      color="neutrals.gray.200"
+                      borderColor="neutrals.light.300"
+                      borderRadius={"xl"}
+                      fontWeight="medium"
+                    >
+                      {tag}
+                    </Badge>
                   </WrapItem>
                 );
               })}
             </Wrap>
           </Stack>
         </CardBody>
-        <CardFooter>
-          <ButtonGroup spacing="2" width="100%">
-            <Button variant="solid" colorScheme="blue" w="100%">
-              Schedule
-            </Button>
-            <Button variant="ghost" colorScheme="blue">
-              Share
-            </Button>
-          </ButtonGroup>
+        <CardFooter pt={1}>
+          <Button
+            variant="primary"
+            colorScheme="blue"
+            w="100%"
+            onClick={(event: any) => {
+              event.stopPropagation();
+              onOpen();
+            }}
+          >
+            Schedule
+          </Button>
         </CardFooter>
       </Card>
-      {isOpen && (
-        <CardDetails onClose={onClose} onOpen={onOpen} isOpen={isOpen} />
-      )}{" "}
+      {isOpen &&<SheduleModal
+        onClose={onClose}
+        onOpen={onOpen}
+        isOpen={isOpen}
+        event={event}
+      />}
+      {details && <CardDetails
+        onClose={() => setDetails(false)}
+        onOpen={() => setDetails(true)}
+        isOpen={details}
+        event={event}
+        onSchedule={onSchedule}
+      />}
     </>
   );
 }

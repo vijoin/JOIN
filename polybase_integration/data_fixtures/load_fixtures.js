@@ -23,6 +23,7 @@ const loadFixtureData = (records, collectionName, valuesCallback) => {
 // RECOMMENDATION
 // UNCOMMENT ONE SECTION AT A TIME. POLYBASE THROWS FALSE ERRORS
 
+
 // SECTION: USERS
 // db.signer((data) => {
 //   return {
@@ -80,6 +81,7 @@ db.signer((data) => {
 // const calendars = getFixtureData(
 //   "/home/vijoin/Documents/Learning_Web3/DAOSuite/polybase_integration/data_fixtures/calendar.json"
 // );
+
 
 // const calendarCallback = ({ id, name, owner, is_private }) => {
 //   return [

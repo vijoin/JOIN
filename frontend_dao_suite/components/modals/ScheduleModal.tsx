@@ -211,7 +211,7 @@ export default function ScheduleModal({
         <Modal isOpen={isOpen} onClose={onCloseModal} isCentered>
           <ModalOverlay />
           {resultScreen ? (
-            <ModalContent bg={useColorModeValue("white", "neutrals.gray.400")}>
+            <ModalContent bg="white" _dark={{bg: "neutrals.gray.400"}} >
               <ModalCloseButton />
               <ModalBody>
                 <Grid mt="2" templateColumns="repeat(5, 1fr)">
@@ -271,6 +271,7 @@ export default function ScheduleModal({
                     </Heading>
                     {results.map((result) => {
                       return (
+                        // eslint-disable-next-line react/jsx-key
                         <Badge ml="1" colorScheme="blue">
                           {GetDataFormatted(result.data.timestamp)}
                         </Badge>
@@ -294,7 +295,7 @@ export default function ScheduleModal({
               </ModalFooter>
             </ModalContent>
           ) : (
-            <ModalContent bg={useColorModeValue("white", "neutrals.gray.400")}>
+            <ModalContent  bg="white" _dark={{bg: "neutrals.gray.400"}}>
               <ModalCloseButton />
               <ModalBody>
                 {createUser ? (

@@ -8,11 +8,11 @@ async function main() {
         
     })
 
-    const name = 'Hash Fest'
-    const event = '10'
+    const name = 'EVENT_NAME'
+    const event = 'EVENT_NUMBER'
     const metadata = await client.store({
         name: name,
-        description:'HashFest, el festival definitivo para los amantes de la música, el arte y blockchain en Medellín! Nuestro festival ofrece actuaciones musicales en vivo de artistas locales e internacionales, creando una atmósfera única que celebra la rica herencia musical de Medellín. Además, podrás disfrutar de charlas y talleres interesantes sobre tecnología, arte digital y blockchain, incluyendo contratos inteligentes, NFTs y aplicaciones descentralizadas.  Únete a nosotros en HashFest y descubre cómo Medellín lidera la fusión de cultura y tecnología.',
+        description:'EVENT_DESCRIPTION',
         image: new File([
             fs.readFileSync('/mnt/c/Users/rey_g/Downloads/Blockchain/DAOSuite/polybase_integration/event_images/image_event'+event+'.jpg')
         ],

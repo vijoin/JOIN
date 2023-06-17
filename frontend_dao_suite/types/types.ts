@@ -26,3 +26,7 @@ export interface EventResponse {
   data : any;
   error : any;
 }
+export enum Language {
+  English = "English",
+  Spanish = "Spanish",
+}

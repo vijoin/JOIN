@@ -1,7 +1,7 @@
-import { Polybase } from "@polybase/client";
+import { CollectionRecordResponse, Polybase } from "@polybase/client";
 import { Auth } from "@polybase/auth";
-import { EventData, Tag } from "../types/types";
-import { useCollection } from "@polybase/react";
+import { Tag } from "../types/types";
+import { nanoid } from "nanoid";
 
 const auth = typeof window !== "undefined" ? new Auth() : null;
 const db = new Polybase({
@@ -43,7 +43,10 @@ export const FetchKeyCollection = async (
 };
 export const FetchCollection = async (collection: string) => {
   try {
-    const { data } = await db.collection(collection).get();
+    const { data } = await db
+      .collection(collection)
+      .sort("start_date_timestamp", "asc")
+      .get();
     const response = {
       data: data,
       error: null,
@@ -58,39 +61,58 @@ export const FetchCollection = async (collection: string) => {
   }
 };
 //Filtering Data
+export async function ShowAllEventsFromToday(startDate: number) {
+  try {
+    const { data } = await db
+      .collection("Event")
+      .where("start_date_timestamp", ">", startDate)
+      .sort("start_date_timestamp", "asc")
+      .get();
+    return data;
+  } catch (error) {
+    throw new Error(`Error filtering events: ${error}`);
+  }
+}
 export async function FilterEventsBetweenDates(
   startDate: number,
   endDate: number
 ) {
   try {
-    const startQuery = db
+    const { data } = await db
       .collection("Event")
       .where("start_date_timestamp", ">", startDate)
-      .get();
-
-    const endQuery = db
-      .collection("Event")
       .where("start_date_timestamp", "<", endDate)
+      .sort("start_date_timestamp", "asc")
       .get();
-
-    const [startSnapshot, endSnapshot] = await Promise.all([
-      startQuery,
-      endQuery,
-    ]);
-    const startEvents = startSnapshot.data;
-    const endEvents = endSnapshot.data;
-    const filteredEvents = startEvents.filter((event) =>
-      endEvents.some((endEvent) => endEvent.data.id === event.data.id)
-    );
-    return filteredEvents;
+    return data;
   } catch (error) {
     throw new Error(`Error filtering events: ${error}`);
   }
 }
+
 //Tags
 export const CreateTag = async (id: string, name: string) => {
   try {
   } catch (error) {}
+};
+export const ReadTagsFromEvent = async (eventId: string) => {
+  try {
+    const response = db
+      .collection("EventTagRel")
+      .where("event", "==", db.collection("Event").record(eventId))
+      .get();
+    return response;
+  } catch (error) {
+    throw new Error(`Error reading tags: ${error}`);
+  }
+};
+export const FetchTagData = async (tagId: string) => {
+  try {
+    const { data } = await db.collection("Tag").record(tagId).get();
+    return data.name;
+  } catch (error) {
+    throw new Error(`Error reading specific tag info: ${error}`);
+  }
 };
 //Events
 export const CreateEvent = async (
@@ -158,11 +180,98 @@ export const AddTagOnEvent = async (record: string, tag: Tag) => {
   }
 };
 //Users
-export const CreateUser = async (id: string, pvkey: string) => {
+export const UserExists = async (address: string | undefined | null) => {
   try {
-    const createUser = await db.collection("User").create([id, pvkey]);
-    return createUser;
+    if (address) {
+      const response = db.collection("User").where("id", "==", address).get();
+      return response;
+    } else {
+      throw new Error(`Error reading users`);
+    }
+  } catch (error) {
+    throw new Error(`Error reading tags: ${error}`);
+  }
+};
+export const CreateUser = async (
+  id: string | undefined | null,
+  pvkey: string | undefined | null
+) => {
+  try {
+    if (id && pvkey) {
+      const createUser = await db.collection("User").create([id, pvkey]);
+      return createUser;
+    } else {
+      throw new Error("Error creating user");
+    }
   } catch (error) {
     console.log(error);
+  }
+};
+
+//Modify Event
+export const EditEvent = async (eventId: string) => {
+  try {
+    const editEvent = await db
+      .collection("Event")
+      .record(eventId)
+      .call("addTag", [db.collection("Tag").record("dao")]);
+    return editEvent;
+  } catch (error) {
+    throw new Error(`Error editing event: ${error}`);
+  }
+};
+//Calendar
+export const CalendarExists = async (id: string | undefined | null) => {
+  try {
+    if (id) {
+      const response = db.collection("Calendar").where("id", "==", id).get();
+      return response;
+    } else {
+      throw new Error(`Error, Not valid id`);
+    }
+  } catch (error) {
+    throw new Error(`Error reading tags: ${error}`);
+  }
+};
+export const CreateCalendar = (
+  id: string | null | undefined,
+  name: string | null | undefined
+) => {
+  try {
+    if (id && name) {
+      const response = db.collection("Calendar").create([id, name]);
+      return response;
+    } else {
+      throw new Error(`Error, Not valid id or name`);
+    }
+  } catch (error) {
+    throw new Error(`Error reading tags: ${error}`);
+  }
+};
+export const AddReminder = async (
+  eventId: string,
+  //dateReminder: number,
+  timeStamps: number[],
+  subscriber: string | null,
+) => {
+  try {
+    if (subscriber){
+      let resp: CollectionRecordResponse<any, any>[] = [];
+      for (const timeStamp of timeStamps) {
+        const response = await db
+          .collection("ReminderEventSubscriber")
+          .create([
+            nanoid(),
+            subscriber,
+            db.collection("Event").record(eventId), 
+            timeStamp]);
+        resp.push(response);
+      }
+      return resp;
+    } else {
+      throw new Error(`Error subscriber value`);
+    }
+  } catch (error) {
+    throw new Error(`Error creating reminder: ${error}`);
   }
 };

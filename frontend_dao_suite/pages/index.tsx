@@ -1,111 +1,228 @@
 import { useEffect, useState } from "react";
 import type { NextPage } from "next";
-//styles
 import styles from "../styles/Home.module.css";
-import { Grid, GridItem, SimpleGrid } from "@chakra-ui/react";
-// components
+import {
+  Text,
+  HStack,
+  SimpleGrid,
+  Flex,
+  useColorModeValue,
+  Box,
+  SkeletonText,
+  SkeletonCircle,
+} from "@chakra-ui/react";
 import PageLayout from "../layouts/PageLayout";
-import { SidebarFilters } from "../components/Sidebar";
 import Card from "../components/Card";
 import {
-  AddTagOnEvent,
-  CreateEvent,
   FetchCollection,
   FilterEventsBetweenDates,
-  Platform,
+  ShowAllEventsFromToday,
 } from "../helpers/PolybaseData";
-import { Tag, EventResponse } from "../types/types";
-import moment from "moment";
-import { nanoid } from "nanoid";
+import { EventResponse } from "../types/types";
+import { Carousel } from "../components/Carousel";
+import { EventsContext } from "../context/EventsContext";
+import { CollectionRecordResponse } from "@polybase/client/dist/Record";
+import { startOfDay } from "@fullcalendar/core/internal";
+import gasper from "../assets/images/gasper.png";
 import {
   getUnixTimestampsForThisWeek,
   getUnixTimestampsForToday,
   getUnixTimestampsForWeekend,
 } from "../helpers/DateData";
-import { Carousel } from "../components/Carousel";
+import Image from "next/image";
 
 const Home: NextPage = () => {
   const [events, setEvents] = useState<EventResponse["data"]>([]);
+  const [tagFilters, setTagFilters] = useState({
+    conference: false,
+    hackaton: false,
+    meetUp: false,
+    asia: false,
+    latam: false,
+    europe: false,
+    ethereum: false,
+    polygon: false,
+    bitcoin: false,
+    isFiltered: false,
+    workshop: false,
+  });
+  const [loading, setLoading] = useState(false);
+  const [buttonClicked, setButtonClicked] = useState({
+    all: false,
+    today: false,
+    thisWeek: true,
+    weekend: false,
+  });
   useEffect(() => {
-    readEvent();
+    //filterThisWeek();
+    readallEvents();
   }, []);
-  const readEvent = async () => {
-    const eventsRes = await FetchCollection("Event");
-    setEvents(eventsRes.data);
-  };
-  const createEventManual = async () => {
-    const tags: Tag[] = [
-      { id: "dao", name: "DAO" },
-      { id: "defi", name: "DeFi" },
-    ];
-    try {
-      const startDate = new Date();
-      const endDate = new Date();
-      startDate.setMonth(startDate.getMonth() + 1);
-      endDate.setMonth(endDate.getMonth() + 2);
-      endDate.setDate(endDate.getDate() + 3);
-      const name = "event 007";
-      const newEvent = await CreateEvent(
-        nanoid(),
-        "calendar001",
-        name,
-        "this is a basic description of the event",
-        "QmR8h1s4cyNJELt1MBeyVJUgArDLNvseeiXAwtLicWDQvg",
-        "Dash House California",
-        Platform.Twitter,
-        "https://twitter.com/marketersweb3/status/1665810617704259584?s=20",
-        true,
-        moment(startDate).unix(),
-        moment(endDate).unix(),
-        moment().unix(),
-        tags
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const addTag = async () => {
-    try {
-      const tag: Tag = {
-        id: "dao",
-        name: "DAO",
-      };
-      const ans = await AddTagOnEvent("gjYYD5IiM8zAjInMrchna", tag);
-    } catch (error) {}
-  };
+  
   //Filtering
   const filterTime = async (start: number, end: number) => {
     try {
+      setLoading(true);
       const filtered = await FilterEventsBetweenDates(start, end);
       setEvents(filtered);
+      //if (filtered.length <= 0) readallEvents();
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
+  };
+  const readallEvents = async () => {
+    const [startOfDayUnix] = getUnixTimestampsForToday();
+    const eventsRes = await ShowAllEventsFromToday(1674066800);
+    setEvents(eventsRes);
+    setButtonWeight(0);
   };
   const filterToday = () => {
     const [startOfDayUnix, endOfDayUnix] = getUnixTimestampsForToday();
     filterTime(startOfDayUnix, endOfDayUnix);
+    setButtonWeight(1);
   };
   const filterThisWeek = () => {
-    const [startOfWeekUnix, endOfWeekUnix] = getUnixTimestampsForThisWeek();
-    filterTime(startOfWeekUnix, endOfWeekUnix);
+    const [startOfDayUnix] = getUnixTimestampsForToday();
+    const [endOfWeekUnix] = getUnixTimestampsForThisWeek();
+    filterTime(startOfDayUnix, endOfWeekUnix);
+    setButtonWeight(2);
   };
   const filterThisWeekend = () => {
+    const [startOfDayUnix] = getUnixTimestampsForToday();
     const [startOfWeekendUnix, endOfWeekendUnix] =
       getUnixTimestampsForWeekend();
-    filterTime(startOfWeekendUnix, endOfWeekendUnix);
+    filterTime(
+      startOfDayUnix > startOfWeekendUnix ? startOfDayUnix : startOfWeekendUnix,
+      endOfWeekendUnix
+    );
+    setButtonWeight(3);
+  };
+  const setButtonWeight = (index: number) => {
+    switch (index) {
+      case 0:
+        setButtonClicked({
+          ...buttonClicked,
+          all: true,
+          today: false,
+          thisWeek: false,
+          weekend: false,
+        });
+        break;
+      case 1:
+        setButtonClicked({
+          ...buttonClicked,
+          all: false,
+          today: true,
+          thisWeek: false,
+          weekend: false,
+        });
+        break;
+      case 2:
+        setButtonClicked({
+          ...buttonClicked,
+          all: false,
+          today: false,
+          thisWeek: true,
+          weekend: false,
+        });
+        break;
+      case 3:
+        setButtonClicked({
+          ...buttonClicked,
+          all: false,
+          today: false,
+          thisWeek: false,
+          weekend: true,
+        });
+        break;
+      default:
+        break;
+    }
   };
   return (
     <div className={styles.container}>
-      <PageLayout title="Home" footer={true}>
-        {/* <Hero /> */}
-        <Carousel />
-        <SimpleGrid minChildWidth="300px" spacing="20px">
-          {events.map((item: EventResponse["data"], index: number) => {
-            return <Card data={item.data} key={index} />;
-          })}
-        </SimpleGrid>
-      </PageLayout>
+      <EventsContext.Provider value={{events, setEvents, tagFilters, setTagFilters}} >
+        <PageLayout title="Home" footer={true}>
+          <Carousel />
+          <HStack align="center">
+            <Text
+              fontSize={"2xl"}
+              fontWeight="medium"
+              my={4}
+              color={useColorModeValue("neutrals.gray.300", "neutrals.gray.100")}
+            >
+              Trending events
+            </Text>
+            <Flex color="brand.primary.default" gap={4}>
+              <button
+                onClick={readallEvents}
+                style={{ fontWeight: buttonClicked.all ? "bold" : "normal" }}
+              >
+                {"All"}
+              </button>
+              <button
+                onClick={filterToday}
+                style={{ fontWeight: buttonClicked.today ? "bold" : "normal" }}
+              >
+                {"Today "}
+              </button>
+              <button
+                onClick={filterThisWeek}
+                style={{ fontWeight: buttonClicked.thisWeek ? "bold" : "normal" }}
+              >
+                {"This week"}
+              </button>
+              <button
+                onClick={filterThisWeekend}
+                style={{ fontWeight: buttonClicked.weekend ? "bold" : "normal" }}
+              >
+                {"This weekend"}
+              </button>
+            </Flex>
+          </HStack>
+          {loading ? (
+            <SimpleGrid minChildWidth="280px" spacing="20px">
+              {Array.from({ length: 12 }).map((_, index) => (
+                <Box key={index} padding="6" boxShadow="lg" bg="white">
+                  <SkeletonCircle size="10" />
+                  <SkeletonText
+                    mt="4"
+                    noOfLines={10}
+                    spacing="4"
+                    skeletonHeight="2"
+                  />
+                </Box>
+              ))}
+            </SimpleGrid>
+          ) : (
+            <SimpleGrid minChildWidth="280px" spacing="20px">
+              {events.length > 0 ? (
+                events.map((item: CollectionRecordResponse<any, any>, index: number) => (
+                  <Card event={item} key={index} />
+                ))
+              ) : (
+                <Flex
+                  textAlign="center"
+                  w="100%"
+                  alignItems={"center"}
+                  direction={"column"}
+                  mt={32}
+                >
+                  <Image src={gasper} alt="No events" width={120} />
+                  <Text
+                    fontSize={"2xl"}
+                    mt={2}
+                    color="neutrals.gray.100"
+                    fontWeight={"normal"}
+                  >
+                    Oops! Only Gasper is left here.
+                  </Text>
+                </Flex>
+              )}
+            </SimpleGrid>
+          )}
+        </PageLayout>
+      </EventsContext.Provider>
     </div>
   );
 };

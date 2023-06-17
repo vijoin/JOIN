@@ -30,6 +30,7 @@ import {
   getUnixTimestampsForWeekend,
 } from "../helpers/DateData";
 import Image from "next/image";
+import CalendarHolder from "../components/CalendarHolder";
 
 const Home: NextPage = () => {
   const [events, setEvents] = useState<EventResponse["data"]>([]);
@@ -48,17 +49,16 @@ const Home: NextPage = () => {
     workshop: false,
   });
   const [loading, setLoading] = useState(false);
+  const [calendarView, setCalendarView] = useState(false);
   const [buttonClicked, setButtonClicked] = useState({
-    all: false,
+    all: true,
     today: false,
-    thisWeek: true,
+    thisWeek: false,
     weekend: false,
   });
   useEffect(() => {
-    //filterThisWeek();
     readallEvents();
   }, []);
-
   //Filtering
   const filterTime = async (start: number, end: number) => {
     try {
@@ -150,96 +150,106 @@ const Home: NextPage = () => {
           setTagFilters,
           isLogged,
           setIsLogged,
+          calendarView,
+          setCalendarView,
         }}
       >
         <PageLayout title="Home" footer={true}>
-          <Carousel />
-          <HStack align="center">
-            <Text
-              fontSize={"2xl"}
-              fontWeight="medium"
-              my={4}
-              color={useColorModeValue(
-                "neutrals.gray.300",
-                "neutrals.gray.100"
-              )}
-            >
-              Trending events
-            </Text>
-            <Flex color="brand.primary.default" gap={4}>
-              <button
-                onClick={readallEvents}
-                style={{ fontWeight: buttonClicked.all ? "bold" : "normal" }}
+          {calendarView ?
+          <>
+            <CalendarHolder/>
+          </>
+          :
+          <>
+            <Carousel />
+            <HStack align="center">
+              <Text
+                fontSize={"2xl"}
+                fontWeight="medium"
+                my={4}
+                color={useColorModeValue(
+                  "neutrals.gray.300",
+                  "neutrals.gray.100"
+                )}
               >
-                {"All"}
-              </button>
-              <button
-                onClick={filterToday}
-                style={{ fontWeight: buttonClicked.today ? "bold" : "normal" }}
-              >
-                {"Today "}
-              </button>
-              <button
-                onClick={filterThisWeek}
-                style={{
-                  fontWeight: buttonClicked.thisWeek ? "bold" : "normal",
-                }}
-              >
-                {"This week"}
-              </button>
-              <button
-                onClick={filterThisWeekend}
-                style={{
-                  fontWeight: buttonClicked.weekend ? "bold" : "normal",
-                }}
-              >
-                {"This weekend"}
-              </button>
-            </Flex>
-          </HStack>
-          {loading ? (
-            <SimpleGrid minChildWidth="280px" spacing="20px">
-              {Array.from({ length: 12 }).map((_, index) => (
-                <Box key={index} padding="6" boxShadow="lg" bg="white">
-                  <SkeletonCircle size="10" />
-                  <SkeletonText
-                    mt="4"
-                    noOfLines={10}
-                    spacing="4"
-                    skeletonHeight="2"
-                  />
-                </Box>
-              ))}
-            </SimpleGrid>
-          ) : (
-            <SimpleGrid minChildWidth="280px" spacing="20px">
-              {events.length > 0 ? (
-                events.map(
-                  (item: CollectionRecordResponse<any, any>, index: number) => (
-                    <Card event={item} key={index} />
-                  )
-                )
-              ) : (
-                <Flex
-                  textAlign="center"
-                  w="100%"
-                  alignItems={"center"}
-                  direction={"column"}
-                  mt={32}
+                Trending events
+              </Text>
+              <Flex color="brand.primary.default" gap={4}>
+                <button
+                  onClick={readallEvents}
+                  style={{ fontWeight: buttonClicked.all ? "bold" : "normal" }}
                 >
-                  <Image src={gasper} alt="No events" width={120} />
-                  <Text
-                    fontSize={"2xl"}
-                    mt={2}
-                    color="neutrals.gray.100"
-                    fontWeight={"normal"}
+                  {"All"}
+                </button>
+                <button
+                  onClick={filterToday}
+                  style={{ fontWeight: buttonClicked.today ? "bold" : "normal" }}
+                >
+                  {"Today "}
+                </button>
+                <button
+                  onClick={filterThisWeek}
+                  style={{
+                    fontWeight: buttonClicked.thisWeek ? "bold" : "normal",
+                  }}
+                >
+                  {"This week"}
+                </button>
+                <button
+                  onClick={filterThisWeekend}
+                  style={{
+                    fontWeight: buttonClicked.weekend ? "bold" : "normal",
+                  }}
+                >
+                  {"This weekend"}
+                </button>
+              </Flex>
+            </HStack>
+            {loading ? (
+              <SimpleGrid minChildWidth="280px" spacing="20px">
+                {Array.from({ length: 12 }).map((_, index) => (
+                  <Box key={index} padding="6" boxShadow="lg" bg="white">
+                    <SkeletonCircle size="10" />
+                    <SkeletonText
+                      mt="4"
+                      noOfLines={10}
+                      spacing="4"
+                      skeletonHeight="2"
+                    />
+                  </Box>
+                ))}
+              </SimpleGrid>
+            ) : (
+              <SimpleGrid minChildWidth="280px" spacing="20px">
+                {events.length > 0 ? (
+                  events.map(
+                    (item: CollectionRecordResponse<any, any>, index: number) => (
+                      <Card event={item} key={index} />
+                    )
+                  )
+                ) : (
+                  <Flex
+                    textAlign="center"
+                    w="100%"
+                    alignItems={"center"}
+                    direction={"column"}
+                    mt={32}
                   >
-                    Oops! Only Gasper is left here.
-                  </Text>
-                </Flex>
-              )}
-            </SimpleGrid>
-          )}
+                    <Image src={gasper} alt="No events" width={120} />
+                    <Text
+                      fontSize={"2xl"}
+                      mt={2}
+                      color="neutrals.gray.100"
+                      fontWeight={"normal"}
+                    >
+                      Oops! Only Gasper is left here.
+                    </Text>
+                  </Flex>
+                )}
+              </SimpleGrid>
+            )}
+          </>
+        }
         </PageLayout>
       </EventsContext.Provider>
     </div>

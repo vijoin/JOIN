@@ -23,9 +23,7 @@ const PageLayout = ({ title, children, footer }: Props) => {
         <title>{pageTitle}</title>
       </Head>
       <Grid
-        templateAreas={`"nav header header"
-                  "nav main event"
-                  "footer footer footer"`}
+        templateAreas={`"nav header header" "nav main event" "footer footer footer"`}
         gridTemplateRows={"50px 1fr 30px"}
         gridTemplateColumns={"1fr 5fr 1.5fr"}
         gap="12"

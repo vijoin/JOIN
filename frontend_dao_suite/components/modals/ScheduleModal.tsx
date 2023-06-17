@@ -72,11 +72,9 @@ export default function ScheduleModal({
     setCardImage("/nocover.png");
   };
   const onImageLoad = () => {
-    console.log("image loaded");
   };
   const onSetReminder = async () => {
     try {
-      console.log('set reminder');
       setLoading(true);
       const address = localStorage.getItem("address");
       let timeStamps: number[] = [];
@@ -104,10 +102,8 @@ export default function ScheduleModal({
       if (timeStamps.length <= 0) {
         setErrorMsg("Please pick a reminder time");
       } else {
-        console.log('before add');
         
         const reminder = await AddReminder(event.data.id, timeStamps, address);
-        console.log(reminder);
         setResults(reminder);
         setResultScreen(true);
         setLoading(false);
@@ -137,7 +133,6 @@ export default function ScheduleModal({
         setCreateUser(true);
       } else {
         const userExists = await UserExists(address);
-        console.log(userExists);
         if (
           userExists &&
           userExists.data.length > 0 &&

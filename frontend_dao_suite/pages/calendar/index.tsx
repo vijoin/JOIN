@@ -3,7 +3,6 @@ import FullCalendar from "@fullcalendar/react"; // must go before plugins
 import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
 import styled from "@emotion/styled";
-import EventModal from "../../components/modals/EventModal";
 import "dotenv/config";
 import PageLayout from "../../layouts/PageLayout";
 import CalendarHolder from "../../components/CalendarHolder";
@@ -16,9 +15,7 @@ const Index = () => {
   const readData = async () => {
     try {
       const tagInfo = await FetchKeyCollection("Tag", "dao");
-      console.log(tagInfo.data);
       const collections = await FetchCollection("Event");
-      console.log(collections.data);
     } catch (error) {
       console.log(error);
     }
@@ -26,7 +23,6 @@ const Index = () => {
   
   const [modalEvent, setModalEvent] = useState(false);
   const onDateClick = (arg: any) => {
-    console.log(arg);
     setModalEvent(true);
   };
   const closeModal = () => {

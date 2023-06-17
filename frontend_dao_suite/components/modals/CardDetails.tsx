@@ -32,6 +32,7 @@ import {
 } from "react-icons/fa";
 import { PropsWithChildren, useEffect, useState } from "react";
 import { CollectionRecordResponse } from "@polybase/client/dist/Record";
+import { GetDataFormatted } from "../../helpers/DateData";
 
 type CardDetailsProps = {
   onClose: () => void;
@@ -55,27 +56,6 @@ export default function CardDetails({
     if (event?.data.image && event?.data.image !== "")
       setCardImage(`https://ipfs.io/ipfs/${event?.data.image}`);
   }, []);
-
-  const getData = (unix: number) => {
-    const timestampInMilliseconds = unix * 1000;
-    const date = new Date(timestampInMilliseconds);
-    const formattedData = getDateFormat(date);
-    return formattedData;
-  };
-  const getDateFormat = (_date: Date) => {
-    const date = _date.getDate();
-    const month = _date.getMonth() + 1;
-    const fullYear = _date.getFullYear();
-    const hours = _date.getHours();
-    const minutes = _date.getMinutes();
-    return `${formatter(month)}/${formatter(date)}/${formatter(
-      fullYear
-    )} ${formatter(hours)}:${formatter(minutes)}`;
-  };
-  const formatter = (_data: number) => {
-    return _data < 10 ? `0${_data}` : `${_data}`;
-  };
-
   return (
     <Box position="absolute" h="100vh" p={12}>
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -96,7 +76,7 @@ export default function CardDetails({
                     fontWeight="semibold"
                     fontSize="sm"
                   >
-                    {getData(event?.data.start_date_timestamp)}
+                    {GetDataFormatted(event?.data.start_date_timestamp)}
                   </Text>
                   <Heading
                     size="md"

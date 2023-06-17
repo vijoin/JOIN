@@ -146,7 +146,7 @@ collection ReminderEventSubscriber {
     timestamp: number;
     state: string;
 
-    @index(state);
+    @index(state, timestamp);
 
     constructor (id: string, subscriber: string, event: Event, timestamp: number) {
         this.id = id;

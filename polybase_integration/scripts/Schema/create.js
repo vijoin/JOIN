@@ -48,49 +48,18 @@ collection User {
 
 @public
 collection Calendar {
-  // "id" is unique and required on all collections
   id: string;
-
-  // We will use a public key to authenticate function
-  // calls later
-  owner: PublicKey;
-  
+  owner: User;
   name: string; 
-
-  // An optional property denoted with ?
   state: string;
+  is_private: boolean;
 
-  // "constructor" is called when a new record is
-  // created, make sure to assign a value to "this.id"
-  constructor (id: string, name: string) {
-    // "this.id" must be assigned in the constructor
-    // "this.id" must be unique in collection
+  constructor (id: string, owner: User, name: string, is_private: boolean) {
     this.id = id;
+    this.owner = owner;
     this.name = name;
+    this.is_private = is_private;
     this.state = 'Draft';
-    
-    // You can assign the publicKey of the user who is
-    // creating the record, this can then be used to
-    // control permissions for the record (see below)
-    this.owner = ctx.publicKey;
-  }
-
-  // You can add your own functions to determine rules
-  // on who can update the records data
-  function setName (name: string) {
-    // Check if the caller is the original creator of the record.
-    if (ctx.publicKey != this.publicKey) {
-      error('You are not the creator of this record.');
-    }
-    this.name = name;
-  }
-
-  function setState (state: string) {
-    this.state = state;
-  }
-
-  function addTag (tag: string) {
-    this.tags.push(tag);
   }
 }
 
@@ -149,18 +118,50 @@ collection Event {
   }
 }
 
+// This collection stores all the scheduled events in
+// in user's private Calendar a.k.a My Calendar
+@public
+collection ScheduledCalendarEvent {
+  id: string;
+  user: User;
+  event: Event;
+
+  constructor (id: string, user: User, event: Event) {
+    this.id = id;
+    this.user = user;
+    this.event = event;
+  }
+
+  del () {
+      selfdestruct();
+    }
+}
+
 @public
 collection ReminderEventSubscriber {
     id: string;
     subscriber: string;
     event: Event;
     timestamp: number;
+    state: string;
 
-    constructor (id: string, subscriber: string,  event: Event, timestamp: number) {
+    @index(state, timestamp);
+
+
+    constructor (id: string, subscriber: string, event: Event, timestamp: number) {
         this.id = id;
         this.subscriber = subscriber;
         this.event = event;
         this.timestamp = timestamp;
+        this.state = 'pending';
+    }
+
+    setSent () {
+      this.state = 'sent';
+    }
+
+    del () {
+      selfdestruct();
     }
 
     del () {

@@ -252,10 +252,10 @@ export const AddReminder = async (
   eventId: string,
   //dateReminder: number,
   timeStamps: number[],
-  subscriber: string | null,
+  subscriber: string | null
 ) => {
   try {
-    if (subscriber){
+    if (subscriber) {
       let resp: CollectionRecordResponse<any, any>[] = [];
       for (const timeStamp of timeStamps) {
         const response = await db
@@ -263,10 +263,19 @@ export const AddReminder = async (
           .create([
             nanoid(),
             subscriber,
-            db.collection("Event").record(eventId), 
-            timeStamp]);
+            db.collection("Event").record(eventId),
+            timeStamp,
+          ]);
         resp.push(response);
       }
+      const schedule = await db
+        .collection("ScheduledCalendarEvent")
+        .create([
+          nanoid(),
+          db.collection("User").record(subscriber),
+          db.collection("Event").record(eventId),
+        ]);
+      console.log(schedule);
       return resp;
     } else {
       throw new Error(`Error subscriber value`);

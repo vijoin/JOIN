@@ -93,7 +93,8 @@ export default function CardEvent({ event }: Props) {
         maxW="sm"
         borderRadius="3xl"
         onClick={onOpen}
-        bg={useColorModeValue("white", "neutrals.gray.400")}
+        bg="white"
+        _dark={{bg: "neutrals.gray.400"}}
         css={{
           cursor: "pointer",
         }}

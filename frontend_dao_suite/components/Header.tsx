@@ -114,7 +114,8 @@ export default function WithSubnavigation() {
         {logged ? (
           <HStack>
           <Flex>
-           <Text color={useColorModeValue("neutrals.gray.200", "neutrals.gray.200")} fontWeight={"normal"}>{trimAddress(localStorage.getItem("address"))}</Text>
+           <Text color="neutrals.gray.200"
+_dark={{color: "neutrals.gray.200"}} fontWeight={"normal"}>{trimAddress(localStorage.getItem("address"))}</Text>
            </Flex>
             <Button variant="primaryOutline" onClick={logOut} mr={6}>
               Logout

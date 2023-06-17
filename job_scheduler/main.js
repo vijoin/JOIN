@@ -67,7 +67,8 @@ const sendNotification = async (reminder) => {
       await db
         .collection("ReminderEventSubscriber")
         .record(id)
-        .call("setSent", []);
+        // .call("setSent", []); // use this when filter starts working
+        .call("del", []);
       console.log("Sent successfully!");
     }
   } catch (error) {
@@ -82,11 +83,17 @@ const sendNotification = async (reminder) => {
 
 const task = new Task("simple task", async () => {
   const reminders = await getReminders(moment(Date.now()).unix());
-  for (const reminder of reminders) {
-    await sendNotification(reminder.data);
+
+  if (reminders.length === 0) {
+    console.log("No reminders found!")
+  } else {
+    for (const reminder of reminders) {
+      await sendNotification(reminder.data);
+    }
   }
+
 });
-const job = new SimpleIntervalJob({ minutes: 1 }, task);
+const job = new SimpleIntervalJob({ minutes: 5 }, task);
 
 scheduler.addSimpleIntervalJob(job);
 

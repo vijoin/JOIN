@@ -27,11 +27,15 @@ import { Auth, AuthState } from "@polybase/auth";
 import { useEffect, useState } from "react";
 import Toggle from "./Toggle";
 import { BsBell, BsSearch } from "react-icons/bs";
-import { CalendarExists, CreateCalendar, CreateUser } from "../helpers/PolybaseData";
+import { CalendarExists, CreateCalendar, CreateUser, UserExists } from "../helpers/PolybaseData";
 import { CollectionList } from "@polybase/client";
 
 export default function WithSubnavigation() {
   const [logged, setLogged] = useState(false);
+  const bg = useColorModeValue("gray.600", "white");
+  const bg2 = useColorModeValue("white", "neutrals.gray.400");
+  const textColor = useColorModeValue("neutrals.gray.200", "neutrals.gray.200");
+
   useEffect(() => {
     if (localStorage.getItem("address")) setLogged(true);
   }, [logged]);
@@ -46,13 +50,7 @@ export default function WithSubnavigation() {
       } 
       const address : string | null | undefined = authState ?  authState.userId : null;
       localStorage.setItem("address", address ? address : 'null');
-      const cal : CollectionList<any> = await CalendarExists(authState?.userId);
-
-      if(cal && cal.data.length <= 0) {
-        const create = await CreateCalendar(authState?.userId, authState?.userId);
-        //const user = await CreateUser(authState?.userId, authState?.publicKey);
-      }
-
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
@@ -75,7 +73,7 @@ export default function WithSubnavigation() {
   return (
     <Box my={3}>
       <Flex
-        color={useColorModeValue("gray.600", "white")}
+        color={bg}
         minH={"60px"}
         align={"center"}
       >
@@ -103,7 +101,7 @@ export default function WithSubnavigation() {
           </Button>
         <IconButton
         aria-label="Your notifications"
-        bg={useColorModeValue("white", "neutrals.gray.400")} 
+        bg={bg2} 
         color="neutrals.gray.100"
         size="md"
         mr={2}
@@ -114,7 +112,7 @@ export default function WithSubnavigation() {
         {logged ? (
           <HStack>
           <Flex>
-           <Text color={useColorModeValue("neutrals.gray.200", "neutrals.gray.200")} fontWeight={"normal"}>{trimAddress(localStorage.getItem("address"))}</Text>
+           <Text color={textColor} fontWeight={"normal"}>{trimAddress(localStorage.getItem("address"))}</Text>
            </Flex>
             <Button variant="primaryOutline" onClick={logOut} mr={6}>
               Logout
@@ -140,10 +138,11 @@ export default function WithSubnavigation() {
 const DesktopNav = () => {
   const linkColor = useColorModeValue("brand.primary.default", "brand.primary.disabled");
   const linkHoverColor = useColorModeValue("brand.primary.hover", "brand.primary.default");
-
+  const bg2 = useColorModeValue("white", "neutrals.gray.400");
+  const input = useColorModeValue("neutrals.light.300", "neutrals.gray.400");
   return (
     <Stack direction={"row"} spacing={4}>
-      <Stack spacing={4} direction={{ base: 'column', md: 'row' }} w={'full'} align={"center"}  bg={useColorModeValue("white", "neutrals.gray.400")} pl={4} pr={2} borderRadius={"3xl"} py={1}>
+      <Stack spacing={4} direction={{ base: 'column', md: 'row' }} w={'full'} align={"center"}  bg={bg2} pl={4} pr={2} borderRadius={"3xl"} py={1}>
           <Icon
           aria-label="Search"
           bg="transparent"
@@ -156,7 +155,7 @@ const DesktopNav = () => {
             placeholder={'Search your next event'}
             _placeholder={{ color: 'gray.500',  }}
             color='gray.800'
-            bg={useColorModeValue("neutrals.light.300", "neutrals.gray.400")}
+            bg={input}
             rounded={'full'}
             border={0}
             _focus={{
@@ -187,9 +186,10 @@ const DesktopNav = () => {
 };
 
 const MobileNav = () => {
+  const bg = useColorModeValue("white", "gray.800");
   return (
     <Stack
-      bg={useColorModeValue("white", "gray.800")}
+      bg={bg}
       p={4}
       display={{ md: "none" }}
     >
@@ -202,7 +202,7 @@ const MobileNav = () => {
 
 const MobileNavItem = ({ label, children, href }: NavItem) => {
   const { isOpen, onToggle } = useDisclosure();
-
+  const bg = useColorModeValue("gray.600", "gray.200");
   return (
     <Stack spacing={4} onClick={children && onToggle}>
       <Flex
@@ -217,7 +217,7 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
       >
         <Text
           fontWeight={600}
-          color={useColorModeValue("gray.600", "gray.200")}
+          color={bg}
         >
           {label}
         </Text>

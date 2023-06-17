@@ -9,7 +9,7 @@ import PageLayout from "../../layouts/PageLayout";
 import CalendarHolder from "../../components/CalendarHolder";
 import { FetchCollection, FetchKeyCollection } from "../../helpers/PolybaseData";
 
-const index = () => {
+const Index = () => {
   useEffect(() => {
     readData();
   }, []);
@@ -40,7 +40,7 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;
 
 const Container = styled.div`
   width: 80%;

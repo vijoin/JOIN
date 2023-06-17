@@ -30,6 +30,8 @@ import { ReadTagsFromEvent } from "../helpers/PolybaseData";
 import { CollectionRecordResponse } from "@polybase/client/dist/Record";
 import { returnTagNames } from "../helpers/FetchData";
 import { EventsContext } from "../context/EventsContext";
+import CardDetails from "./modals/CardDetails";
+import ScheduleModal from "./modals/ScheduleModal";
 type Props = {
   event: CollectionRecordResponse<any, any>;
 };
@@ -39,6 +41,8 @@ export default function CardEvent({ event }: Props) {
   const { tagFilters } = useContext(EventsContext);
   const [tags, setTags] = useState<string[]>([]);
   const [norender, setNorender] = useState(false);
+  const [details, setDetails] = useState(false);
+  let bg = useColorModeValue("white", "neutrals.gray.400");
   useEffect(() => {
     if (event?.data.image && event?.data.image !== "")
       setCardImage(`https://ipfs.io/ipfs/${event?.data.image}`);
@@ -46,8 +50,8 @@ export default function CardEvent({ event }: Props) {
   }, []);
   const readTags = async () => {
     try {
-      console.log('test');
-      
+      console.log("test");
+
       // const tags = await ReadTagsFromEvent(event.data.id);
       // const tagsNames = await returnTagNames(tags.data);
       // setTags(tagsNames);
@@ -59,7 +63,7 @@ export default function CardEvent({ event }: Props) {
     }
   };
   const checkFilterTags = (data: any) => {
-    const filteredTags = data.filter((tag : any) => {
+    const filteredTags = data.filter((tag: any) => {
       return tagFilters[tag.data.tag.id];
     });
   };
@@ -85,15 +89,18 @@ export default function CardEvent({ event }: Props) {
   const handleImageError = () => {
     setCardImage("/nocover.png");
   };
-  //
+  const onSchedule = () => {
+    setDetails(false);
+    onOpen();
+  };
   if (norender) return;
   return (
     <>
       <Card
         maxW="sm"
         borderRadius="3xl"
-        onClick={onOpen}
-        bg={useColorModeValue("white", "neutrals.gray.400")}
+        onClick={() => setDetails(true)}
+        bg={bg}
         css={{
           cursor: "pointer",
         }}
@@ -189,23 +196,28 @@ export default function CardEvent({ event }: Props) {
             variant="primary"
             colorScheme="blue"
             w="100%"
-            onClick={(event : any) => {
-              event.stopPropagation(); 
-              readTags(); 
+            onClick={(event: any) => {
+              event.stopPropagation();
+              onOpen();
             }}
           >
             Schedule
           </Button>
         </CardFooter>
       </Card>
-      {isOpen && (
-        <SheduleModal
-          onClose={onClose}
-          onOpen={onOpen}
-          isOpen={isOpen}
-          event={event}
-        />
-      )}
+      {isOpen &&<SheduleModal
+        onClose={onClose}
+        onOpen={onOpen}
+        isOpen={isOpen}
+        event={event}
+      />}
+      {details && <CardDetails
+        onClose={() => setDetails(false)}
+        onOpen={() => setDetails(true)}
+        isOpen={details}
+        event={event}
+        onSchedule={onSchedule}
+      />}
     </>
   );
 }

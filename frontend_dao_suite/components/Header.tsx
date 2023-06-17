@@ -24,21 +24,22 @@ import Image from "next/image";
 import logo from "../assets/images/logo.png";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Auth, AuthState } from "@polybase/auth";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Toggle from "./Toggle";
 import { BsBell, BsSearch } from "react-icons/bs";
 import { CalendarExists, CreateCalendar, CreateUser, UserExists } from "../helpers/PolybaseData";
 import { CollectionList } from "@polybase/client";
+import { EventsContext } from "../context/EventsContext";
 
 export default function WithSubnavigation() {
-  const [logged, setLogged] = useState(false);
+  const { isLogged, setIsLogged } = useContext(EventsContext);
   const bg = useColorModeValue("gray.600", "white");
   const bg2 = useColorModeValue("white", "neutrals.gray.400");
   const textColor = useColorModeValue("neutrals.gray.200", "neutrals.gray.200");
 
   useEffect(() => {
-    if (localStorage.getItem("address")) setLogged(true);
-  }, [logged]);
+    if (localStorage.getItem("address")) setIsLogged(true);
+  }, [isLogged]);
 
   const { isOpen, onToggle } = useDisclosure();
   const auth = typeof window !== "undefined" ? new Auth() : null;
@@ -46,7 +47,7 @@ export default function WithSubnavigation() {
     try {
       const authState:AuthState|undefined|null = await auth?.signIn();
       if (authState?.userId) {
-        setLogged(true);
+        setIsLogged(true);
       } 
       const address : string | null | undefined = authState ?  authState.userId : null;
       localStorage.setItem("address", address ? address : 'null');
@@ -58,7 +59,7 @@ export default function WithSubnavigation() {
   const logOut = async () => {
     try {
       const out = await auth?.signOut();
-      setLogged(false);
+      setIsLogged(false);
       localStorage.clear();
     } catch (error) {
       console.log(error);
@@ -109,7 +110,7 @@ export default function WithSubnavigation() {
         icon={<BsBell />}/>
         <Toggle />
         {/* <ConnectButton /> */}
-        {logged ? (
+        {isLogged ? (
           <HStack>
           <Flex>
            <Text color={textColor} fontWeight={"normal"}>{trimAddress(localStorage.getItem("address"))}</Text>

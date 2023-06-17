@@ -14,7 +14,6 @@ db.signer((data) => {
 });
 
 await db.applySchema(`
-
 @public
 collection User {
   id: string; 
@@ -148,6 +147,7 @@ collection ReminderEventSubscriber {
 
     @index(state, timestamp);
 
+
     constructor (id: string, subscriber: string, event: Event, timestamp: number) {
         this.id = id;
         this.subscriber = subscriber;
@@ -158,6 +158,10 @@ collection ReminderEventSubscriber {
 
     setSent () {
       this.state = 'sent';
+    }
+
+    del () {
+      selfdestruct();
     }
 
     del () {

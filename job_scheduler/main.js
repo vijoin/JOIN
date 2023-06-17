@@ -6,7 +6,7 @@ import { ethers } from "ethers";
 
 import * as PushAPI from "@pushprotocol/restapi";
 
-const PK = process.env.TEST_PRIVATEKEY;
+const PK = process.env.PROD_PRIVATEKEY;
 // const Pkey = `0x${PK}`;
 const signer = new ethers.Wallet(PK);
 
@@ -59,7 +59,7 @@ const sendNotification = async (reminder) => {
         img: `https://ipfs.io/ipfs/${data.image}`,
       },
       recipients: `eip155:5:${subscriber}`, // recipient address
-      channel: "eip155:5:0x0fe3AbBef139D56025C6d44A3F8A70461b9E3B60", // your channel address
+      channel: "eip155:5:0xEE1E1703173cE5eC3cFe8a23Cb495E834296CeEa", // your channel address
       env: "staging",
     });
 

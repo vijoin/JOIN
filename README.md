@@ -26,8 +26,10 @@
    <br />
 
   <p align="center">
-    Eth Global HackFS 2023 Hackaton Project
-    <br />
+
+  [Eth Global HackFS 2023 Hackaton Project](https://ethglobal.com/events/hackfs2023)
+
+   <br />
     <a href="https://github.com/sheva323/JOIN"><strong>Explore the docs »</strong></a>
     <br />
     <br />
@@ -41,7 +43,6 @@
 
 <br />
 
-<br />
 
 <!-- TABLE OF CONTENTS -->
 
@@ -223,16 +224,19 @@ See the [open issues](https://github.com/sheva323/JOIN/issues) for a full list o
 <!-- CONTRIBUTING -->
 # Contributing
 
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+At Join, we believe that contributions from the open-source community are what make our project truly amazing. We appreciate any contributions you make and welcome your ideas, suggestions, and enhancements.
 
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
+If you have a suggestion or improvement that would help make Join even better, here's how you can contribute:
 
 1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+2. Create a new branch for your feature or enhancement (`git checkout -b feature/JOIN`).
+3. Commit your Changes (`git commit -m 'Add some JOIN'`)
+4. Push to the Branch (`git push origin feature/JOIN`)
+5. Open a Pull Request to submit your changes.
+
+We also encourage you to open an issue with the "enhancement" tag if you have any ideas or suggestions that you'd like to discuss with the community.
+
+Thank you for being part of the Join community and for helping us make a difference!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -249,9 +253,10 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 # Contact
 
-Project Link: [Join Repo](https://github.com/sheva323/JOIN)
+Push Chat Contact: [letsjoin.eth](https://app.push.org/chat)
 <br />
-ENS Domain: letsjoin.eth
+Project Link: [JOIN Github](https://github.com/sheva323/JOIN)
+<br />
 
 <br />
 
@@ -264,7 +269,7 @@ Sebastian Guaqueta - [@scguaquetam](https://twitter.com/scguaquetam) - sheva3232
 <br />
 Victor Inojosa - [@vijoin](https://twitter.com/vijoin) - vijoin@gmail.com
 <br />
-Jose Piña - [@pinalikefruit](https://twitter.com/pinalikefruit) - josepina@pinalikefruit.com
+Piña - [@pinalikefruit](https://twitter.com/pinalikefruit) - pina@pinalikefruit.com
 <br />
 Gitmel Gutierrez - [@whynotgit](https://twitter.com/whynotgit) - gitmelgutierrez@gmail.com
 <br />
@@ -286,12 +291,6 @@ We would like to express our gratitude to the following resources that have been
 * [ENS Docs](https://docs.ens.domains/)
 * [NFT.Storage Docs](https://nft.storage/docs/)
 * [Filecoin Docs](https://docs.filecoin.io/)
-* [Chakra Docs](https://chakra-ui.com/docs)
-* [Next.js Docs](https://nextjs.org/docs)
-* [Node.js Docs](https://nodejs.org/en/docs)
-* [Img Shields](https://shields.io)
-* [React Icons](https://react-icons.github.io/react-icons/search)
-
 
 These resources have provided valuable insights, tools, and inspiration throughout the development process. We appreciate their contributions to the web development community.
 

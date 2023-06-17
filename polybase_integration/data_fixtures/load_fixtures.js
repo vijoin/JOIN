@@ -47,12 +47,12 @@ db.signer((data) => {
 // DO NOT COMMENT THIS
 // THIS IS NORMALLY THE SIGNER
 // COMMENT IT ONLY IF YOUR GOING TO CREATE USERS
-// db.signer((data) => {
-//   return {
-//     h: "eth-personal-sign",
-//     sig: ethPersonalSign(process.env.PRIVATEKEY, data),
-//   };
-// });
+db.signer((data) => {
+  return {
+    h: "eth-personal-sign",
+    sig: ethPersonalSign(process.env.PRIVATEKEY, data),
+  };
+});
 
 // SECTION: TAGS
 // const tags = getFixtureData(

@@ -93,7 +93,7 @@ const task = new Task("simple task", async () => {
   }
 
 });
-const job = new SimpleIntervalJob({ minutes: 1 }, task);
+const job = new SimpleIntervalJob({ minutes: 5 }, task);
 
 scheduler.addSimpleIntervalJob(job);
 

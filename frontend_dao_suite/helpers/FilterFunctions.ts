@@ -13,7 +13,6 @@ export const FilterEvent = async (
   startDate: number
 ) => {
   try {
-    console.log(isOnline, language);
     
     const { data } = await db
       .collection("Event")

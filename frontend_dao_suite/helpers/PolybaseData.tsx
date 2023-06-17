@@ -275,12 +275,32 @@ export const AddReminder = async (
           db.collection("User").record(subscriber),
           db.collection("Event").record(eventId),
         ]);
-      console.log(schedule);
       return resp;
     } else {
       throw new Error(`Error subscriber value`);
     }
   } catch (error) {
     throw new Error(`Error creating reminder: ${error}`);
+  }
+};
+export const ReadEvents = async (address: string | null) => {
+  try {
+    if (address) {
+      const { data } = await db
+        .collection("ScheduledCalendarEvent")
+        .where("user", "==", db.collection("User").record(address))
+        .get();
+      return data;
+    }
+  } catch (error) {
+    throw new Error(`Error reading events: ${error}`);
+  }
+};
+export const ReadEventInfo = async (id: string) => {
+  try {
+    const event = db.collection("Event").record(id).get();
+    return event;
+  } catch (error) {
+    throw new Error(`Error reading event: ${error}`);
   }
 };

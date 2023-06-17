@@ -13,18 +13,18 @@ export interface EventData {
   state: string;
   tags: Tag[];
   createDate: number;
-};
+}
 export interface CalendarData {
   collectionId: string;
   id: string;
-};
+}
 export interface Tag {
   id: string;
   name: string;
-};
+}
 export interface EventResponse {
-  data : any;
-  error : any;
+  data: any;
+  error: any;
 }
 export enum Language {
   English = "English",

@@ -18,17 +18,11 @@ import {
   HamburgerIcon,
   CloseIcon,
   ChevronDownIcon,
-  ChevronRightIcon,
 } from "@chakra-ui/icons";
-import Image from "next/image";
-import logo from "../assets/images/logo.png";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Auth, AuthState } from "@polybase/auth";
 import { useContext, useEffect, useState } from "react";
 import Toggle from "./Toggle";
 import { BsBell, BsSearch } from "react-icons/bs";
-import { CalendarExists, CreateCalendar, CreateUser, UserExists } from "../helpers/PolybaseData";
-import { CollectionList } from "@polybase/client";
 import { EventsContext } from "../context/EventsContext";
 
 export default function WithSubnavigation() {
@@ -45,12 +39,14 @@ export default function WithSubnavigation() {
   const auth = typeof window !== "undefined" ? new Auth() : null;
   const login = async () => {
     try {
-      const authState:AuthState|undefined|null = await auth?.signIn();
+      const authState: AuthState | undefined | null = await auth?.signIn();
       if (authState?.userId) {
         setIsLogged(true);
-      } 
-      const address : string | null | undefined = authState ?  authState.userId : null;
-      localStorage.setItem("address", address ? address : 'null');
+      }
+      const address: string | null | undefined = authState
+        ? authState.userId
+        : null;
+      localStorage.setItem("address", address ? address : "null");
       window.location.reload();
     } catch (error) {
       console.log(error);
@@ -65,19 +61,16 @@ export default function WithSubnavigation() {
       console.log(error);
     }
   };
-  function trimAddress(address : string | null) {
+  function trimAddress(address: string | null) {
     if (!address) return "";
-    const trimmedAddress = address.substring(0, 6) + "..." + address.substring(address.length - 4);
+    const trimmedAddress =
+      address.substring(0, 6) + "..." + address.substring(address.length - 4);
     return trimmedAddress;
   }
-  
+
   return (
     <Box my={3}>
-      <Flex
-        color={bg}
-        minH={"60px"}
-        align={"center"}
-      >
+      <Flex color={bg} minH={"60px"} align={"center"}>
         <Flex
           flex={{ base: 1, md: "auto" }}
           ml={{ base: -2 }}
@@ -98,23 +91,26 @@ export default function WithSubnavigation() {
           </Flex>
         </Flex>
         <Button variant="primary" onClick={login} mr={6}>
-            Create Event
-          </Button>
+          Create Event
+        </Button>
         <IconButton
-        aria-label="Your notifications"
-        bg={bg2} 
-        color="neutrals.gray.100"
-        size="md"
-        mr={2}
-        borderRadius={"full"}
-        icon={<BsBell />}/>
+          aria-label="Your notifications"
+          bg={bg2}
+          color="neutrals.gray.100"
+          size="md"
+          mr={2}
+          borderRadius={"full"}
+          icon={<BsBell />}
+        />
         <Toggle />
         {/* <ConnectButton /> */}
         {isLogged ? (
           <HStack>
-          <Flex>
-           <Text color={textColor} fontWeight={"normal"}>{trimAddress(localStorage.getItem("address"))}</Text>
-           </Flex>
+            <Flex>
+              <Text color={textColor} fontWeight={"normal"}>
+                {trimAddress(localStorage.getItem("address"))}
+              </Text>
+            </Flex>
             <Button variant="primaryOutline" onClick={logOut} mr={6}>
               Logout
             </Button>
@@ -137,51 +133,67 @@ export default function WithSubnavigation() {
 }
 
 const DesktopNav = () => {
-  const linkColor = useColorModeValue("brand.primary.default", "brand.primary.disabled");
-  const linkHoverColor = useColorModeValue("brand.primary.hover", "brand.primary.default");
+  const { setCalendarView, calendarView } = useContext(EventsContext);
+  const linkColor = useColorModeValue(
+    "brand.primary.default",
+    "brand.primary.disabled"
+  );
+  const linkHoverColor = useColorModeValue(
+    "brand.primary.hover",
+    "brand.primary.default"
+  );
   const bg2 = useColorModeValue("white", "neutrals.gray.400");
   const input = useColorModeValue("neutrals.light.300", "neutrals.gray.400");
   return (
     <Stack direction={"row"} spacing={4}>
-      <Stack spacing={4} direction={{ base: 'column', md: 'row' }} w={'full'} align={"center"}  bg={bg2} pl={4} pr={2} borderRadius={"3xl"} py={1}>
-          <Icon
+      <Stack
+        spacing={4}
+        direction={{ base: "column", md: "row" }}
+        w={"full"}
+        align={"center"}
+        bg={bg2}
+        pl={4}
+        pr={2}
+        borderRadius={"3xl"}
+        py={1}
+      >
+        <Icon
           aria-label="Search"
           bg="transparent"
           size="lg"
           color="neutrals.gray.100"
           borderRadius={"full"}
-          as={BsSearch}/>
-          <Input
-            type={'text'}
-            placeholder={'Search your next event'}
-            _placeholder={{ color: 'gray.500',  }}
-            color='gray.800'
-            bg={input}
-            rounded={'full'}
-            border={0}
-            _focus={{
-           
-              outline: 'brand.primary.default',
-            }}
-          />
-        </Stack>
-      {NAV_ITEMS.map((navItem) => (
-        <Flex key={navItem.label} w="130px" align={"center"}>
-              <Link
-                p={2}
-                href={navItem.href ?? "#"}
-                fontSize={"md"}
-                fontWeight={500}
-                color={linkColor}
-                _hover={{
-                  textDecoration: "none",
-                  color: linkHoverColor,
-                }}
-              >
-                {navItem.label}
-              </Link>
-        </Flex>
-      ))}
+          as={BsSearch}
+        />
+        <Input
+          type={"text"}
+          placeholder={"Search your next event"}
+          _placeholder={{ color: "gray.500" }}
+          color="gray.800"
+          bg={input}
+          rounded={"full"}
+          border={0}
+          _focus={{
+            outline: "brand.primary.default",
+          }}
+        />
+      </Stack>
+      <Flex w="160px" align={"center"}>
+        <Link
+          p={2}
+          href={"#"}
+          fontSize={"md"}
+          fontWeight={500}
+          color={linkColor}
+          _hover={{
+            textDecoration: "none",
+            color: linkHoverColor,
+          }}
+          onClick={() => setCalendarView(!calendarView)}
+        >
+          {calendarView ?  'All events' : 'My calendar'}
+        </Link>
+      </Flex>
     </Stack>
   );
 };
@@ -189,11 +201,7 @@ const DesktopNav = () => {
 const MobileNav = () => {
   const bg = useColorModeValue("white", "gray.800");
   return (
-    <Stack
-      bg={bg}
-      p={4}
-      display={{ md: "none" }}
-    >
+    <Stack bg={bg} p={4} display={{ md: "none" }}>
       {NAV_ITEMS.map((navItem) => (
         <MobileNavItem key={navItem.label} {...navItem} />
       ))}
@@ -216,10 +224,7 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
           textDecoration: "none",
         }}
       >
-        <Text
-          fontWeight={600}
-          color={bg}
-        >
+        <Text fontWeight={600} color={bg}>
           {label}
         </Text>
         {children && (
@@ -259,5 +264,5 @@ const NAV_ITEMS: Array<NavItem> = [
         href: "#",
       },
     ],
-  }
+  },
 ];

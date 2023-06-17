@@ -51,8 +51,6 @@ export default function CardEvent({ event }: Props) {
   }, []);
   const readTags = async () => {
     try {
-      console.log("test");
-
       // const tags = await ReadTagsFromEvent(event.data.id);
       // const tagsNames = await returnTagNames(tags.data);
       // setTags(tagsNames);
@@ -95,6 +93,7 @@ export default function CardEvent({ event }: Props) {
           maxW="100%"
           objectFit="cover"
           onError={handleImageError}
+          height={200}
         />
         <Box pos="absolute" top="3" right="3">
           <IconButton

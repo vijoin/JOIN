@@ -132,6 +132,8 @@ collection ScheduledCalendarEvent {
     this.event = event;
   }
 
+  @index(user);
+
   del () {
       selfdestruct();
     }

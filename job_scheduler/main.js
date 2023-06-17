@@ -19,8 +19,8 @@ const scheduler = new ToadScheduler();
 const getReminders = async (currentTimestamp) => {
   const { data } = await db
     .collection("ReminderEventSubscriber")
+    // .where("state", "==", 'pending') // NOT WORKING
     .where("timestamp", "<", currentTimestamp)
-    // .where("state", "==", "sent")
     .sort("timestamp", "asc")
     .get();
   return data;
@@ -32,7 +32,7 @@ const sendNotification = async (reminder) => {
   // const sendNotification = async (reminder) => {
   console.log("Sending notification...");
 
-  const { event, subscriber } = reminder;
+  const { id, event, subscriber } = reminder;
 
   try {
     const { data } = await db.collection("Event").record(event.id).get();
@@ -64,6 +64,10 @@ const sendNotification = async (reminder) => {
     });
 
     if (apiResponse?.status === 204) {
+      await db
+        .collection("ReminderEventSubscriber")
+        .record(id)
+        .call("setSent", []);
       console.log("Sent successfully!");
     }
   } catch (error) {

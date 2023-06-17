@@ -1,0 +1,52 @@
+[
+  {
+    "id": "scheduledcalendarevent001",
+    "user": "0xEE1E1703173cE5eC3cFe8a23Cb495E834296CeEa",
+    "event": "event001"
+  },
+  {
+    "id": "scheduledcalendarevent002",
+    "user": "0xEE1E1703173cE5eC3cFe8a23Cb495E834296CeEa",
+    "event": "event002"
+  },
+  {
+    "id": "scheduledcalendarevent003",
+    "user": "0xEE1E1703173cE5eC3cFe8a23Cb495E834296CeEa",
+    "event": "event003"
+  },
+  {
+    "id": "scheduledcalendarevent004",
+    "user": "0xEE1E1703173cE5eC3cFe8a23Cb495E834296CeEa",
+    "event": "event004"
+  },
+  {
+    "id": "scheduledcalendarevent001",
+    "user": "0xEE1E1703173cE5eC3cFe8a23Cb495E834296CeEa",
+    "event": "event005"
+  },
+  {
+    "id": "scheduledcalendarevent002",
+    "user": "0xEE1E1703173cE5eC3cFe8a23Cb495E834296CeEa",
+    "event": "event006"
+  },
+  {
+    "id": "scheduledcalendarevent003",
+    "user": "0xEE1E1703173cE5eC3cFe8a23Cb495E834296CeEa",
+    "event": "event007"
+  },
+  {
+    "id": "scheduledcalendarevent004",
+    "user": "0xEE1E1703173cE5eC3cFe8a23Cb495E834296CeEa",
+    "event": "event008"
+  },
+  {
+    "id": "scheduledcalendarevent003",
+    "user": "0xEE1E1703173cE5eC3cFe8a23Cb495E834296CeEa",
+    "event": "event009"
+  },
+  {
+    "id": "scheduledcalendarevent004",
+    "user": "0xEE1E1703173cE5eC3cFe8a23Cb495E834296CeEa",
+    "event": "event010"
+  }
+]

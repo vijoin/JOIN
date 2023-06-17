@@ -1,0 +1,34 @@
+[
+  {
+    "id": "ethereum",
+    "name": "Ethereum"
+  },
+  {
+    "id": "polygon",
+    "name": "Polygon"
+  },
+  {
+    "id": "bitcoin",
+    "name": "Bitcoin"
+  },
+  {
+    "id": "polkadot",
+    "name": "Polkadot"
+  },
+  {
+    "id": "starknet",
+    "name": "Starknet"
+  },
+  {
+    "id": "fuel",
+    "name": "Fuel"
+  },
+  {
+    "id": "web2",
+    "name": "Web2"
+  },
+  {
+    "id": "blockchain",
+    "name": "Blockchain"
+  }
+]

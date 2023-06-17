@@ -23,19 +23,18 @@ const loadFixtureData = (records, collectionName, valuesCallback) => {
 // RECOMMENDATION
 // UNCOMMENT ONE SECTION AT A TIME. POLYBASE THROWS FALSE ERRORS
 
-
 // SECTION: USERS
 // db.signer((data) => {
 //   return {
 //     h: "eth-personal-sign",
-//     sig: ethPersonalSign(process.env.USER1_PRIVATEKEY, data),
+//     sig: ethPersonalSign(process.env.USER_PRIVATEKEY, data),
 //   };
 // });
 
 // const users = [
 //   {
-//     id: "0x0fe3AbBef139D56025C6d44A3F8A70461b9E3B60",
-//     pvkey: "0x00IDEA00",
+//     id: "publicKey",
+//     pvkey: "0x00NOIDEA",
 //   },
 // ];
 

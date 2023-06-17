@@ -27,14 +27,14 @@ const loadFixtureData = (records, collectionName, valuesCallback) => {
 // db.signer((data) => {
 //   return {
 //     h: "eth-personal-sign",
-//     sig: ethPersonalSign(process.env.USER1_PRIVATEKEY, data),
+//     sig: ethPersonalSign(process.env.PRIVATEKEY, data),
 //   };
 // });
 
 // const users = [
 //   {
-//     id: "0x0fe3AbBef139D56025C6d44A3F8A70461b9E3B60",
-//     pvkey: "0x00IDEA00",
+//     id: "publicKey",
+//     pvkey: "0x00NOIDEA",
 //   },
 // ];
 
@@ -56,7 +56,7 @@ db.signer((data) => {
 
 // SECTION: TAGS
 // const tags = getFixtureData(
-//   "/home/vijoin/Documents/Learning_Web3/DAOSuite/polybase_integration/data_fixtures/tags.json"
+//   "demo_data_fixtures/tags.json"
 // );
 
 // const tagsCallback = (record) => {
@@ -67,7 +67,7 @@ db.signer((data) => {
 
 // SECTION: COMMUNITIES
 // const communities = getFixtureData(
-//   "/home/vijoin/Documents/Learning_Web3/DAOSuite/polybase_integration/data_fixtures/community.json"
+//   "demo_data_fixtures/community.json"
 // );
 
 // const communitiesCallback = (record) => {
@@ -78,7 +78,7 @@ db.signer((data) => {
 
 // SECTION: CALENDARS
 // const calendars = getFixtureData(
-//   "/home/vijoin/Documents/Learning_Web3/DAOSuite/polybase_integration/data_fixtures/calendar.json"
+//   "demo_data_fixtures/calendar.json"
 // );
 
 // const calendarCallback = ({ id, name, owner, is_private }) => {
@@ -94,7 +94,7 @@ db.signer((data) => {
 
 // SECTION: EVENTS
 // const events = getFixtureData(
-//   "/home/vijoin/Documents/Learning_Web3/DAOSuite/polybase_integration/data_fixtures/event.json"
+//   "demo_data_fixtures/event.json"
 // );
 
 // const eventCallback = ({
@@ -133,7 +133,7 @@ db.signer((data) => {
 
 // SECTION: EVENT TAGS
 // const eventTags = getFixtureData(
-//   "/home/vijoin/Documents/Learning_Web3/DAOSuite/polybase_integration/data_fixtures/event_tag_rel.json"
+//   "demo_data_fixtures/event_tag_rel.json"
 // );
 
 // const eventTagsCallback = ({ id, event, tag }) => {
@@ -148,7 +148,7 @@ db.signer((data) => {
 
 // SECTION: EVENT COMMUNITIES
 // const eventCommunities = getFixtureData(
-//   "/home/vijoin/Documents/Learning_Web3/DAOSuite/polybase_integration/data_fixtures/event_community_rel.json"
+//   "demo_data_fixtures/event_community_rel.json"
 // );
 
 // const eventCommunitiesCallback = ({ id, event, community }) => {
@@ -167,7 +167,7 @@ db.signer((data) => {
 
 // SECTION: SCHEDULED MY CALENDAR EVENTS
 // const scheduledCalendarEvents = getFixtureData(
-//   "/home/vijoin/Documents/Learning_Web3/DAOSuite/polybase_integration/data_fixtures/scheduled_calendar_event.json"
+//   "demo_data_fixtures/scheduled_calendar_event.json"
 // );
 
 // const scheduledCalendarEventCallback = ({ id, user, event }) => {

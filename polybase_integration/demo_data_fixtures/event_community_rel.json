@@ -78,5 +78,40 @@
     "id": "eventcommunityrel016",
     "event": "event010",
     "community": "blockchain"
+  },
+  {
+    "id": "eventcommunityrel017",
+    "event": "event011",
+    "community": "ethereum"
+  },
+  {
+    "id": "eventcommunityrel018",
+    "event": "event012",
+    "community": "ethereum"
+  },
+  {
+    "id": "eventcommunityrel019",
+    "event": "event013",
+    "community": "ethereum"
+  },
+  {
+    "id": "eventcommunityrel020",
+    "event": "event014",
+    "community": "ethereum"
+  },
+  {
+    "id": "eventcommunityrel021",
+    "event": "event015",
+    "community": "ethereum"
+  },
+  {
+    "id": "eventcommunityrel022",
+    "event": "event016",
+    "community": "blockchain"
+  },
+  {
+    "id": "eventcommunityrel023",
+    "event": "event017",
+    "community": "starknet"
   }
 ]

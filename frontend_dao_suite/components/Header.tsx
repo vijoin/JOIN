@@ -195,7 +195,7 @@ const DesktopNav = () => {
           }}
           onClick={() => setCalendarView(!calendarView)}
         >
-          {calendarView ?  'All events' : 'My calendar'}
+          {calendarView ?  'Only events' : 'My calendar'}
         </Link>
       </Flex>
     </Stack>

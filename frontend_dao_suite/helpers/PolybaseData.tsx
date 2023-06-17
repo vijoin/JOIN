@@ -179,7 +179,7 @@ export const AddTagOnEvent = async (record: string, tag: Tag) => {
   }
 };
 //Users
-export const UserExists = async (address: string) => {
+export const UserExists = async (address: string  ) => {
   try {
     const response = db.collection("User").where("id", "==", address).get();
     return response;
@@ -187,10 +187,17 @@ export const UserExists = async (address: string) => {
     throw new Error(`Error reading tags: ${error}`);
   }
 };
-export const CreateUser = async (id: string, pvkey: string) => {
+export const CreateUser = async (
+  id: string | undefined | null,
+  pvkey: string | undefined | null
+) => {
   try {
-    const createUser = await db.collection("User").create([id, pvkey]);
-    return createUser;
+    if (id && pvkey) {
+      const createUser = await db.collection("User").create([id, pvkey]);
+      return createUser;
+    } else {
+      throw new Error("Error creating user");
+    }
   } catch (error) {
     console.log(error);
   }

@@ -13,6 +13,7 @@ import {
   useDisclosure,
   HStack,
   Button,
+  Tooltip,
 } from "@chakra-ui/react";
 import {
   HamburgerIcon,
@@ -57,6 +58,7 @@ export default function WithSubnavigation() {
       const out = await auth?.signOut();
       setIsLogged(false);
       localStorage.clear();
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
@@ -90,9 +92,11 @@ export default function WithSubnavigation() {
             <DesktopNav />
           </Flex>
         </Flex>
-        <Button variant="primary" onClick={login} mr={6}>
-          Create Event
-        </Button>
+        <Tooltip label='Will be available soon...'>
+          <Button variant="primary"  mr={6} >
+            Create Event
+          </Button>
+        </Tooltip>
         <IconButton
           aria-label="Your notifications"
           bg={bg2}
@@ -202,6 +206,7 @@ const MobileNav = () => {
   const bg = useColorModeValue("white", "gray.800");
   return (
     <Stack bg={bg} p={4} display={{ md: "none" }}>
+      {/* //TODO fix this <========= */}
       {NAV_ITEMS.map((navItem) => (
         <MobileNavItem key={navItem.label} {...navItem} />
       ))}

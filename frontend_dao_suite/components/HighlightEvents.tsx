@@ -60,7 +60,8 @@ export const HighlightEvents = ({}) => {
         px="4"
         borderRadius={"3xl"}
         my={4}
-        bg={useColorModeValue("neutrals.light.100", "neutrals.gray.400")}
+        bg="neutrals.light.100"
+        _dark={{ bg: "neutrals.gray.400"}}
       >
         <Heading
           as="h3"
@@ -87,10 +88,8 @@ export const HighlightEvents = ({}) => {
                     />
                     <VStack align={"start"} gap={0}>
                       <Text
-                        color={useColorModeValue(
-                          "neutrals.gray.300",
-                          "neutrals.gray.200"
-                        )}
+                        color= "neutrals.gray.300"
+                        _dark={{color:  "neutrals.gray.200"}}
                       >
                         {item.data.name}
                       </Text>

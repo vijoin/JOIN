@@ -23,36 +23,40 @@ const loadFixtureData = (records, collectionName, valuesCallback) => {
 // RECOMMENDATION
 // UNCOMMENT ONE SECTION AT A TIME. POLYBASE THROWS FALSE ERRORS
 
-// SECTION: USERS
-// db.signer((data) => {
-//   return {
-//     h: "eth-personal-sign",
-//     sig: ethPersonalSign(process.env.USER1_PRIVATEKEY, data),
-//   };
-// });
+SECTION: USERS
+db.signer((data) => {
+  return {
+    h: "eth-personal-sign",
+    sig: ethPersonalSign(process.env.USER1_PRIVATEKEY, data),
+  };
+});
 
-// const users = [
-//   {
-//     id: "0x0fe3AbBef139D56025C6d44A3F8A70461b9E3B60",
-//     pvkey: "0x00IDEA00",
-//   },
-// ];
+const users = [
+  {
+    id: "0xEE1E1703173cE5eC3cFe8a23Cb495E834296CeEa",
+    pvkey: process.env.PRIVATEKEY,
+  },
+  {
+    id: "0x0fe3AbBef139D56025C6d44A3F8A70461b9E3B60",
+    pvkey: process.env.USER1_PRIVATEKEY,
+  },
+];
 
-// const userCallback = (record) => {
-//   return Object.values(record);
-// };
+const userCallback = (record) => {
+  return Object.values(record);
+};
 
-// loadFixtureData(users, "User", userCallback);
+loadFixtureData(users, "User", userCallback);
 
 // DO NOT COMMENT THIS
 // THIS IS NORMALLY THE SIGNER
 // COMMENT IT ONLY IF YOUR GOING TO CREATE USERS
-db.signer((data) => {
-  return {
-    h: "eth-personal-sign",
-    sig: ethPersonalSign(process.env.PRIVATEKEY, data),
-  };
-});
+// db.signer((data) => {
+//   return {
+//     h: "eth-personal-sign",
+//     sig: ethPersonalSign(process.env.PRIVATEKEY, data),
+//   };
+// });
 
 // SECTION: TAGS
 // const tags = getFixtureData(

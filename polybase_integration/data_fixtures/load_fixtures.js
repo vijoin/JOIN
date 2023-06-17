@@ -31,22 +31,18 @@ db.signer((data) => {
   };
 });
 
-const users = [
-  {
-    id: "0xEE1E1703173cE5eC3cFe8a23Cb495E834296CeEa",
-    pvkey: process.env.PRIVATEKEY,
-  },
-  {
-    id: "0x0fe3AbBef139D56025C6d44A3F8A70461b9E3B60",
-    pvkey: process.env.USER1_PRIVATEKEY,
-  },
-];
+// const users = [
+//   {
+//     id: "publicKey",
+//     pvkey: "0x00NOIDEA",
+//   },
+// ];
 
-const userCallback = (record) => {
-  return Object.values(record);
-};
+// const userCallback = (record) => {
+//   return Object.values(record);
+// };
 
-loadFixtureData(users, "User", userCallback);
+// loadFixtureData(users, "User", userCallback);
 
 // DO NOT COMMENT THIS
 // THIS IS NORMALLY THE SIGNER

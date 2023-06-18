@@ -33,6 +33,7 @@ import CalendarHolder from "../components/CalendarHolder";
 const Home: NextPage = () => {
   const [events, setEvents] = useState<EventResponse["data"]>([]);
   const [isLogged, setIsLogged] = useState(false);
+  const [refresMyEvents, setRefresMyEvents] = useState(false);
   const [tagFilters, setTagFilters] = useState({
     conference: false,
     hackaton: false,
@@ -148,6 +149,8 @@ const Home: NextPage = () => {
           setIsLogged,
           calendarView,
           setCalendarView,
+          refresMyEvents,
+          setRefresMyEvents,
         }}
       >
         <PageLayout title="Home" footer={true}>

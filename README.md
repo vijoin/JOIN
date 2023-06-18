@@ -113,45 +113,55 @@ These powerful tools and frameworks have helped us create a seamless user experi
 
 
 <!-- GETTING STARTED   -->
+
 # Getting Started
 
-Acá tenemos pendiente esto
+To get started with Join, follow these steps:
 
-<!--  This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+1. Login with your wallet on the Join website at [letsjoin.xyz](letsjoin.xyz)
 
-## Prerequisites
+2. Explore the homepage to discover upcoming tech and web3 events. You can filter events by category, location, and format to find the ones that interest you.
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+3. Click on an event to view more details such as the date, time, speakers, and description.
 
-  -->
+4. Stay updated with event notifications through your preferred channels, such as email or push notifications on your mobile device.
+
+5. Engage with the Join community by participating in discussions, networking with other attendees, and sharing your experiences.
+
+That's it! You are now ready to make the most of Join and stay connected with the tech and web3 event scene.
 
 
 ## Installation 
-<!-- _Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+To get started with Join installation, follow these steps:
+
+1. Clone the repo
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+   git clone https://github.com/sheva323/JOIN
    ```
-3. Install NPM packages
+2. Navigate to the project directory:
    ```sh
+   cd join
+   ```
+3. Install the necessary dependencies:
+   ```js
    npm install
    ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
+4.  Configure the environment variables:
+  * Rename the .env.example file to .env.
+  * Open the .env file and fill in the required configuration values.
+5. Start the development server:
+    ```js
+   npm run dev
    ```
+6. Open your web browser and visit http://localhost:3000 to access the Join application.
+
+Please note that the above steps assume you have Node.js and npm (Node Package Manager) installed on your machine.
+
+Enjoy using Join and stay connected with the exciting world of tech and web3 events!
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-  -->
-
 
 <!-- USAGE EXAMPLES -->
 # Usage

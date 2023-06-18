@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   Text,
   Box,
@@ -22,8 +22,10 @@ import {
 import { ReadEventInfo, ReadEvents } from "../helpers/PolybaseData";
 import { CollectionRecordResponse } from "@polybase/client/dist/Record";
 import CardDetailsExtern from "./modals/CardDetailsExtern";
+import { EventsContext } from "../context/EventsContext";
 
 export const HighlightEvents = ({}) => {
+  const { refresMyEvents } = useContext(EventsContext);
   const [eventsList, setEventsList] = useState<
     CollectionRecordResponse<any, any>[]
   >([]);
@@ -31,7 +33,7 @@ export const HighlightEvents = ({}) => {
   const [eventDetail, setEventDetail] = useState<CollectionRecordResponse<any, any>>();
   useEffect(() => {
     readEvents();
-  }, []);
+  }, [refresMyEvents]);
   const readEvents = async () => {
     try {
       const address = localStorage.getItem("address");

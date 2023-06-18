@@ -70,7 +70,7 @@
 
 <br />
 
-[![Product Name Screen Shot][product-screenshot]](image.png)
+[![Product Name Screen Shot][product-screenshot]](https://example.com)
 <br />
 
 Welcome to Join, a suite calendar that brings together tech and web3 event in one place. Our aim is to provide a centralized hub where you can stay informed about the latest happenings and never miss out on important community events online and IRL in Latinoamerica.
@@ -323,7 +323,7 @@ These resources have provided valuable insights, tools, and inspiration througho
 
 <!-- IMAGES -->
 
-[product-screenshot]: images/product.jpg
+[product-screenshot]: images/product.png
 
 <!-- SPONSORS -->
 

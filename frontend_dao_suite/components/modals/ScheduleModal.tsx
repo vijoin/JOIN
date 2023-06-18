@@ -46,7 +46,7 @@ export default function ScheduleModal({
   event,
 }: PropsWithChildren<CardDetailsProps>) {
   const auth = typeof window !== "undefined" ? new Auth() : null;
-  const { setIsLogged } = useContext(EventsContext);
+  const { setIsLogged, setRefresMyEvents, refresMyEvents } = useContext(EventsContext);
   const [cardImage, setCardImage] = useState("/standard/calendar.jpg");
   const [thirty, setThirty] = useState(true);
   const [fifteen, setFifteen] = useState(false);
@@ -197,6 +197,7 @@ export default function ScheduleModal({
     setLoading(true);
     setCreateUser(false);
     setResultScreen(false);
+    setRefresMyEvents(!refresMyEvents);
     onClose();
   };
   const setErrorMsg = (msg: string) => {
@@ -285,7 +286,7 @@ export default function ScheduleModal({
                   <Button
                     size="sm"
                     variant="primary"
-                    onClick={onClose}
+                    onClick={onCloseModal}
                     isLoading={loading}
                     loadingText="Close ..."
                   >
@@ -419,7 +420,7 @@ export default function ScheduleModal({
               </ModalBody>
               <ModalFooter pt="1">
                 <ButtonGroup variant="outline" spacing="6">
-                  <Button size="sm" onClick={onClose}>
+                  <Button size="sm" onClick={onCloseModal}>
                     Cancel
                   </Button>
                   <Button

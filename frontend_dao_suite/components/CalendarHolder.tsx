@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import {
   Container,
   Stack,
@@ -13,12 +13,14 @@ import moment from 'moment';
 import { EventClickArg, EventSourceInput } from '@fullcalendar/core';
 import CardCalendarDetails from './modals/CardCalendarDetails';
 import { EventDef } from '@fullcalendar/core/internal';
+import { EventsContext } from '../context/EventsContext';
 
 
 export default function CalendarHolder() {
+  const { refresMyEvents } = useContext(EventsContext);
   useEffect(() => {
     readEvents();
-  }, []);
+  }, [refresMyEvents]);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [events, setEvents] = useState<EventSourceInput>([]);
   const [modalEvent, setModalEvent] = useState(false);

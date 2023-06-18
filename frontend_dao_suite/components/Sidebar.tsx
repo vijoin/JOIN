@@ -64,7 +64,7 @@ export const SidebarFilters = ({}) => {
 
 
   const db = new Polybase({
-    defaultNamespace: process.env.NEXT_PUBLIC_NAMESPACE,
+    defaultNamespace: process.env.NAMESPACE,
   });
 
   //Filtering by time

@@ -12,7 +12,11 @@ RUN npm install
  
 # Copy the app's source code to the container
 COPY . .
- 
+
+#.env
+ARG namespace
+ENV NAMESPACE $namespace
+
 # Build the Next.js app
 RUN npm run build
  

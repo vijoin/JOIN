@@ -2,7 +2,7 @@ import { Polybase } from "@polybase/client";
 import { Language } from "../types/types";
 
 const db = new Polybase({
-  defaultNamespace: process.env.NEXT_PUBLIC_NAMESPACE,
+  defaultNamespace: process.env.NAMESPACE,
 });
 export const FilterEvent = async (
   twitterChecked: boolean,

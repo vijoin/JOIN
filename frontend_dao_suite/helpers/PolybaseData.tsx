@@ -5,7 +5,7 @@ import { nanoid } from "nanoid";
 
 const auth = typeof window !== "undefined" ? new Auth() : null;
 const db = new Polybase({
-  defaultNamespace: process.env.NEXT_PUBLIC_NAMESPACE,
+  defaultNamespace: process.env.NAMESPACE,
 });
 export enum Platform {
   Twitter = "Twitter",

@@ -1,7 +1,7 @@
 import { Polybase } from "@polybase/client";
 import { CollectionRecordResponse } from "@polybase/client/dist/Record";
 const db = new Polybase({
-  defaultNamespace: process.env.NEXT_PUBLIC_NAMESPACE,
+  defaultNamespace: process.env.NAMESPACE,
 });
 export const returnTagNames = async (dataColl : CollectionRecordResponse<any, any>[]) => {
   try {

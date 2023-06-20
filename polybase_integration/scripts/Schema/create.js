@@ -148,13 +148,15 @@ collection ReminderEventSubscriber {
     state: string;
 
     @index(state, timestamp);
+    @index(subscriber, event);
 
 
     constructor (id: string, subscriber: string, event: Event, timestamp: number) {
         this.id = id;
         this.subscriber = subscriber;
         this.event = event;
-        this.timestamp = timestamp;
+        // this.timestamp = timestamp;
+        this.timestamp = 1687188050;
         this.state = 'pending';
     }
 
